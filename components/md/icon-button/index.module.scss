@@ -13,6 +13,7 @@
   padding: 8px;
   border-radius: 50%;
 
+  --transition-speed: 150ms;
   &Container {
     display: flex;
     justify-content: center;

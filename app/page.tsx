@@ -35,6 +35,7 @@ export default async function Index() {
       >
         KeycapLendar
       </AppBar>
+      <div style={{ height: "100vh" }} />
     </div>
   );
 }

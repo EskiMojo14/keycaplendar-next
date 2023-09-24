@@ -47,7 +47,7 @@ code {
   @each $dp, $shadow in theme.$elevations {
     --elevation-#{$dp}: #{$shadow};
   }
-  --elevation-transition: box-shadow theme.easing(standard-accelerate);
+  --elevation-transition: box-shadow #{theme.easing(standard-accelerate)};
 }
 
 @each $theme, $colors in palette.$system {

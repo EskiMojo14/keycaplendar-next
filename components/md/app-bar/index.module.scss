@@ -1,13 +1,23 @@
 @use "css/theme";
 
+.offset {
+  height: 64px;
+}
+
 .appBar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  left: 0;
+  height: 64px;
   display: flex;
-  box-shadow: var(--elevation-2);
+  box-shadow: var(--elevation-0);
   background-color: var(--md-sys-color-surface);
   color: var(--md-sys-color-on-surface);
-  height: 64px;
   @include theme.typography(title, large);
-  transition: (--elevation-transition) 250ms;
+  transition:
+    var(--elevation-transition) 250ms,
+    background-color theme.easing(standard-accelerate) 250ms;
   &.scrolled {
     background-color: var(--md-sys-color-surface-container);
     box-shadow: var(--elevation-2);

@@ -17,7 +17,7 @@
   .icon {
     font-size: 18px;
   }
-  --transition-speed: 250ms;
+  --transition-speed: 150ms;
   box-shadow: var(--elevation-0);
   transition:
     background-color theme.easing(standard-accelerate) var(--transition-speed),
