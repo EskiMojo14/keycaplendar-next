@@ -1,4 +1,5 @@
 @use "sass:color";
+@use "sass:list";
 @use "css/palette";
 @use "css/theme";
 
@@ -23,15 +24,18 @@ code {
   --#{$name}-channel: #{color.red($color) color.green($color) color.blue($color)};
 }
 
+@mixin with-channel-var($name, $palette) {
+  --#{$name}: var(--#{$palette});
+  --#{$name}-channel: var(--#{$palette}-channel);
+}
+
 :root {
-  @each $name, $tones in palette.$reference {
-    @each $tone, $color in $tones {
-      @include with-channel(md-ref-palette-#{$name}#{$tone}, $color);
-    }
-  }
   @each $theme, $colors in palette.$system {
-    @each $name, $color in $colors {
-      @include with-channel(md-sys-color-#{$name}-#{$theme}, $color);
+    @each $name, $list in $colors {
+      @include with-channel-var(
+        md-sys-color-#{$name}-#{$theme},
+        md-ref-palette-#{list.nth($list, 1)}#{list.nth($list, 2)}
+      );
     }
   }
   @each $dp, $shadow in theme.$elevations {
@@ -40,77 +44,128 @@ code {
 }
 
 @each $theme in (light, dark) {
-  // prettier-ignore
   html[data-mui-color-scheme="#{$theme}"] {
-    --md-sys-color-primary: var(--md-sys-color-primary-#{$theme});
-    --md-sys-color-on-primary: var(--md-sys-color-on-primary-#{$theme});
-    --md-sys-color-primary-container: var(--md-sys-color-primary-container-#{$theme});
-    --md-sys-color-on-primary-container: var(--md-sys-color-on-primary-container-#{$theme});
-    --md-sys-color-secondary: var(--md-sys-color-secondary-#{$theme});
-    --md-sys-color-on-secondary: var(--md-sys-color-on-secondary-#{$theme});
-    --md-sys-color-secondary-container: var(--md-sys-color-secondary-container-#{$theme});
-    --md-sys-color-on-secondary-container: var(--md-sys-color-on-secondary-container-#{$theme});
-    --md-sys-color-tertiary: var(--md-sys-color-tertiary-#{$theme});
-    --md-sys-color-on-tertiary: var(--md-sys-color-on-tertiary-#{$theme});
-    --md-sys-color-tertiary-container: var(--md-sys-color-tertiary-container-#{$theme});
-    --md-sys-color-on-tertiary-container: var(--md-sys-color-on-tertiary-container-#{$theme});
-    --md-sys-color-error: var(--md-sys-color-error-#{$theme});
-    --md-sys-color-error-container: var(--md-sys-color-error-container-#{$theme});
-    --md-sys-color-on-error: var(--md-sys-color-on-error-#{$theme});
-    --md-sys-color-on-error-container: var(--md-sys-color-on-error-container-#{$theme});
-    --md-sys-color-background: var(--md-sys-color-background-#{$theme});
-    --md-sys-color-on-background: var(--md-sys-color-on-background-#{$theme});
-    --md-sys-color-surface: var(--md-sys-color-surface-#{$theme});
-    --md-sys-color-on-surface: var(--md-sys-color-on-surface-#{$theme});
-    --md-sys-color-surface-variant: var(--md-sys-color-surface-variant-#{$theme});
-    --md-sys-color-on-surface-variant: var(--md-sys-color-on-surface-variant-#{$theme});
-    --md-sys-color-outline: var(--md-sys-color-outline-#{$theme});
-    --md-sys-color-inverse-on-surface: var(--md-sys-color-inverse-on-surface-#{$theme});
-    --md-sys-color-inverse-surface: var(--md-sys-color-inverse-surface-#{$theme});
-    --md-sys-color-inverse-primary: var(--md-sys-color-inverse-primary-#{$theme});
-    --md-sys-color-shadow: var(--md-sys-color-shadow-#{$theme});
-    --md-sys-color-surface-tint: var(--md-sys-color-surface-tint-#{$theme});
-    --md-sys-color-outline-variant: var(--md-sys-color-outline-variant-#{$theme});
-    --md-sys-color-scrim: var(--md-sys-color-scrim-#{$theme});
-    --md-sys-color-surface-container-low: var(--md-sys-color-surface-container-low-#{$theme});
-
-    --md-sys-color-primary-channel: var(--md-sys-color-primary-#{$theme}-channel);
-    --md-sys-color-on-primary-channel: var(--md-sys-color-on-primary-#{$theme}-channel);
-    --md-sys-color-primary-container-channel: var(--md-sys-color-primary-container-#{$theme}-channel);
-    --md-sys-color-on-primary-container-channel: var(--md-sys-color-on-primary-container-#{$theme}-channel);
-    --md-sys-color-secondary-channel: var(--md-sys-color-secondary-#{$theme}-channel);
-    --md-sys-color-on-secondary-channel: var(--md-sys-color-on-secondary-#{$theme}-channel);
-    --md-sys-color-secondary-container-channel: var(--md-sys-color-secondary-container-#{$theme}-channel);
-    --md-sys-color-on-secondary-container-channel: var(--md-sys-color-on-secondary-container-#{$theme}-channel);
-    --md-sys-color-tertiary-channel: var(--md-sys-color-tertiary-#{$theme}-channel);
-    --md-sys-color-on-tertiary-channel: var(--md-sys-color-on-tertiary-#{$theme}-channel);
-    --md-sys-color-tertiary-container-channel: var(--md-sys-color-tertiary-container-#{$theme}-channel);
-    --md-sys-color-on-tertiary-container-channel: var(--md-sys-color-on-tertiary-container-#{$theme}-channel);
-    --md-sys-color-error-channel: var(--md-sys-color-error-#{$theme}-channel);
-    --md-sys-color-error-container-channel: var(--md-sys-color-error-container-#{$theme}-channel);
-    --md-sys-color-on-error-channel: var(--md-sys-color-on-error-#{$theme}-channel);
-    --md-sys-color-on-error-container-channel: var(--md-sys-color-on-error-container-#{$theme}-channel);
-    --md-sys-color-background-channel: var(--md-sys-color-background-#{$theme}-channel);
-    --md-sys-color-on-background-channel: var(--md-sys-color-on-background-#{$theme}-channel);
-    --md-sys-color-surface-channel: var(--md-sys-color-surface-#{$theme}-channel);
-    --md-sys-color-on-surface-channel: var(--md-sys-color-on-surface-#{$theme}-channel);
-    --md-sys-color-surface-variant-channel: var(--md-sys-color-surface-variant-#{$theme}-channel);
-    --md-sys-color-on-surface-variant-channel: var(--md-sys-color-on-surface-variant-#{$theme}-channel);
-    --md-sys-color-outline-channel: var(--md-sys-color-outline-#{$theme}-channel);
-    --md-sys-color-inverse-on-surface-channel: var(--md-sys-color-inverse-on-surface-#{$theme}-channel);
-    --md-sys-color-inverse-surface-channel: var(--md-sys-color-inverse-surface-#{$theme}-channel);
-    --md-sys-color-inverse-primary-channel: var(--md-sys-color-inverse-primary-#{$theme}-channel);
-    --md-sys-color-shadow-channel: var(--md-sys-color-shadow-#{$theme}-channel);
-    --md-sys-color-surface-tint-channel: var(--md-sys-color-surface-tint-#{$theme}-channel);
-    --md-sys-color-outline-variant-channel: var(--md-sys-color-outline-variant-#{$theme}-channel);
-    --md-sys-color-scrim-channel: var(--md-sys-color-scrim-#{$theme}-channel);
-    --md-sys-color-surface-container-low-channel: var(--md-sys-color-surface-container-low-#{$theme}-channel);
-  }
-}
-
-@each $dp, $shadow in theme.$elevations {
-  .elevation-#{$dp} {
-    box-shadow: $shadow;
+    @include with-channel-var(
+      md-sys-color-primary,
+      md-sys-color-primary-#{$theme}
+    );
+    @include with-channel-var(
+      md-sys-color-on-primary,
+      md-sys-color-on-primary-#{$theme}
+    );
+    @include with-channel-var(
+      md-sys-color-primary-container,
+      md-sys-color-primary-container-#{$theme}
+    );
+    @include with-channel-var(
+      md-sys-color-on-primary-container,
+      md-sys-color-on-primary-container-#{$theme}
+    );
+    @include with-channel-var(
+      md-sys-color-secondary,
+      md-sys-color-secondary-#{$theme}
+    );
+    @include with-channel-var(
+      md-sys-color-on-secondary,
+      md-sys-color-on-secondary-#{$theme}
+    );
+    @include with-channel-var(
+      md-sys-color-secondary-container,
+      md-sys-color-secondary-container-#{$theme}
+    );
+    @include with-channel-var(
+      md-sys-color-on-secondary-container,
+      md-sys-color-on-secondary-container-#{$theme}
+    );
+    @include with-channel-var(
+      md-sys-color-tertiary,
+      md-sys-color-tertiary-#{$theme}
+    );
+    @include with-channel-var(
+      md-sys-color-on-tertiary,
+      md-sys-color-on-tertiary-#{$theme}
+    );
+    @include with-channel-var(
+      md-sys-color-tertiary-container,
+      md-sys-color-tertiary-container-#{$theme}
+    );
+    @include with-channel-var(
+      md-sys-color-on-tertiary-container,
+      md-sys-color-on-tertiary-container-#{$theme}
+    );
+    @include with-channel-var(md-sys-color-error, md-sys-color-error-#{$theme});
+    @include with-channel-var(
+      md-sys-color-error-container,
+      md-sys-color-error-container-#{$theme}
+    );
+    @include with-channel-var(
+      md-sys-color-on-error,
+      md-sys-color-on-error-#{$theme}
+    );
+    @include with-channel-var(
+      md-sys-color-on-error-container,
+      md-sys-color-on-error-container-#{$theme}
+    );
+    @include with-channel-var(
+      md-sys-color-background,
+      md-sys-color-background-#{$theme}
+    );
+    @include with-channel-var(
+      md-sys-color-on-background,
+      md-sys-color-on-background-#{$theme}
+    );
+    @include with-channel-var(
+      md-sys-color-surface,
+      md-sys-color-surface-#{$theme}
+    );
+    @include with-channel-var(
+      md-sys-color-on-surface,
+      md-sys-color-on-surface-#{$theme}
+    );
+    @include with-channel-var(
+      md-sys-color-surface-variant,
+      md-sys-color-surface-variant-#{$theme}
+    );
+    @include with-channel-var(
+      md-sys-color-on-surface-variant,
+      md-sys-color-on-surface-variant-#{$theme}
+    );
+    @include with-channel-var(
+      md-sys-color-outline,
+      md-sys-color-outline-#{$theme}
+    );
+    @include with-channel-var(
+      md-sys-color-inverse-on-surface,
+      md-sys-color-inverse-on-surface-#{$theme}
+    );
+    @include with-channel-var(
+      md-sys-color-inverse-surface,
+      md-sys-color-inverse-surface-#{$theme}
+    );
+    @include with-channel-var(
+      md-sys-color-inverse-primary,
+      md-sys-color-inverse-primary-#{$theme}
+    );
+    @include with-channel-var(
+      md-sys-color-shadow,
+      md-sys-color-shadow-#{$theme}
+    );
+    @include with-channel-var(
+      md-sys-color-surface-tint,
+      md-sys-color-surface-tint-#{$theme}
+    );
+    @include with-channel-var(
+      md-sys-color-outline-variant,
+      md-sys-color-outline-variant-#{$theme}
+    );
+    @include with-channel-var(
+      mad-sys-color-scrim,
+      md-sys-color-scrim-#{$theme}
+    );
+    @include with-channel-var(
+      md-sys-color-surface-container-low,
+      md-sys-color-surface-container-low-#{$theme}
+    );
   }
 }
 

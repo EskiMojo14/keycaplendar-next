@@ -2,7 +2,7 @@ import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 import Link from "next/link";
 import LogoutButton from "../components/LogoutButton";
-import { ColorSchemeToggle } from "@/components/md/color-scheme";
+import { ColorPicker, ColorSchemeToggle } from "@/components/md/color-scheme";
 
 export const dynamic = "force-dynamic";
 
@@ -27,6 +27,7 @@ export default async function Index() {
               <Link href="/login">Login</Link>
             )}
             <ColorSchemeToggle />
+            <ColorPicker />
           </div>
         </div>
       </nav>

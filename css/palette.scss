@@ -112,19 +112,19 @@ $reference: (
 
 @function lightMap($color) {
   @return (
-    #{$color}: util.map-deep-get($reference, #{$color}, 40),
-    on-#{$color}: util.map-deep-get($reference, #{$color}, 100),
-    #{$color}-container: util.map-deep-get($reference, #{$color}, 90),
-    on-#{$color}-container: util.map-deep-get($reference, #{$color}, 10)
+    #{$color}: (#{$color}, 40),
+    on-#{$color}: (#{$color}, 100),
+    #{$color}-container: (#{$color}, 90),
+    on-#{$color}-container: (#{$color}, 10)
   );
 }
 
 @function darkMap($color) {
   @return (
-    #{$color}: util.map-deep-get($reference, #{$color}, 80),
-    on-#{$color}: util.map-deep-get($reference, #{$color}, 20),
-    #{$color}-container: util.map-deep-get($reference, #{$color}, 30),
-    on-#{$color}-container: util.map-deep-get($reference, #{$color}, 90)
+    #{$color}: (#{$color}, 80),
+    on-#{$color}: (#{$color}, 20),
+    #{$color}-container: (#{$color}, 30),
+    on-#{$color}-container: (#{$color}, 90)
   );
 }
 
@@ -136,22 +136,70 @@ $system: (
       lightMap(tertiary),
       lightMap(error),
       (
-        background: util.map-deep-get($reference, neutral, 99),
-        on-background: util.map-deep-get($reference, neutral, 10),
-        surface: util.map-deep-get($reference, neutral, 99),
-        on-surface: util.map-deep-get($reference, neutral, 10),
-        surface-variant: util.map-deep-get($reference, neutral-variant, 90),
-        on-surface-variant: util.map-deep-get($reference, neutral-variant, 30),
-        outline: util.map-deep-get($reference, neutral-variant, 50),
-        inverse-on-surface: util.map-deep-get($reference, neutral, 95),
-        inverse-surface: util.map-deep-get($reference, neutral, 20),
-        inverse-primary: util.map-deep-get($reference, primary, 80),
-        shadow: util.map-deep-get($reference, neutral, 0),
-        surface-tint: util.map-deep-get($reference, primary, 40),
-        outline-variant: util.map-deep-get($reference, neutral-variant, 80),
-        scrim: util.map-deep-get($reference, neutral, 0),
-        surface-container-low: util.map-deep-get($reference, neutral, 95),
-        surface-container-highest: util.map-deep-get($reference, neutral, 90),
+        background: (
+          neutral,
+          99,
+        ),
+        on-background: (
+          neutral,
+          10,
+        ),
+        surface: (
+          neutral,
+          99,
+        ),
+        on-surface: (
+          neutral,
+          10,
+        ),
+        surface-variant: (
+          neutral-variant,
+          90,
+        ),
+        on-surface-variant: (
+          neutral-variant,
+          30,
+        ),
+        outline: (
+          neutral-variant,
+          50,
+        ),
+        inverse-on-surface: (
+          neutral,
+          95,
+        ),
+        inverse-surface: (
+          neutral,
+          20,
+        ),
+        inverse-primary: (
+          primary,
+          80,
+        ),
+        shadow: (
+          neutral,
+          0,
+        ),
+        surface-tint: (
+          primary,
+          40,
+        ),
+        outline-variant: (
+          neutral-variant,
+          80,
+        ),
+        scrim: (
+          neutral,
+          0,
+        ),
+        surface-container-low: (
+          neutral,
+          95,
+        ),
+        surface-container-highest: (
+          neutral,
+          90,
+        ),
       )
     ),
   dark:
@@ -161,22 +209,70 @@ $system: (
       darkMap(tertiary),
       darkMap(error),
       (
-        background: util.map-deep-get($reference, neutral, 10),
-        on-background: util.map-deep-get($reference, neutral, 90),
-        surface: util.map-deep-get($reference, neutral, 10),
-        on-surface: util.map-deep-get($reference, neutral, 90),
-        surface-variant: util.map-deep-get($reference, neutral-variant, 30),
-        on-surface-variant: util.map-deep-get($reference, neutral-variant, 80),
-        outline: util.map-deep-get($reference, neutral-variant, 60),
-        inverse-on-surface: util.map-deep-get($reference, neutral, 10),
-        inverse-surface: util.map-deep-get($reference, neutral, 90),
-        inverse-primary: util.map-deep-get($reference, primary, 40),
-        shadow: util.map-deep-get($reference, neutral, 0),
-        surface-tint: util.map-deep-get($reference, primary, 80),
-        outline-variant: util.map-deep-get($reference, neutral-variant, 30),
-        scrim: util.map-deep-get($reference, neutral, 0),
-        surface-container-low: util.map-deep-get($reference, neutral, 10),
-        surface-container-highest: util.map-deep-get($reference, neutral, 20),
+        background: (
+          neutral,
+          10,
+        ),
+        on-background: (
+          neutral,
+          90,
+        ),
+        surface: (
+          neutral,
+          10,
+        ),
+        on-surface: (
+          neutral,
+          90,
+        ),
+        surface-variant: (
+          neutral-variant,
+          30,
+        ),
+        on-surface-variant: (
+          neutral-variant,
+          80,
+        ),
+        outline: (
+          neutral-variant,
+          60,
+        ),
+        inverse-on-surface: (
+          neutral,
+          10,
+        ),
+        inverse-surface: (
+          neutral,
+          90,
+        ),
+        inverse-primary: (
+          primary,
+          40,
+        ),
+        shadow: (
+          neutral,
+          0,
+        ),
+        surface-tint: (
+          primary,
+          80,
+        ),
+        outline-variant: (
+          neutral-variant,
+          30,
+        ),
+        scrim: (
+          neutral,
+          0,
+        ),
+        surface-container-low: (
+          neutral,
+          10,
+        ),
+        surface-container-highest: (
+          neutral,
+          20,
+        ),
       )
     ),
 );
