@@ -1,0 +1,15 @@
+@use "sass:map";
+
+@function map-deep-get($map, $keys...) {
+  @each $key in $keys {
+    $map: map.get($map, $key);
+  }
+  @return $map;
+}
+
+@function map-merge-multi($target, $sources...) {
+  @each $source in $sources {
+    $target: map.merge($target, $source);
+  }
+  @return $target;
+}
