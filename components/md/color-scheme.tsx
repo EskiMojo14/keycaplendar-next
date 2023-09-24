@@ -7,6 +7,7 @@ import {
 } from "@mui/material/styles";
 import { IconButton } from "@mui/material";
 import { PropsWithChildren } from "react";
+import { useIsMounted } from "@/logic/hooks/use-is-mounted";
 
 export function InitColorScheme() {
   return getInitColorSchemeScript();
@@ -28,6 +29,8 @@ const icons: Record<Mode, string> = {
 
 export function ColorSchemeToggle() {
   const { mode = "system", setMode } = useColorScheme();
+  const mounted = useIsMounted();
+  if (!mounted) return null;
   return (
     <IconButton
       color="inherit"
