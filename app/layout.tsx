@@ -3,7 +3,7 @@ import {
   InitColorScheme,
   MuiColorSchemeProvider,
   ColorSchemeProvider,
-} from "@/components/md/color-scheme";
+} from "@/components/color-scheme";
 import "./globals.scss";
 
 export const metadata = {

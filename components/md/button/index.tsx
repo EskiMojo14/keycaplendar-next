@@ -2,7 +2,7 @@
 import { ButtonBase } from "@mui/material";
 import { ComponentPropsWithoutRef, ReactNode } from "react";
 import clsx from "clsx";
-import styles from "./button.module.scss";
+import styles from "./index.module.scss";
 
 interface ButtonProps extends ComponentPropsWithoutRef<"button"> {
   icon?: ReactNode;

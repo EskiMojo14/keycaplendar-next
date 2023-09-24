@@ -11,3 +11,8 @@ export const braidArrays = <T>(
   result.push(...arr1.slice(l), ...arr2.slice(l));
   return result;
 };
+
+export const noopTaggedTemplate = (
+  strings: TemplateStringsArray,
+  ...expressions: Array<unknown>
+) => braidArrays(strings, expressions).join("");

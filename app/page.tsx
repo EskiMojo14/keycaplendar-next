@@ -1,8 +1,8 @@
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 import Link from "next/link";
-import LogoutButton from "../components/LogoutButton";
-import { ColorPicker, ColorSchemeToggle } from "@/components/md/color-scheme";
+import LogoutButton from "../components/logout-button";
+import { ColorPicker, ColorSchemeToggle } from "@/components/color-scheme";
 
 export const dynamic = "force-dynamic";
 

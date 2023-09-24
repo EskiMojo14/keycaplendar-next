@@ -1,30 +1,24 @@
 "use client";
-import { useState, useMemo, createContext } from "react";
+import { useState, useMemo, createContext, useRef } from "react";
 import { Mode } from "@mui/system/cssVars/useCurrentColorScheme";
 import {
   getInitColorSchemeScript,
   useColorScheme,
   Experimental_CssVarsProvider as CssVarsProvider,
 } from "@mui/material/styles";
-import { IconButton } from "@mui/material";
+import { IconButton, Popover } from "@mui/material";
 import { PropsWithChildren } from "react";
 import { useIsMounted } from "@/logic/hooks/use-is-mounted";
-import { braidArrays } from "@/logic/lib/utils";
+import { noopTaggedTemplate as css } from "@/logic/lib/utils";
 import {
   themeFromSourceColor,
   Theme,
 } from "@material/material-color-utilities";
 import { kebabCase } from "lodash";
 import { useSafeContext } from "@/logic/hooks/use-safe-context";
-
-const css = (strings: TemplateStringsArray, ...expressions: Array<unknown>) =>
-  braidArrays(strings, expressions).join("");
-
-const test = css`
-  :root {
-    --test: black;
-  }
-`;
+import { HexColorPicker } from "react-colorful";
+import styles from "./color-scheme.module.scss";
+import theme from "@/css/mui-theme";
 
 export function InitColorScheme() {
   return getInitColorSchemeScript();
@@ -32,7 +26,11 @@ export function InitColorScheme() {
 
 export function MuiColorSchemeProvider({ children }: PropsWithChildren) {
   return (
-    <CssVarsProvider defaultMode="system" disableStyleSheetGeneration>
+    <CssVarsProvider
+      theme={theme}
+      defaultMode="system"
+      disableStyleSheetGeneration
+    >
       {children}
     </CssVarsProvider>
   );
@@ -40,14 +38,14 @@ export function MuiColorSchemeProvider({ children }: PropsWithChildren) {
 
 const argbToHex = (n: number) => {
   const argb = n.toString(16);
-  return "#" + argb.slice(2, 8) + argb.slice(0, 2);
+  return "#" + argb.slice(2, 8);
 };
 
 const hexToArgb = (hex: string) => parseInt("ff" + hex.slice(1), 16);
 
 const hexToChannel = (hex: string) =>
-  `${parseInt(hex.slice(3, 5), 16)} ${parseInt(hex.slice(5, 7), 16)} ${parseInt(
-    hex.slice(7, 9),
+  `${parseInt(hex.slice(1, 3), 16)} ${parseInt(hex.slice(3, 5), 16)} ${parseInt(
+    hex.slice(5, 7),
     16
   )}`;
 
@@ -124,11 +122,35 @@ export function ColorSchemeToggle() {
 
 export function ColorPicker() {
   const { source, setSource } = useSafeContext(ColorSchemeContext);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const anchorEl = useRef<HTMLButtonElement>(null);
   return (
-    <input
-      type="color"
-      value={argbToHex(source).slice(0, -2)}
-      onChange={(e) => setSource(hexToArgb(e.target.value))}
-    />
+    <>
+      <IconButton
+        ref={anchorEl}
+        className="material-symbols-rounded"
+        onClick={() => setMenuOpen(true)}
+      >
+        palette
+      </IconButton>
+      <Popover
+        anchorEl={anchorEl.current}
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "right",
+        }}
+        open={menuOpen}
+        onClose={() => setMenuOpen(false)}
+        classes={{
+          paper: styles.pickerSurface,
+        }}
+      >
+        <HexColorPicker
+          className={styles.picker}
+          color={argbToHex(source)}
+          onChange={(hex) => setSource(hexToArgb(hex))}
+        />
+      </Popover>
+    </>
   );
 }
