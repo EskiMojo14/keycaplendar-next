@@ -1,6 +1,10 @@
 "use client";
 import { ButtonBase } from "@mui/material";
-import type { ComponentPropsWithoutRef, ReactNode } from "react";
+import {
+  forwardRef,
+  type ComponentPropsWithoutRef,
+  type ReactNode,
+} from "react";
 import clsx from "clsx";
 import styles from "./index.module.scss";
 
@@ -11,18 +15,14 @@ interface ButtonProps extends ComponentPropsWithoutRef<"button"> {
   dragged?: boolean;
 }
 
-export default function Button({
-  children,
-  icon,
-  className,
-  classes,
-  variant = "text",
-  dragged,
-  ...props
-}: ButtonProps) {
+export default forwardRef<HTMLButtonElement, ButtonProps>(function Button(
+  { children, icon, className, classes, variant = "text", dragged, ...props },
+  ref,
+) {
   return (
     <ButtonBase
       {...props}
+      ref={ref}
       className={clsx(
         styles.button,
         styles[variant],
@@ -47,4 +47,4 @@ export default function Button({
       <span className={clsx(styles.label, classes?.label)}>{children}</span>
     </ButtonBase>
   );
-}
+});

@@ -4,7 +4,8 @@ export const braidArrays = <T>(
 ) => {
   const result: Array<T> = [];
   let i = 0;
-  for (i = 0; i < Math.min(arr1.length, arr2.length); i++) {
+  const l = Math.min(arr1.length, arr2.length);
+  for (i = 0; i < l; i++) {
     result.push(arr1[i]!, arr2[i]!);
   }
   result.push(...arr1.slice(l), ...arr2.slice(l));

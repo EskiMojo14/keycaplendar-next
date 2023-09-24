@@ -1,0 +1,121 @@
+@use "css/theme";
+
+@mixin pressed() {
+  &:has(:global(.MuiTouchRipple-rippleVisible)) {
+    @content;
+  }
+}
+
+.iconButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 8px;
+  border-radius: 50%;
+
+  &Container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 4px;
+    height: 48px;
+    width: 48px;
+  }
+  .icon {
+    font-size: 24px;
+  }
+  .ripple::after {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: currentColor;
+    opacity: 0;
+    transition: opacity theme.easing(standard-accelerate)
+      var(--transition-speed);
+  }
+
+  @include pressed {
+    .ripple::after {
+      opacity: var(--md-sys-state-pressed-state-layer-opacity);
+    }
+  }
+  &:hover {
+    .ripple::after {
+      opacity: var(--md-sys-state-hover-state-layer-opacity);
+    }
+  }
+  &:focus {
+    .ripple::after {
+      opacity: var(--md-sys-state-focus-state-layer-opacity);
+    }
+  }
+
+  &.filled {
+    color: var(--md-sys-color-on-primary);
+    background-color: var(--md-sys-color-primary);
+    &.unselected {
+      color: var(--md-sys-color-primary);
+      background-color: var(--md-sys-color-container-highest);
+    }
+    &.selected {
+      color: var(--md-sys-color-on-primary);
+      background-color: var(--md-sys-color-primary);
+    }
+    &:disabled,
+    &.unselected:disabled,
+    &.selected:disabled {
+      background-color: rgb(var(--md-sys-color-on-surface-channel) / 0.12);
+      color: rgb(var(--md-sys-color-on-surface-channel) / 0.38);
+    }
+  }
+
+  &.filled-tonal {
+    color: var(--md-sys-color-on-secondary-container);
+    background-color: var(--md-sys-color-secondary-container);
+    &.unselected {
+      color: var(--md-sys-color-on-surface-variant);
+      background-color: var(--md-sys-color-container-highest);
+    }
+    &.selected {
+      color: var(--md-sys-color-on-secondary-container);
+      background-color: var(--md-sys-color-secondary-container);
+    }
+    &:disabled,
+    &.unselected:disabled,
+    &.selected:disabled {
+      background-color: rgb(var(--md-sys-color-on-surface-channel) / 0.12);
+      color: rgb(var(--md-sys-color-on-surface-channel) / 0.38);
+    }
+  }
+
+  &.outlined {
+    border: 1px solid var(--md-sys-color-outline);
+    color: var(--md-sys-color-on-surface-variant);
+    &.selected {
+      background-color: var(--md-sys-color-inverse-surface);
+      background-color: var(--md-sys-color-inverse-on-surface);
+    }
+    &:disabled {
+      color: rgb(var(--md-sys-color-on-surface-channel) / 0.38);
+      border-color: rgb(var(--md-sys-color-on-surface-channel) / 0.12);
+      &.selected {
+        background-color: rgb(var(--md-sys-color-on-surface-channel) / 0.12);
+      }
+    }
+  }
+
+  &.standard {
+    color: var(--md-sys-color-on-surface-variant);
+    &.selected {
+      color: var(--md-sys-color-primary);
+    }
+    &:disabled,
+    &.selected:disabled {
+      color: rgb(var(--md-sys-color-on-surface-channel) / 0.38);
+    }
+  }
+}

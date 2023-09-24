@@ -7,7 +7,7 @@ import {
   useColorScheme,
   Experimental_CssVarsProvider as CssVarsProvider,
 } from "@mui/material/styles";
-import { IconButton, Popover } from "@mui/material";
+import { Popover } from "@mui/material";
 import { useIsMounted } from "@/logic/hooks/use-is-mounted";
 import { noopTaggedTemplate as css } from "@/logic/lib/utils";
 import type { Theme } from "@material/material-color-utilities";
@@ -17,6 +17,7 @@ import { useSafeContext } from "@/logic/hooks/use-safe-context";
 import { HexColorPicker } from "react-colorful";
 import styles from "./color-scheme.module.scss";
 import theme from "@/css/mui-theme";
+import IconButton from "./md/icon-button";
 
 export function InitColorScheme() {
   return getInitColorSchemeScript();
@@ -107,8 +108,6 @@ export function ColorSchemeToggle() {
   if (!mounted) return null;
   return (
     <IconButton
-      color="inherit"
-      className="material-symbols-rounded"
       onClick={(e) => {
         setMode(e.ctrlKey ? "system" : mode === "dark" ? "light" : "dark");
       }}
@@ -126,7 +125,6 @@ export function ColorPicker() {
     <>
       <IconButton
         ref={anchorEl}
-        className="material-symbols-rounded"
         onClick={() => {
           setMenuOpen(true);
         }}

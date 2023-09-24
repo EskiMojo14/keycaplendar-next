@@ -6,6 +6,10 @@
 @import url(css/tokens.css);
 @import url(css/baseline.css);
 
+* {
+  box-sizing: border-box;
+}
+
 html {
   background-color: var(--md-sys-color-background);
   color: var(--md-sys-color-on-background);
