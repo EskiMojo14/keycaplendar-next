@@ -1,3 +1,4 @@
+"use client";
 import { ButtonBase } from "@mui/material";
 import type { MouseEventHandler, ComponentPropsWithoutRef } from "react";
 import { forwardRef } from "react";

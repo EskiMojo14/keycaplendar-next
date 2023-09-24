@@ -37,10 +37,6 @@ $elevations: (
   box-shadow: map.get($elevations, $dp);
 }
 
-@function elevation-transition($duration: 250ms) {
-  @return box-shadow easing(standard-accelerate) $duration;
-}
-
 @function easing($ease) {
   @return cubic-bezier(
     var(--md-sys-motion-easing-#{$ease}-x0),

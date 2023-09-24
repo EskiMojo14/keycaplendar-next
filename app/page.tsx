@@ -3,6 +3,8 @@ import { cookies } from "next/headers";
 import Link from "next/link";
 import LogoutButton from "../components/logout-button";
 import { ColorPicker, ColorSchemeToggle } from "@/components/color-scheme";
+import AppBar from "@/components/md/app-bar";
+import IconButton from "@/components/md/icon-button";
 
 export const dynamic = "force-dynamic";
 
@@ -15,22 +17,24 @@ export default async function Index() {
 
   return (
     <div>
-      <nav>
-        <div>
-          <div className="label-medium">
+      <AppBar
+        leadingIcon={<IconButton>menu</IconButton>}
+        trailingIcons={
+          <>
             {user ? (
-              <div>
-                Hey, {user.email}!
-                <LogoutButton />
-              </div>
+              <LogoutButton />
             ) : (
-              <Link href="/login">Login</Link>
+              <Link href="/login">
+                <IconButton>login</IconButton>
+              </Link>
             )}
             <ColorSchemeToggle />
             <ColorPicker />
-          </div>
-        </div>
-      </nav>
+          </>
+        }
+      >
+        Keycaplendar
+      </AppBar>
     </div>
   );
 }

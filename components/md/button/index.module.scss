@@ -19,11 +19,11 @@
   }
   --transition-speed: 250ms;
   box-shadow: var(--elevation-0);
-  transition: background-color theme.easing(standard-accelerate)
-      var(--transition-speed),
+  transition:
+    background-color theme.easing(standard-accelerate) var(--transition-speed),
     color theme.easing(standard-accelerate) var(--transition-speed),
     border-color theme.easing(standard-accelerate) var(--transition-speed),
-    theme.elevation-transition();
+    var(--elevation-transition) 250ms;
   &:has(.icon) {
     padding-left: 16px;
   }

@@ -3,6 +3,8 @@
 @use "css/palette";
 @use "css/theme";
 
+@import url(normalize.css);
+
 @import url(css/tokens.css);
 @import url(css/baseline.css);
 
@@ -45,131 +47,17 @@ code {
   @each $dp, $shadow in theme.$elevations {
     --elevation-#{$dp}: #{$shadow};
   }
+  --elevation-transition: box-shadow theme.easing(standard-accelerate);
 }
 
-@each $theme in (light, dark) {
-  html[data-mui-color-scheme="#{$theme}"] {
-    @include with-channel-var(
-      md-sys-color-primary,
-      md-sys-color-primary-#{$theme}
-    );
-    @include with-channel-var(
-      md-sys-color-on-primary,
-      md-sys-color-on-primary-#{$theme}
-    );
-    @include with-channel-var(
-      md-sys-color-primary-container,
-      md-sys-color-primary-container-#{$theme}
-    );
-    @include with-channel-var(
-      md-sys-color-on-primary-container,
-      md-sys-color-on-primary-container-#{$theme}
-    );
-    @include with-channel-var(
-      md-sys-color-secondary,
-      md-sys-color-secondary-#{$theme}
-    );
-    @include with-channel-var(
-      md-sys-color-on-secondary,
-      md-sys-color-on-secondary-#{$theme}
-    );
-    @include with-channel-var(
-      md-sys-color-secondary-container,
-      md-sys-color-secondary-container-#{$theme}
-    );
-    @include with-channel-var(
-      md-sys-color-on-secondary-container,
-      md-sys-color-on-secondary-container-#{$theme}
-    );
-    @include with-channel-var(
-      md-sys-color-tertiary,
-      md-sys-color-tertiary-#{$theme}
-    );
-    @include with-channel-var(
-      md-sys-color-on-tertiary,
-      md-sys-color-on-tertiary-#{$theme}
-    );
-    @include with-channel-var(
-      md-sys-color-tertiary-container,
-      md-sys-color-tertiary-container-#{$theme}
-    );
-    @include with-channel-var(
-      md-sys-color-on-tertiary-container,
-      md-sys-color-on-tertiary-container-#{$theme}
-    );
-    @include with-channel-var(md-sys-color-error, md-sys-color-error-#{$theme});
-    @include with-channel-var(
-      md-sys-color-error-container,
-      md-sys-color-error-container-#{$theme}
-    );
-    @include with-channel-var(
-      md-sys-color-on-error,
-      md-sys-color-on-error-#{$theme}
-    );
-    @include with-channel-var(
-      md-sys-color-on-error-container,
-      md-sys-color-on-error-container-#{$theme}
-    );
-    @include with-channel-var(
-      md-sys-color-background,
-      md-sys-color-background-#{$theme}
-    );
-    @include with-channel-var(
-      md-sys-color-on-background,
-      md-sys-color-on-background-#{$theme}
-    );
-    @include with-channel-var(
-      md-sys-color-surface,
-      md-sys-color-surface-#{$theme}
-    );
-    @include with-channel-var(
-      md-sys-color-on-surface,
-      md-sys-color-on-surface-#{$theme}
-    );
-    @include with-channel-var(
-      md-sys-color-surface-variant,
-      md-sys-color-surface-variant-#{$theme}
-    );
-    @include with-channel-var(
-      md-sys-color-on-surface-variant,
-      md-sys-color-on-surface-variant-#{$theme}
-    );
-    @include with-channel-var(
-      md-sys-color-outline,
-      md-sys-color-outline-#{$theme}
-    );
-    @include with-channel-var(
-      md-sys-color-inverse-on-surface,
-      md-sys-color-inverse-on-surface-#{$theme}
-    );
-    @include with-channel-var(
-      md-sys-color-inverse-surface,
-      md-sys-color-inverse-surface-#{$theme}
-    );
-    @include with-channel-var(
-      md-sys-color-inverse-primary,
-      md-sys-color-inverse-primary-#{$theme}
-    );
-    @include with-channel-var(
-      md-sys-color-shadow,
-      md-sys-color-shadow-#{$theme}
-    );
-    @include with-channel-var(
-      md-sys-color-surface-tint,
-      md-sys-color-surface-tint-#{$theme}
-    );
-    @include with-channel-var(
-      md-sys-color-outline-variant,
-      md-sys-color-outline-variant-#{$theme}
-    );
-    @include with-channel-var(
-      mad-sys-color-scrim,
-      md-sys-color-scrim-#{$theme}
-    );
-    @include with-channel-var(
-      md-sys-color-surface-container-low,
-      md-sys-color-surface-container-low-#{$theme}
-    );
+@each $theme, $colors in palette.$system {
+  [data-mui-color-scheme="#{$theme}"] {
+    @each $name, $list in $colors {
+      @include with-channel-var(
+        md-sys-color-#{$name},
+        md-sys-color-#{$name}-#{$theme}
+      );
+    }
   }
 }
 
