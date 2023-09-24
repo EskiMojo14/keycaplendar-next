@@ -46,7 +46,7 @@ const hexToArgb = (hex: string) => parseInt("ff" + hex.slice(1), 16);
 const hexToChannel = (hex: string) =>
   `${parseInt(hex.slice(1, 3), 16)} ${parseInt(hex.slice(3, 5), 16)} ${parseInt(
     hex.slice(5, 7),
-    16
+    16,
   )}`;
 
 const tones = [0, 10, 20, 25, 30, 35, 40, 50, 60, 70, 80, 90, 95, 98, 99, 100];
@@ -59,7 +59,7 @@ export function ColorSchemeProvider({ children }: PropsWithChildren) {
   const [source, setSource] = useState(0xff009688);
   const contextVal = useMemo(
     () => ({ source, setSource }),
-    [source, setSource]
+    [source, setSource],
   );
   const theme = useMemo(() => themeFromSourceColor(source), [source]);
 
@@ -77,7 +77,7 @@ export function ColorSchemeProvider({ children }: PropsWithChildren) {
                 css`
                 --md-ref-palette-${kebabed}${tone}: ${color};
                 --md-ref-palette-${kebabed}${tone}-channel: ${hexToChannel(
-                  color
+                  color,
                 )};
                 `
               );
@@ -86,7 +86,7 @@ export function ColorSchemeProvider({ children }: PropsWithChildren) {
           .join("\n")}
       }
     `,
-    [theme]
+    [theme],
   );
 
   return (

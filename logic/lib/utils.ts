@@ -1,6 +1,6 @@
 export const braidArrays = <T>(
   arr1: ReadonlyArray<T>,
-  arr2: ReadonlyArray<T>
+  arr2: ReadonlyArray<T>,
 ) => {
   const result: T[] = [];
   let i,

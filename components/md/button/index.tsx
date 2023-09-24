@@ -27,7 +27,7 @@ export default function Button({
         styles.button,
         styles[variant],
         dragged && styles.dragged,
-        className
+        className,
       )}
       TouchRippleProps={{
         className: styles.ripple,
@@ -38,7 +38,7 @@ export default function Button({
           className={clsx(
             styles.icon,
             "material-symbols-rounded",
-            classes?.icon
+            classes?.icon,
           )}
         >
           {icon}
