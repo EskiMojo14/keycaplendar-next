@@ -1,6 +1,6 @@
 "use client";
 import { ButtonBase } from "@mui/material";
-import { ComponentPropsWithoutRef, ReactNode } from "react";
+import type { ComponentPropsWithoutRef, ReactNode } from "react";
 import clsx from "clsx";
 import styles from "./index.module.scss";
 

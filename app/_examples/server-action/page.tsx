@@ -6,7 +6,7 @@ import { cookies } from "next/headers";
 
 export const dynamic = "force-dynamic";
 
-export default async function ServerAction() {
+export default function ServerAction() {
   const addTodo = async (formData: FormData) => {
     "use server";
     const title = formData.get("title");
@@ -24,6 +24,7 @@ export default async function ServerAction() {
   };
 
   return (
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
     <form action={addTodo}>
       <input name="title" />
     </form>

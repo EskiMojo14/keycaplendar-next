@@ -1,19 +1,17 @@
 "use client";
+import type { PropsWithChildren } from "react";
 import { useState, useMemo, createContext, useRef } from "react";
-import { Mode } from "@mui/system/cssVars/useCurrentColorScheme";
+import type { Mode } from "@mui/system/cssVars/useCurrentColorScheme";
 import {
   getInitColorSchemeScript,
   useColorScheme,
   Experimental_CssVarsProvider as CssVarsProvider,
 } from "@mui/material/styles";
 import { IconButton, Popover } from "@mui/material";
-import { PropsWithChildren } from "react";
 import { useIsMounted } from "@/logic/hooks/use-is-mounted";
 import { noopTaggedTemplate as css } from "@/logic/lib/utils";
-import {
-  themeFromSourceColor,
-  Theme,
-} from "@material/material-color-utilities";
+import type { Theme } from "@material/material-color-utilities";
+import { themeFromSourceColor } from "@material/material-color-utilities";
 import { kebabCase } from "lodash";
 import { useSafeContext } from "@/logic/hooks/use-safe-context";
 import { HexColorPicker } from "react-colorful";
@@ -111,9 +109,9 @@ export function ColorSchemeToggle() {
     <IconButton
       color="inherit"
       className="material-symbols-rounded"
-      onClick={(e) =>
-        setMode(e.ctrlKey ? "system" : mode === "dark" ? "light" : "dark")
-      }
+      onClick={(e) => {
+        setMode(e.ctrlKey ? "system" : mode === "dark" ? "light" : "dark");
+      }}
     >
       {icons[mode]}
     </IconButton>
@@ -129,7 +127,9 @@ export function ColorPicker() {
       <IconButton
         ref={anchorEl}
         className="material-symbols-rounded"
-        onClick={() => setMenuOpen(true)}
+        onClick={() => {
+          setMenuOpen(true);
+        }}
       >
         palette
       </IconButton>
@@ -140,7 +140,9 @@ export function ColorPicker() {
           horizontal: "right",
         }}
         open={menuOpen}
-        onClose={() => setMenuOpen(false)}
+        onClose={() => {
+          setMenuOpen(false);
+        }}
         classes={{
           paper: styles.pickerSurface,
         }}
@@ -148,7 +150,9 @@ export function ColorPicker() {
         <HexColorPicker
           className={styles.picker}
           color={argbToHex(source)}
-          onChange={(hex) => setSource(hexToArgb(hex))}
+          onChange={(hex) => {
+            setSource(hexToArgb(hex));
+          }}
         />
       </Popover>
     </>
