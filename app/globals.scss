@@ -5,8 +5,8 @@
 
 @import url(normalize.css);
 
-@import url(css/tokens.css);
-@import url(css/baseline.css);
+//@import url(css/tokens.css);
+//@import url(css/state.css);
 
 * {
   box-sizing: border-box;
@@ -14,9 +14,7 @@
 
 html {
   background-color: var(--md-sys-color-background);
-  color: var(--md-sys-color-on-background);
-  font-family: Lato, Roboto, "Helvetica Neue", "Arial Nova", "Nimbus Sans",
-    Arial, sans-serif;
+  color: var(--md-sys-color-onBackground);
 }
 
 pre,
@@ -27,48 +25,4 @@ code {
 
 a.no-underline {
   text-decoration: none;
-}
-
-@mixin with-channel($name, $color) {
-  --#{$name}: #{$color};
-  --#{$name}-channel: #{color.red($color) color.green($color) color.blue($color)};
-}
-
-@mixin with-channel-var($name, $palette) {
-  --#{$name}: var(--#{$palette});
-  --#{$name}-channel: var(--#{$palette}-channel);
-}
-
-:root {
-  @each $theme, $colors in palette.$system {
-    @each $name, $list in $colors {
-      @include with-channel-var(
-        md-sys-color-#{$name}-#{$theme},
-        md-ref-palette-#{list.nth($list, 1)}#{list.nth($list, 2)}
-      );
-    }
-  }
-  @each $dp, $shadow in theme.$elevations {
-    --elevation-#{$dp}: #{$shadow};
-  }
-  --elevation-transition: box-shadow #{theme.easing(standard-accelerate)};
-}
-
-@each $theme, $colors in palette.$system {
-  [data-mui-color-scheme="#{$theme}"] {
-    @each $name, $list in $colors {
-      @include with-channel-var(
-        md-sys-color-#{$name},
-        md-sys-color-#{$name}-#{$theme}
-      );
-    }
-  }
-}
-
-@each $style in (display, headline, body, label, title) {
-  @each $size in (small, medium, large) {
-    .#{$style}-#{$size} {
-      @include theme.typography($style, $size);
-    }
-  }
 }

@@ -1,7 +1,6 @@
 import type {} from "@mui/material/themeCssVarsAugmentation";
 import {
   InitColorScheme,
-  MuiColorSchemeProvider,
   ColorSchemeProvider,
 } from "@/components/color-scheme";
 import "./globals.scss";
@@ -36,11 +35,9 @@ export default function RootLayout({
       </head>
       <body>
         <InitColorScheme />
-        <MuiColorSchemeProvider>
-          <ColorSchemeProvider>
-            <main>{children}</main>
-          </ColorSchemeProvider>
-        </MuiColorSchemeProvider>
+        <ColorSchemeProvider>
+          <main>{children}</main>
+        </ColorSchemeProvider>
       </body>
     </html>
   );

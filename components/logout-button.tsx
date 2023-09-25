@@ -1,4 +1,4 @@
-import IconButton from "./md/icon-button";
+import IconButton from "@mui/material/IconButton";
 
 export default function LogoutButton() {
   return (

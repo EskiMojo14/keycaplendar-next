@@ -47,12 +47,9 @@ $elevations: (
 }
 
 @mixin typography($style, $size) {
-  font-family: var(--md-sys-typescale-#{$style}-#{$size}-font-family-name);
-  font-style: var(--md-sys-typescale-#{$style}-#{$size}-font-family-style);
-  font-weight: var(--md-sys-typescale-#{$style}-#{$size}-font-weight);
-  font-size: var(--md-sys-typescale-#{$style}-#{$size}-font-size);
+  font-family: var(--md-sys-typescale-#{$style}-#{$size}-family);
+  font-weight: var(--md-sys-typescale-#{$style}-#{$size}-weight);
+  font-size: var(--md-sys-typescale-#{$style}-#{$size}-size);
   letter-spacing: var(--md-sys-typescale-#{$style}-#{$size}-tracking);
-  line-height: var(--md-sys-typescale-#{$style}-#{$size}-line-height);
-  text-transform: var(--md-sys-typescale-#{$style}-#{$size}-text-transform);
-  text-decoration: var(--md-sys-typescale-#{$style}-#{$size}-text-decoration);
+  line-height: calc(var(--md-sys-typescale-#{$style}-#{$size}-lineHeight) / 14);
 }

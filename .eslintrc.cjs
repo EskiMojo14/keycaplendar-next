@@ -6,13 +6,14 @@ module.exports = {
     "plugin:@typescript-eslint/stylistic-type-checked",
     "plugin:import/recommended",
     "plugin:import/typescript",
+    "plugin:@next/next/recommended",
   ],
   parser: "@typescript-eslint/parser",
   parserOptions: {
     project: true,
     tsconfigRootDir: __dirname,
   },
-  plugins: ["@typescript-eslint"],
+  plugins: ["@typescript-eslint", "mui-path-imports"],
   root: true,
   settings: {
     "import/resolver": {
@@ -23,5 +24,6 @@ module.exports = {
   rules: {
     "@typescript-eslint/consistent-type-imports": "error",
     "@typescript-eslint/array-type": ["error", { default: "generic" }],
+    "mui-path-imports/mui-path-imports": "error",
   },
 };

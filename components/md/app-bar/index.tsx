@@ -32,7 +32,7 @@ export default forwardRef<HTMLElement, AppBarProps>(function AppBar(
       <nav
         {...props}
         ref={finalRef}
-        className={clsx(styles.appBar, scrolled && styles.scrolled, className)}
+        className={clsx(styles.appBar, styles.scrolled, className)}
       >
         {leadingIcon && (
           <div className={clsx(styles.leadingIcon, classes?.leadingIcon)}>

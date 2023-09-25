@@ -1,43 +1,202 @@
-import type { CSSObject } from "@mui/material";
+import type { RemoveIndexSignature } from "@/logic/lib/utils";
+import type { CSSObject, Components, PaletteOptions } from "@mui/material";
 import {
-  experimental_extendTheme as extendTheme,
   formControlClasses,
   formHelperTextClasses,
   inputAdornmentClasses,
   inputLabelClasses,
   outlinedInputClasses,
 } from "@mui/material";
+import type {
+  CssVarsThemeOptions,
+  MD3Typescale,
+  Theme,
+  TypescaleValue,
+} from "@mui/material-next";
 
-export const palette = (color: string, tone: number) =>
-  `var(--md-ref-palette-${color}${tone})`;
+declare module "@mui/material-next/styles/Theme.types" {
+  export interface TypescaleValue {
+    largeProminent?: {
+      weight: string;
+    };
+    mediumProminent?: {
+      weight: string;
+    };
+  }
+}
 
-export const color = (color: string) => `var(--md-sys-color-${color})`;
+const typescaleToCSS = {
+  family: "fontFamily",
+  weight: "fontWeight",
+  size: "fontSize",
+  tracking: "letterSpacing",
+  lineHeight: "lineHeight",
+} satisfies Record<
+  keyof TypescaleValue["small"],
+  keyof RemoveIndexSignature<CSSObject>
+>;
 
-export type TypographyStyle =
-  | "label"
-  | "body"
-  | "title"
-  | "headline"
-  | "display";
+export const typography = (
+  style: keyof MD3Typescale,
+  size: keyof TypescaleValue,
+) =>
+  Object.fromEntries(
+    Object.entries(typescaleToCSS).map(([typescale, prop]) => [
+      prop,
+      typescale === "lineHeight"
+        ? `calc(var(--md-sys-typescale-${style}-${size}-${typescale}) / 14)`
+        : `var(--md-sys-typescale-${style}-${size}-${typescale})`,
+    ]),
+  ) as Record<(typeof typescaleToCSS)[keyof typeof typescaleToCSS], string>;
 
-export type TypographySize = "small" | "medium" | "large";
+export const debugPalette: { palette: PaletteOptions } = {
+  palette: {
+    primary: { main: "red" },
+    secondary: { main: "green" },
+    error: { main: "orange" },
+    warning: { main: "teal" },
+    background: {
+      default: "red",
+      paper: "cyan",
+    },
+  },
+};
 
-export const typography = (style: TypographyStyle, size: TypographySize) =>
-  ({
-    fontFamily: `var(--md-sys-typescale-${style}-${size}-font-family-name)`,
-    fontStyle: `var(--md-sys-typescale-${style}-${size}-font-family-style)`,
-    fontWeight: `var(--md-sys-typescale-${style}-${size}-font-weight)`,
-    fontSize: `var(--md-sys-typescale-${style}-${size}-font-size)`,
-    letterSpacing: `var(--md-sys-typescale-${style}-${size}-tracking)`,
-    lineHeight: `var(--md-sys-typescale-${style}-${size}-line-height)`,
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-    textTransform:
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      `var(--md-sys-typescale-${style}-${size}-text-transform)` as any,
-    textDecoration: `var(--md-sys-typescale-${style}-${size}-text-decoration)`,
-  }) satisfies CSSObject;
+declare module "@mui/material-next/styles/Theme.types" {
+  export interface MD3Typescale {
+    title: TypescaleValue;
+  }
+}
 
-export const theme = extendTheme({
+export const typescaleTheme: CssVarsThemeOptions = {
+  sys: {
+    typescale: {
+      display: {
+        large: {
+          family: "var(--md-ref-typeface-brand)",
+          weight: "400",
+          size: 57,
+          tracking: -0.025,
+          lineHeight: 64,
+        },
+        medium: {
+          family: "var(--md-ref-typeface-brand)",
+          weight: "400",
+          size: 45,
+          tracking: 0,
+          lineHeight: 52,
+        },
+        small: {
+          family: "var(--md-ref-typeface-brand)",
+          weight: "400",
+          size: 36,
+          tracking: 0,
+          lineHeight: 44,
+        },
+      },
+      headline: {
+        large: {
+          family: "var(--md-ref-typeface-brand)",
+          weight: "400",
+          size: 32,
+          tracking: 0,
+          lineHeight: 40,
+        },
+        medium: {
+          family: "var(--md-ref-typeface-brand)",
+          weight: "400",
+          size: 28,
+          tracking: 0,
+          lineHeight: 36,
+        },
+        small: {
+          family: "var(--md-ref-typeface-brand)",
+          weight: "400",
+          size: 24,
+          tracking: 0,
+          lineHeight: 32,
+        },
+      },
+      title: {
+        large: {
+          family: "var(--md-ref-typeface-brand)",
+          weight: "400",
+          size: 22,
+          tracking: 0,
+          lineHeight: 28,
+        },
+        medium: {
+          family: "var(--md-ref-typeface-brand)",
+          weight: "500",
+          size: 16,
+          tracking: 0.15,
+          lineHeight: 24,
+        },
+        small: {
+          family: "var(--md-ref-typeface-brand)",
+          weight: "500",
+          size: 14,
+          tracking: 0.1,
+          lineHeight: 20,
+        },
+      },
+      body: {
+        large: {
+          family: "var(--md-ref-typeface-plain)",
+          weight: "400",
+          size: 16,
+          tracking: 0.5,
+          lineHeight: 24,
+        },
+        medium: {
+          family: "var(--md-ref-typeface-plain)",
+          weight: "400",
+          size: 14,
+          tracking: 0.25,
+          lineHeight: 20,
+        },
+        small: {
+          family: "var(--md-ref-typeface-plain)",
+          weight: "400",
+          size: 12,
+          tracking: 0.4,
+          lineHeight: 16,
+        },
+      },
+      label: {
+        large: {
+          family: "var(--md-ref-typeface-plain)",
+          weight: "500",
+          size: 14,
+          tracking: 0.1,
+          lineHeight: 20,
+        },
+        medium: {
+          family: "var(--md-ref-typeface-plain)",
+          weight: "400",
+          size: 12,
+          tracking: 0.5,
+          lineHeight: 16,
+        },
+        small: {
+          family: "var(--md-ref-typeface-plain)",
+          weight: "500",
+          size: 11,
+          tracking: 0.5,
+          lineHeight: 16,
+        },
+        largeProminent: {
+          weight: "700",
+        },
+        mediumProminent: {
+          weight: "700",
+        },
+      },
+    } satisfies MD3Typescale,
+  },
+};
+
+export const componentsTheme: { components?: Components<Theme> } = {
   components: {
     MuiIcon: {
       defaultProps: {
@@ -46,103 +205,91 @@ export const theme = extendTheme({
     },
     MuiPaper: {
       styleOverrides: {
-        root: {
-          backgroundColor: color("surface"),
-          color: color("on-surface"),
-          boxShadow: "var(--elevation-2)",
-        },
-      },
-    },
-    MuiModal: {
-      styleOverrides: {
-        root: {
-          zIndex: 4,
-        },
+        root: ({ theme }) => ({
+          backgroundColor: theme.vars.sys.color.surface,
+          color: theme.vars.sys.color.onSurface,
+          boxShadow: theme.vars.sys.elevation[2],
+        }),
       },
     },
     MuiOutlinedInput: {
       styleOverrides: {
-        root: {
-          borderRadius: "var(--md-sys-shape-extra-small)",
-          color: color("on-surface-variant"),
+        root: ({ theme }) => ({
+          borderRadius: theme.vars.shape.borderRadius,
+          color: theme.vars.sys.color.onSurfaceVariant,
           ...typography("body", "large"),
-          caretColor: color("primary"),
+          caretColor: theme.vars.sys.color.primary,
           "&:hover": {
-            color: color("on-surface"),
+            color: theme.vars.sys.color.onSurface,
             ["." + outlinedInputClasses.notchedOutline]: {
-              borderColor: color("on-surface"),
+              borderColor: theme.vars.sys.color.onSurface,
             },
             ["&." + outlinedInputClasses.error]: {
-              color: color("on-error-container"),
+              color: theme.vars.sys.color.onErrorContainer,
               ["." + outlinedInputClasses.notchedOutline]: {
-                borderColor: color("on-error-container"),
+                borderColor: theme.vars.sys.color.onErrorContainer,
               },
               ["." + inputAdornmentClasses.positionEnd]: {
-                color: color("on-error-container"),
+                color: theme.vars.sys.color.onErrorContainer,
               },
             },
           },
           ["&." + outlinedInputClasses.focused]: {
-            color: color("on-surface"),
+            color: theme.vars.sys.color.onSurface,
             ["." + outlinedInputClasses.notchedOutline]: {
-              borderColor: color("primary"),
+              borderColor: theme.vars.sys.color.primary,
             },
           },
           ["&." + outlinedInputClasses.error]: {
-            color: color("on-surface"),
+            color: theme.vars.sys.color.onSurface,
             ["." + outlinedInputClasses.notchedOutline]: {
-              borderColor: color("error"),
+              borderColor: theme.vars.sys.color.error,
             },
             ["." + inputAdornmentClasses.positionEnd]: {
-              color: color("error"),
+              color: theme.vars.sys.color.error,
             },
           },
-        },
-        notchedOutline: {
-          borderColor: color("outline"),
-        },
+        }),
+        notchedOutline: ({ theme }) => ({
+          borderColor: theme.vars.sys.color.outline,
+        }),
       },
     },
     MuiInputAdornment: {
       styleOverrides: {
-        root: {
-          color: color("on-surface-variant"),
-        },
+        root: ({ theme }) => ({
+          color: theme.vars.sys.color.onSurfaceVariant,
+        }),
       },
     },
     MuiInputLabel: {
       styleOverrides: {
-        root: {
+        root: ({ theme }) => ({
           ...typography("body", "large"),
-          color: color("on-surface-variant"),
+          color: theme.vars.sys.color.onSurfaceVariant,
           ["&." + inputLabelClasses.focused]: {
-            color: color("primary"),
+            color: theme.vars.sys.color.primary,
           },
           ["&." + inputLabelClasses.error]: {
-            color: color("error"),
+            color: theme.vars.sys.color.error,
             ["." + formControlClasses.root + ":hover &"]: {
-              color: color("on-error-container"),
+              color: theme.vars.sys.color.onErrorContainer,
             },
           },
-        },
-        shrink: {
-          ...typography("body", "small"),
-          transform: "translate(14px, -9px)",
-        },
+        }),
       },
     },
     MuiFormHelperText: {
       styleOverrides: {
-        root: {
-          ...typography("body", "small"),
-          color: color("on-surface-variant"),
+        root: ({ theme }) => ({
+          color: theme.vars.sys.color.onSurfaceVariant,
           ["&." + formHelperTextClasses.error]: {
-            color: color("error"),
+            color: theme.vars.sys.color.error,
           },
-        },
+        }),
       },
     },
   },
-});
+};
 
-export default theme;
+export default componentsTheme;

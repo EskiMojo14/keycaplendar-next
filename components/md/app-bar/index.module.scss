@@ -12,16 +12,18 @@
   left: 0;
   height: 64px;
   display: flex;
-  box-shadow: var(--elevation-0);
+  box-shadow: var(--md-sys-elevation-0);
   background-color: var(--md-sys-color-surface);
-  color: var(--md-sys-color-on-surface);
+  color: var(--md-sys-color-onSurface);
   @include theme.typography(title, large);
   transition:
-    var(--elevation-transition) 250ms,
-    background-color theme.easing(standard-accelerate) 250ms;
+    box-shadow var(--md-sys-motion-easing-standard)
+      var(--md-sys-motion-duration-medium1),
+    background-color var(--md-sys-motion-easing-standard)
+      var(--md-sys-motion-duration-medium1);
   &.scrolled {
-    background-color: var(--md-sys-color-surface-container);
-    box-shadow: var(--elevation-2);
+    background-color: var(--md-sys-color-surfaceContainer);
+    box-shadow: var(--md-sys-elevation-2);
   }
   .leadingIcon {
     display: flex;
@@ -32,10 +34,11 @@
     justify-content: flex-start;
     align-items: center;
     flex: 1 1 0;
+    vertical-align: middle;
   }
   .trailingIcons {
     display: flex;
     align-items: center;
-    color: var(--md-sys-color-on-surface-variant);
+    color: var(--md-sys-color-onSurfaceVariant);
   }
 }

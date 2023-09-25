@@ -2,9 +2,12 @@ import Link from "next/link";
 import Messages from "./messages";
 import AppBar from "@/components/md/app-bar";
 import IconButton from "@/components/md/icon-button";
-import { Container, Icon, InputAdornment, TextField } from "@mui/material";
+import Container from "@mui/material/Container";
+import Icon from "@mui/material/Icon";
+import InputAdornment from "@mui/material/InputAdornment";
+import TextField from "@mui/material/TextField";
 import styles from "./page.module.scss";
-import Button from "@/components/md/button";
+import { Button } from "@mui/material-next";
 
 export default function Login() {
   return (
@@ -56,7 +59,11 @@ export default function Login() {
           <Button type="submit" variant="filled">
             Sign in
           </Button>
-          <Button formAction="/auth/sign-up" variant="filled-tonal">
+          <Button
+            formAction="/auth/sign-up"
+            type="submit"
+            variant="filledTonal"
+          >
             Sign up
           </Button>
           <Messages />

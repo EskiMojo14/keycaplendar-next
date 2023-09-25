@@ -1,5 +1,5 @@
 "use client";
-import { ButtonBase } from "@mui/material";
+import ButtonBase from "@mui/material-next/ButtonBase";
 import type { MouseEventHandler, ComponentPropsWithoutRef } from "react";
 import { forwardRef } from "react";
 import styles from "./index.module.scss";

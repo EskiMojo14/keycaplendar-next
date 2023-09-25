@@ -16,3 +16,13 @@ export const noopTaggedTemplate = (
   strings: TemplateStringsArray,
   ...expressions: Array<unknown>
 ) => braidArrays(strings, expressions).join("");
+
+export type RemoveIndexSignature<T> = {
+  [K in keyof T as string extends K
+    ? never
+    : symbol extends K
+    ? never
+    : number extends K
+    ? never
+    : K]: T[K];
+};

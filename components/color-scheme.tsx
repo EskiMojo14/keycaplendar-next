@@ -2,37 +2,46 @@
 import type { PropsWithChildren } from "react";
 import { useState, useMemo, createContext, useRef } from "react";
 import type { Mode } from "@mui/system/cssVars/useCurrentColorScheme";
-import {
-  getInitColorSchemeScript,
-  useColorScheme,
-  Experimental_CssVarsProvider as CssVarsProvider,
-} from "@mui/material/styles";
-import { Popover } from "@mui/material";
+import Popover from "@mui/material/Popover";
 import { useIsMounted } from "@/logic/hooks/use-is-mounted";
-import { noopTaggedTemplate as css } from "@/logic/lib/utils";
-import type { Theme } from "@material/material-color-utilities";
+import type { Theme, TonalPalette } from "@material/material-color-utilities";
 import { themeFromSourceColor } from "@material/material-color-utilities";
-import { kebabCase } from "lodash";
 import { useSafeContext } from "@/logic/hooks/use-safe-context";
 import { HexColorPicker } from "react-colorful";
 import styles from "./color-scheme.module.scss";
-import theme from "@/css/mui-theme";
 import IconButton from "./md/icon-button";
+import type {
+  MD3NeutralTones,
+  MD3Palettes,
+  MD3Tones,
+} from "@mui/material-next";
+import {
+  extendTheme,
+  CssVarsProvider,
+  getInitColorSchemeScript,
+  useColorScheme,
+} from "@mui/material-next";
+import { debugPalette, componentsTheme, typescaleTheme } from "@/css/mui-theme";
+
+declare module "@mui/material-next/styles/Theme.types" {
+  export interface MD3NeutralTones {
+    12: string;
+    94: string;
+  }
+  export interface MD3ColorSchemeTokens {
+    surfaceContainer: string;
+  }
+}
+
+declare module "@mui/material/styles/createMixins" {
+  export interface Mixins {
+    theme: Theme;
+    tone: (palette: keyof Theme["palettes"], tone: number) => string;
+  }
+}
 
 export function InitColorScheme() {
   return getInitColorSchemeScript();
-}
-
-export function MuiColorSchemeProvider({ children }: PropsWithChildren) {
-  return (
-    <CssVarsProvider
-      theme={theme}
-      defaultMode="system"
-      disableStyleSheetGeneration
-    >
-      {children}
-    </CssVarsProvider>
-  );
 }
 
 const argbToHex = (n: number) => {
@@ -42,17 +51,38 @@ const argbToHex = (n: number) => {
 
 const hexToArgb = (hex: string) => parseInt("ff" + hex.slice(1), 16);
 
-const hexToChannel = (hex: string) =>
-  `${parseInt(hex.slice(1, 3), 16)} ${parseInt(hex.slice(3, 5), 16)} ${parseInt(
-    hex.slice(5, 7),
-    16,
-  )}`;
-
-const tones = [0, 10, 12, 20, 30, 40, 50, 60, 80, 90, 90, 94, 95, 99, 100];
-
 const ColorSchemeContext = createContext<
   { source: number; setSource: (newSource: number) => void } | undefined
 >(undefined);
+
+const getMD3Tones = (palette: TonalPalette): MD3Tones => ({
+  0: argbToHex(palette.tone(0)),
+  10: argbToHex(palette.tone(10)),
+  20: argbToHex(palette.tone(20)),
+  30: argbToHex(palette.tone(30)),
+  40: argbToHex(palette.tone(40)),
+  50: argbToHex(palette.tone(50)),
+  60: argbToHex(palette.tone(60)),
+  70: argbToHex(palette.tone(70)),
+  80: argbToHex(palette.tone(80)),
+  90: argbToHex(palette.tone(90)),
+  95: argbToHex(palette.tone(95)),
+  99: argbToHex(palette.tone(99)),
+  100: argbToHex(palette.tone(100)),
+});
+
+const getNeutralMD3Tones = (palette: TonalPalette): MD3NeutralTones => ({
+  ...getMD3Tones(palette),
+  12: argbToHex(palette.tone(12)),
+  17: argbToHex(palette.tone(17)),
+  22: argbToHex(palette.tone(22)),
+  92: argbToHex(palette.tone(92)),
+  94: argbToHex(palette.tone(94)),
+});
+
+const sansSerifStack = "Lato, Roboto, system-ui, sans-serif";
+const slabSerifStack =
+  "Rockwell, 'Rockwell Nova', 'Roboto Slab', 'DejaVu Serif', 'Sitka Small', serif";
 
 export function ColorSchemeProvider({ children }: PropsWithChildren) {
   const [source, setSource] = useState(0xff009688);
@@ -61,37 +91,54 @@ export function ColorSchemeProvider({ children }: PropsWithChildren) {
     [source, setSource],
   );
   const theme = useMemo(() => themeFromSourceColor(source), [source]);
-
-  const styles = useMemo(
-    () => css`
-      :root {
-        ${(Object.keys(theme.palettes) as Array<keyof Theme["palettes"]>)
-          .map((key) => {
-            const palette = theme.palettes[key];
-            return tones.reduce<string>((acc, tone) => {
-              const kebabed = kebabCase(key);
-              const color = argbToHex(palette.tone(tone));
-              return (
-                acc +
-                css`
-                --md-ref-palette-${kebabed}${tone}: ${color};
-                --md-ref-palette-${kebabed}${tone}-channel: ${hexToChannel(
-                  color,
-                )};
-                `
-              );
-            }, "");
-          })
-          .join("\n")}
-      }
-    `,
-    [theme],
-  );
+  const muiTheme = useMemo(() => {
+    const palettes: Partial<MD3Palettes> = {
+      primary: getMD3Tones(theme.palettes.primary),
+      secondary: getMD3Tones(theme.palettes.secondary),
+      tertiary: getMD3Tones(theme.palettes.tertiary),
+      error: getMD3Tones(theme.palettes.error),
+      neutral: getNeutralMD3Tones(theme.palettes.neutral),
+      neutralVariant: getMD3Tones(theme.palettes.neutralVariant),
+    };
+    return extendTheme(
+      {
+        ...debugPalette,
+        colorSchemes: {
+          light: {
+            ref: { palette: palettes },
+            sys: {
+              color: { surfaceContainer: "var(--md-ref-palette-neutral-94)" },
+            },
+          },
+          dark: {
+            ref: { palette: palettes },
+            sys: {
+              color: { surfaceContainer: "var(--md-ref-palette-neutral-12)" },
+            },
+          },
+        },
+        ref: {
+          typeface: {
+            plain: sansSerifStack,
+            brand: slabSerifStack,
+          },
+        },
+        mixins: {
+          theme,
+          tone: (palette, tone) =>
+            argbToHex(theme.palettes[palette].tone(tone)),
+        },
+      },
+      typescaleTheme,
+      componentsTheme,
+    );
+  }, [theme]);
 
   return (
     <ColorSchemeContext.Provider value={contextVal}>
-      <style>{styles}</style>
-      {children}
+      <CssVarsProvider theme={muiTheme} defaultMode="system">
+        {children}
+      </CssVarsProvider>
     </ColorSchemeContext.Provider>
   );
 }
