@@ -5,6 +5,8 @@ import LogoutButton from "../components/logout-button";
 import { ColorPicker, ColorSchemeToggle } from "@/components/color-scheme";
 import AppBar from "@/components/md/app-bar";
 import IconButton from "@/components/md/icon-button";
+import { InputAdornment, TextField } from "@mui/material";
+import Symbol from "@/components/md/symbol";
 
 export const dynamic = "force-dynamic";
 
@@ -35,7 +37,25 @@ export default async function Index() {
       >
         KeycapLendar
       </AppBar>
-      <div style={{ height: "100vh" }} />
+      <div style={{ height: "100vh", padding: "8px" }}>
+        <TextField
+          label="Label text"
+          InputProps={{
+            startAdornment: (
+              <InputAdornment position="start">
+                <Symbol>search</Symbol>
+              </InputAdornment>
+            ),
+            endAdornment: (
+              <InputAdornment position="end">
+                <Symbol>cancel</Symbol>
+              </InputAdornment>
+            ),
+          }}
+          helperText="Supporting label"
+          sx={{ mt: 1 }}
+        />
+      </div>
     </div>
   );
 }

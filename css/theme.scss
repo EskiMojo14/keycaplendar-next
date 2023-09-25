@@ -52,7 +52,7 @@ $elevations: (
   font-weight: var(--md-sys-typescale-#{$style}-#{$size}-font-weight);
   font-size: var(--md-sys-typescale-#{$style}-#{$size}-font-size);
   letter-spacing: var(--md-sys-typescale-#{$style}-#{$size}-tracking);
-  line-height: var(--md-sys-typescale-#{$style}-#{$size}-height);
+  line-height: var(--md-sys-typescale-#{$style}-#{$size}-line-height);
   text-transform: var(--md-sys-typescale-#{$style}-#{$size}-text-transform);
   text-decoration: var(--md-sys-typescale-#{$style}-#{$size}-text-decoration);
 }
