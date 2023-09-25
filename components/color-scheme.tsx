@@ -48,7 +48,7 @@ const hexToChannel = (hex: string) =>
     16,
   )}`;
 
-const tones = [0, 10, 12, 20, 30, 40, 50, 60, 80, 90, 90, 94, 95, 99];
+const tones = [0, 10, 12, 20, 30, 40, 50, 60, 80, 90, 90, 94, 95, 99, 100];
 
 const ColorSchemeContext = createContext<
   { source: number; setSource: (newSource: number) => void } | undefined

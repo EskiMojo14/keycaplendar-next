@@ -1,6 +1,7 @@
 "use client";
-
 import { useSearchParams } from "next/navigation";
+import styles from "./messages.module.scss";
+import clsx from "clsx";
 
 export default function Messages() {
   const searchParams = useSearchParams();
@@ -8,16 +9,8 @@ export default function Messages() {
   const message = searchParams.get("message");
   return (
     <>
-      {error && (
-        <p className="mt-4 p-4 bg-neutral-900 text-neutral-300 text-center">
-          {error}
-        </p>
-      )}
-      {message && (
-        <p className="mt-4 p-4 bg-neutral-900 text-neutral-300 text-center">
-          {message}
-        </p>
-      )}
+      {error && <p className={clsx(styles.message, styles.error)}>{error}</p>}
+      {message && <p className={styles.message}>{message}</p>}
     </>
   );
 }

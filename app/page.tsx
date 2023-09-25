@@ -5,8 +5,7 @@ import LogoutButton from "../components/logout-button";
 import { ColorPicker, ColorSchemeToggle } from "@/components/color-scheme";
 import AppBar from "@/components/md/app-bar";
 import IconButton from "@/components/md/icon-button";
-import { InputAdornment, TextField } from "@mui/material";
-import Symbol from "@/components/md/symbol";
+import { Icon, InputAdornment, TextField } from "@mui/material";
 
 export const dynamic = "force-dynamic";
 
@@ -26,7 +25,7 @@ export default async function Index() {
             {user ? (
               <LogoutButton />
             ) : (
-              <Link href="/login">
+              <Link href="/login" style={{ textDecoration: "none" }}>
                 <IconButton>login</IconButton>
               </Link>
             )}
@@ -43,12 +42,12 @@ export default async function Index() {
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
-                <Symbol>search</Symbol>
+                <Icon>search</Icon>
               </InputAdornment>
             ),
             endAdornment: (
               <InputAdornment position="end">
-                <Symbol>cancel</Symbol>
+                <Icon>cancel</Icon>
               </InputAdornment>
             ),
           }}

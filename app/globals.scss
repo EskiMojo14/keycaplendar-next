@@ -25,6 +25,10 @@ code {
     Menlo, Consolas, "DejaVu Sans Mono", monospace;
 }
 
+a.no-underline {
+  text-decoration: none;
+}
+
 @mixin with-channel($name, $color) {
   --#{$name}: #{$color};
   --#{$name}-channel: #{color.red($color) color.green($color) color.blue($color)};

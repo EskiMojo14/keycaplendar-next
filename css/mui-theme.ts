@@ -39,6 +39,11 @@ export const typography = (style: TypographyStyle, size: TypographySize) =>
 
 export const theme = extendTheme({
   components: {
+    MuiIcon: {
+      defaultProps: {
+        baseClassName: "material-symbols-rounded",
+      },
+    },
     MuiPaper: {
       styleOverrides: {
         root: {
