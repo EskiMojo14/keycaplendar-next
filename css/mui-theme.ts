@@ -115,9 +115,9 @@ export const theme = extendTheme({
           },
           ["&." + inputLabelClasses.error]: {
             color: color("error"),
-          },
-          ["." + formControlClasses.root + ":hover &"]: {
-            color: color("on-error-container"),
+            ["." + formControlClasses.root + ":hover &"]: {
+              color: color("on-error-container"),
+            },
           },
         },
         shrink: {
