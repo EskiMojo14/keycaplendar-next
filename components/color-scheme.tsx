@@ -5,11 +5,17 @@ import type { Mode } from "@mui/system/cssVars/useCurrentColorScheme";
 import Popover from "@mui/material/Popover";
 import { useIsMounted } from "@/logic/hooks/use-is-mounted";
 import type { Theme, TonalPalette } from "@material/material-color-utilities";
-import { themeFromSourceColor } from "@material/material-color-utilities";
+import {
+  Blend,
+  CorePalette,
+  argbFromHex,
+  hexFromArgb,
+  themeFromSourceColor,
+} from "@material/material-color-utilities";
 import { useSafeContext } from "@/logic/hooks/use-safe-context";
 import { HexColorPicker } from "react-colorful";
 import styles from "./color-scheme.module.scss";
-import IconButton from "./md/icon-button";
+import IconButton from "@mui/material/IconButton";
 import type {
   MD3NeutralTones,
   MD3Palettes,
@@ -22,6 +28,9 @@ import {
   useColorScheme,
 } from "@mui/material-next";
 import { debugPalette, componentsTheme, typescaleTheme } from "@/css/mui-theme";
+import Icon from "@mui/material/Icon";
+import { green, lightBlue, orange, red } from "@mui/material/colors";
+import { castSx } from "@/logic/lib/utils";
 
 declare module "@mui/material-next/styles/Theme.types" {
   export interface MD3NeutralTones {
@@ -30,6 +39,12 @@ declare module "@mui/material-next/styles/Theme.types" {
   }
   export interface MD3ColorSchemeTokens {
     surfaceContainer: string;
+    infoContainer: string;
+    onInfoContainer: string;
+    warningContainer: string;
+    onWarningContainer: string;
+    successContainer: string;
+    onSuccessContainer: string;
   }
 }
 
@@ -44,45 +59,56 @@ export function InitColorScheme() {
   return getInitColorSchemeScript();
 }
 
-const argbToHex = (n: number) => {
-  const argb = n.toString(16);
-  return "#" + argb.slice(2, 8);
-};
-
-const hexToArgb = (hex: string) => parseInt("ff" + hex.slice(1), 16);
-
 const ColorSchemeContext = createContext<
   { source: number; setSource: (newSource: number) => void } | undefined
 >(undefined);
 
 const getMD3Tones = (palette: TonalPalette): MD3Tones => ({
-  0: argbToHex(palette.tone(0)),
-  10: argbToHex(palette.tone(10)),
-  20: argbToHex(palette.tone(20)),
-  30: argbToHex(palette.tone(30)),
-  40: argbToHex(palette.tone(40)),
-  50: argbToHex(palette.tone(50)),
-  60: argbToHex(palette.tone(60)),
-  70: argbToHex(palette.tone(70)),
-  80: argbToHex(palette.tone(80)),
-  90: argbToHex(palette.tone(90)),
-  95: argbToHex(palette.tone(95)),
-  99: argbToHex(palette.tone(99)),
-  100: argbToHex(palette.tone(100)),
+  0: hexFromArgb(palette.tone(0)),
+  10: hexFromArgb(palette.tone(10)),
+  20: hexFromArgb(palette.tone(20)),
+  30: hexFromArgb(palette.tone(30)),
+  40: hexFromArgb(palette.tone(40)),
+  50: hexFromArgb(palette.tone(50)),
+  60: hexFromArgb(palette.tone(60)),
+  70: hexFromArgb(palette.tone(70)),
+  80: hexFromArgb(palette.tone(80)),
+  90: hexFromArgb(palette.tone(90)),
+  95: hexFromArgb(palette.tone(95)),
+  99: hexFromArgb(palette.tone(99)),
+  100: hexFromArgb(palette.tone(100)),
 });
 
 const getNeutralMD3Tones = (palette: TonalPalette): MD3NeutralTones => ({
   ...getMD3Tones(palette),
-  12: argbToHex(palette.tone(12)),
-  17: argbToHex(palette.tone(17)),
-  22: argbToHex(palette.tone(22)),
-  92: argbToHex(palette.tone(92)),
-  94: argbToHex(palette.tone(94)),
+  12: hexFromArgb(palette.tone(12)),
+  17: hexFromArgb(palette.tone(17)),
+  22: hexFromArgb(palette.tone(22)),
+  92: hexFromArgb(palette.tone(92)),
+  94: hexFromArgb(palette.tone(94)),
 });
 
 const sansSerifStack = "Lato, Roboto, system-ui, sans-serif";
 const slabSerifStack =
   "Rockwell, 'Rockwell Nova', 'Roboto Slab', 'DejaVu Serif', 'Sitka Small', serif";
+
+const makePalette =
+  (color: number, blend = true) =>
+  (source: number) => {
+    let value = color;
+    if (blend) {
+      const from = value;
+      const to = source;
+      value = Blend.harmonize(from, to);
+    }
+    const palette = CorePalette.of(value);
+    return palette.a1;
+  };
+
+const errorPalette = makePalette(argbFromHex(red[500]));
+const infoPalette = makePalette(argbFromHex(lightBlue[500]));
+const successPalette = makePalette(argbFromHex(green[500]));
+const warningPalette = makePalette(argbFromHex(orange[500]));
 
 export function ColorSchemeProvider({ children }: PropsWithChildren) {
   const [source, setSource] = useState(0xff009688);
@@ -92,14 +118,17 @@ export function ColorSchemeProvider({ children }: PropsWithChildren) {
   );
   const theme = useMemo(() => themeFromSourceColor(source), [source]);
   const muiTheme = useMemo(() => {
-    const palettes: Partial<MD3Palettes> = {
+    const palettes = {
       primary: getMD3Tones(theme.palettes.primary),
       secondary: getMD3Tones(theme.palettes.secondary),
       tertiary: getMD3Tones(theme.palettes.tertiary),
-      error: getMD3Tones(theme.palettes.error),
       neutral: getNeutralMD3Tones(theme.palettes.neutral),
       neutralVariant: getMD3Tones(theme.palettes.neutralVariant),
-    };
+      info: getMD3Tones(infoPalette(source)),
+      success: getMD3Tones(successPalette(source)),
+      warning: getMD3Tones(warningPalette(source)),
+      error: getMD3Tones(errorPalette(source)),
+    } satisfies Partial<MD3Palettes>;
     return extendTheme(
       {
         ...debugPalette,
@@ -107,7 +136,15 @@ export function ColorSchemeProvider({ children }: PropsWithChildren) {
           light: {
             ref: { palette: palettes },
             sys: {
-              color: { surfaceContainer: "var(--md-ref-palette-neutral-94)" },
+              color: {
+                surfaceContainer: "var(--md-ref-palette-neutral-94)",
+                infoContainer: "var(--md-ref-palette-info-90)",
+                onInfoContainer: "var(--md-ref-palette-info-10)",
+                warningContainer: "var(--md-ref-palette-warning-90)",
+                onWarningContainer: "var(--md-ref-palette-warning-10)",
+                successContainer: "var(--md-ref-palette-success-90)",
+                onSuccessContainer: "var(--md-ref-palette-success-10)",
+              },
             },
           },
           dark: {
@@ -126,13 +163,13 @@ export function ColorSchemeProvider({ children }: PropsWithChildren) {
         mixins: {
           theme,
           tone: (palette, tone) =>
-            argbToHex(theme.palettes[palette].tone(tone)),
+            hexFromArgb(theme.palettes[palette].tone(tone)),
         },
       },
       typescaleTheme,
       componentsTheme,
     );
-  }, [theme]);
+  }, [theme, source]);
 
   return (
     <ColorSchemeContext.Provider value={contextVal}>
@@ -159,8 +196,127 @@ export function ColorSchemeToggle() {
         setMode(e.ctrlKey ? "system" : mode === "dark" ? "light" : "dark");
       }}
     >
-      {icons[mode]}
+      <Icon>{icons[mode]}</Icon>
     </IconButton>
+  );
+}
+
+export function ColorDemo() {
+  return (
+    <>
+      <Icon
+        sx={castSx((theme) => ({
+          color: theme.vars.sys.color.onPrimary,
+          backgroundColor: theme.vars.sys.color.primary,
+        }))}
+      >
+        circle
+      </Icon>
+      <Icon
+        sx={castSx((theme) => ({
+          color: theme.vars.sys.color.onPrimaryContainer,
+          backgroundColor: theme.vars.sys.color.primaryContainer,
+        }))}
+      >
+        circle
+      </Icon>
+      <Icon
+        sx={castSx((theme) => ({
+          color: theme.vars.sys.color.onSecondary,
+          backgroundColor: theme.vars.sys.color.secondary,
+        }))}
+      >
+        circle
+      </Icon>
+      <Icon
+        sx={castSx((theme) => ({
+          color: theme.vars.sys.color.onSecondaryContainer,
+          backgroundColor: theme.vars.sys.color.secondaryContainer,
+        }))}
+      >
+        circle
+      </Icon>
+      <Icon
+        sx={castSx((theme) => ({
+          color: theme.vars.sys.color.onTertiary,
+          backgroundColor: theme.vars.sys.color.tertiary,
+        }))}
+      >
+        circle
+      </Icon>
+      <Icon
+        sx={castSx((theme) => ({
+          color: theme.vars.sys.color.onTertiaryContainer,
+          backgroundColor: theme.vars.sys.color.tertiaryContainer,
+        }))}
+      >
+        circle
+      </Icon>
+      <Icon
+        sx={castSx((theme) => ({
+          color: theme.vars.sys.color.onInfo,
+          backgroundColor: theme.vars.sys.color.info,
+        }))}
+      >
+        info
+      </Icon>
+      <Icon
+        sx={castSx((theme) => ({
+          color: theme.vars.sys.color.onInfoContainer,
+          backgroundColor: theme.vars.sys.color.infoContainer,
+        }))}
+      >
+        info
+      </Icon>
+      <Icon
+        sx={castSx((theme) => ({
+          color: theme.vars.sys.color.onError,
+          backgroundColor: theme.vars.sys.color.error,
+        }))}
+      >
+        error
+      </Icon>
+      <Icon
+        sx={castSx((theme) => ({
+          color: theme.vars.sys.color.onErrorContainer,
+          backgroundColor: theme.vars.sys.color.errorContainer,
+        }))}
+      >
+        error
+      </Icon>
+      <Icon
+        sx={castSx((theme) => ({
+          color: theme.vars.sys.color.onWarning,
+          backgroundColor: theme.vars.sys.color.warning,
+        }))}
+      >
+        warning
+      </Icon>
+      <Icon
+        sx={castSx((theme) => ({
+          color: theme.vars.sys.color.onWarningContainer,
+          backgroundColor: theme.vars.sys.color.warningContainer,
+        }))}
+      >
+        warning
+      </Icon>
+      <Icon
+        sx={castSx((theme) => ({
+          color: theme.vars.sys.color.onSuccess,
+          backgroundColor: theme.vars.sys.color.success,
+        }))}
+      >
+        check_circle
+      </Icon>
+      <Icon
+        sx={castSx((theme) => ({
+          color: theme.vars.sys.color.onSuccessContainer,
+          backgroundColor: theme.vars.sys.color.successContainer,
+        }))}
+      >
+        check_circle
+      </Icon>
+    </>
   );
 }
 
@@ -176,7 +332,7 @@ export function ColorPicker() {
           setMenuOpen(true);
         }}
       >
-        palette
+        <Icon>palette</Icon>
       </IconButton>
       <Popover
         anchorEl={anchorEl.current}
@@ -194,9 +350,9 @@ export function ColorPicker() {
       >
         <HexColorPicker
           className={styles.picker}
-          color={argbToHex(source)}
+          color={hexFromArgb(source)}
           onChange={(hex) => {
-            setSource(hexToArgb(hex));
+            setSource(argbFromHex(hex));
           }}
         />
       </Popover>

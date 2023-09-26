@@ -1,15 +1,20 @@
-import type { RemoveIndexSignature } from "@/logic/lib/utils";
+import { safeDeepMerge, type RemoveIndexSignature } from "@/logic/lib/utils";
 import type { CSSObject, Components, PaletteOptions } from "@mui/material";
 import {
+  capitalize,
   formControlClasses,
   formHelperTextClasses,
+  iconButtonClasses,
   inputAdornmentClasses,
   inputLabelClasses,
   outlinedInputClasses,
+  touchRippleClasses,
 } from "@mui/material";
 import type {
   CssVarsThemeOptions,
+  MD3Palettes,
   MD3Typescale,
+  SxProps,
   Theme,
   TypescaleValue,
 } from "@mui/material-next";
@@ -65,6 +70,23 @@ export const debugPalette: { palette: PaletteOptions } = {
 declare module "@mui/material-next/styles/Theme.types" {
   export interface MD3Typescale {
     title: TypescaleValue;
+  }
+}
+
+declare module "@mui/material/IconButton" {
+  export interface IconButtonPropsColorOverrides {
+    tertiary: true;
+  }
+
+  export type IconButtonVariant =
+    | "filled"
+    | "filledTonal"
+    | "outlined"
+    | "standard";
+
+  export interface IconButtonOwnProps {
+    variant?: IconButtonVariant;
+    selected?: boolean;
   }
 }
 
@@ -196,11 +218,235 @@ export const typescaleTheme: CssVarsThemeOptions = {
   },
 };
 
+const onColorMap = {
+  primary: "onPrimary",
+  secondary: "onSecondary",
+  tertiary: "onTertiary",
+  neutral: "onNeutral",
+  neutralVariant: "onNeutralVariant",
+  error: "onError",
+  info: "onInfo",
+  warning: "onWarning",
+  success: "onSuccess",
+} satisfies {
+  [K in keyof MD3Palettes as "common" extends K
+    ? never
+    : K]: `on${Capitalize<K>}`;
+};
+
 export const componentsTheme: { components?: Components<Theme> } = {
   components: {
     MuiIcon: {
       defaultProps: {
         baseClassName: "material-symbols-rounded",
+      },
+    },
+    MuiIconButton: {
+      styleOverrides: {
+        root: ({ theme, ownerState }) => {
+          let color = ownerState.color ?? "default";
+          if (color === "inherit") return;
+          if (color === "default") {
+            color = "primary";
+          }
+          const final: CSSObject = {};
+          const common = ({
+            color,
+            backgroundColor,
+          }: {
+            color: string;
+            backgroundColor?: string;
+          }) =>
+            ({
+              color,
+              ...(backgroundColor && { backgroundColor }),
+              [`.${touchRippleClasses.root}::after`]: {
+                content: '""',
+                position: "absolute",
+                top: 0,
+                left: 0,
+                width: "100%",
+                height: "100%",
+                backgroundColor: color,
+                opacity: 0,
+                transition: `opacity 150ms ${theme.vars.sys.motion.easing.standard}`,
+              },
+              "&:hover": {
+                backgroundColor: backgroundColor ?? "transparent",
+                [`.${touchRippleClasses.root}::after`]: {
+                  opacity: theme.vars.sys.state.hover.stateLayerOpacity,
+                },
+              },
+            }) satisfies SxProps;
+
+          const colorContainer =
+            color !== "info" && color !== "warning" && color !== "success"
+              ? (`${color}Container` as const)
+              : "secondaryContainer";
+          const onColorContainer =
+            color !== "info" && color !== "warning" && color !== "success"
+              ? (`on${
+                  capitalize(color) as Capitalize<typeof color>
+                }Container` as const)
+              : "onSecondaryContainer";
+
+          switch (ownerState.variant) {
+            case "filled": {
+              safeDeepMerge(
+                final,
+                {
+                  ["&." + iconButtonClasses.disabled]: {
+                    backgroundColor: `rgb(${theme.vars.sys.color.onSurfaceChannel} / 0.12)`,
+                    color: `rgb(${theme.vars.sys.color.onSurfaceChannel} / 0.38)`,
+                  },
+                },
+                { clone: false },
+              );
+              switch (ownerState.selected) {
+                case true: {
+                  safeDeepMerge(
+                    final,
+                    common({
+                      color: theme.vars.sys.color[onColorMap[color]],
+                      backgroundColor: theme.vars.sys.color[color],
+                    }),
+                    { clone: false },
+                  );
+                  break;
+                }
+                case false: {
+                  safeDeepMerge(
+                    final,
+                    common({
+                      color: theme.vars.sys.color[color],
+                      backgroundColor:
+                        theme.vars.sys.color.surfaceContainerHighest,
+                    }),
+                    { clone: false },
+                  );
+                  break;
+                }
+                default: {
+                  safeDeepMerge(
+                    final,
+                    common({
+                      color: theme.vars.sys.color[onColorMap[color]],
+                      backgroundColor: theme.vars.sys.color[color],
+                    }),
+                    { clone: false },
+                  );
+                }
+              }
+              break;
+            }
+            case "filledTonal": {
+              safeDeepMerge(
+                final,
+                {
+                  ["&." + iconButtonClasses.disabled]: {
+                    backgroundColor: `rgb(${theme.vars.sys.color.onSurfaceChannel} / 0.12)`,
+                    color: `rgb(${theme.vars.sys.color.onSurfaceChannel} / 0.38)`,
+                  },
+                },
+                { clone: false },
+              );
+              switch (ownerState.selected) {
+                case true: {
+                  safeDeepMerge(
+                    final,
+                    common({
+                      color: theme.vars.sys.color[colorContainer],
+                      backgroundColor: theme.vars.sys.color[onColorContainer],
+                    }),
+                    { clone: false },
+                  );
+                  break;
+                }
+                case false: {
+                  safeDeepMerge(
+                    final,
+                    common({
+                      color: theme.vars.sys.color.onSurfaceVariant,
+                      backgroundColor:
+                        theme.vars.sys.color.surfaceContainerHighest,
+                    }),
+                    { clone: false },
+                  );
+                  break;
+                }
+                default: {
+                  safeDeepMerge(
+                    final,
+                    common({
+                      color: theme.vars.sys.color[colorContainer],
+                      backgroundColor: theme.vars.sys.color[onColorContainer],
+                    }),
+                    { clone: false },
+                  );
+                }
+              }
+              break;
+            }
+            case "outlined": {
+              safeDeepMerge(
+                final,
+                {
+                  ["&." + iconButtonClasses.disabled]: {
+                    backgroundColor: `rgb(${theme.vars.sys.color.onSurfaceChannel} / 0.12)`,
+                    color: `rgb(${theme.vars.sys.color.onSurfaceChannel} / 0.38)`,
+                  },
+                },
+                { clone: false },
+              );
+              switch (ownerState.selected) {
+                case true: {
+                  safeDeepMerge(
+                    final,
+                    common({
+                      color: theme.vars.sys.color[onColorContainer],
+                      backgroundColor: theme.vars.sys.color[colorContainer],
+                    }),
+                    { clone: false },
+                  );
+                  break;
+                }
+                default: {
+                  safeDeepMerge(
+                    final,
+                    {
+                      border: `1px solid ${theme.vars.sys.color.outline}`,
+                      ...common({
+                        color: theme.vars.sys.color[onColorContainer],
+                        backgroundColor: theme.vars.sys.color[colorContainer],
+                      }),
+                    },
+                    { clone: false },
+                  );
+                }
+              }
+              break;
+            }
+            default: {
+              safeDeepMerge(
+                final,
+                {
+                  ["&." + iconButtonClasses.disabled]: {
+                    color: `rgb(${theme.vars.sys.color.onSurfaceChannel} / 0.38)`,
+                  },
+                },
+                { clone: false },
+              );
+              safeDeepMerge(
+                final,
+                ownerState.selected
+                  ? common({ color: theme.vars.sys.color[color] })
+                  : common({ color: theme.vars.sys.color.onSurfaceVariant }),
+                { clone: false },
+              );
+            }
+          }
+          return final;
+        },
       },
     },
     MuiPaper: {

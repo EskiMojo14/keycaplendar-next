@@ -1,3 +1,9 @@
+import { deepmerge } from "@mui/utils";
+import type { SxProps as NextSxProps } from "@mui/material-next/styles";
+import type { SxProps, Theme } from "@mui/material/styles";
+
+export const castSx = (sx: NextSxProps) => sx as SxProps<Theme>;
+
 export const braidArrays = <T>(
   arr1: ReadonlyArray<T>,
   arr2: ReadonlyArray<T>,
@@ -17,6 +23,12 @@ export const noopTaggedTemplate = (
   ...expressions: Array<unknown>
 ) => braidArrays(strings, expressions).join("");
 
+export const safeDeepMerge = deepmerge as <T>(
+  target: T,
+  source: DeepPartial<NoInfer<T>>,
+  options?: Parameters<typeof deepmerge>[2],
+) => T;
+
 export type RemoveIndexSignature<T> = {
   [K in keyof T as string extends K
     ? never
@@ -25,4 +37,20 @@ export type RemoveIndexSignature<T> = {
     : number extends K
     ? never
     : K]: T[K];
+};
+
+export type NoInfer<T> = [T][T extends any ? 0 : never];
+
+export type DeepPartial<Thing> = Thing extends Function
+  ? Thing
+  : Thing extends Array<infer InferredArrayMember>
+  ? DeepPartialArray<InferredArrayMember>
+  : Thing extends object
+  ? DeepPartialObject<Thing>
+  : Thing | undefined;
+
+type DeepPartialArray<Thing> = Array<DeepPartial<Thing>>;
+
+type DeepPartialObject<Thing> = {
+  [Key in keyof Thing]?: DeepPartial<Thing[Key]>;
 };

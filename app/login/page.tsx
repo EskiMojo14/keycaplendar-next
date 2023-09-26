@@ -1,13 +1,13 @@
 import Link from "next/link";
 import Messages from "./messages";
 import AppBar from "@/components/md/app-bar";
-import IconButton from "@/components/md/icon-button";
+import IconButton from "@mui/material/IconButton";
 import Container from "@mui/material/Container";
 import Icon from "@mui/material/Icon";
 import InputAdornment from "@mui/material/InputAdornment";
 import TextField from "@mui/material/TextField";
 import styles from "./page.module.scss";
-import { Button } from "@mui/material-next";
+import Button from "@mui/material-next/Button";
 
 export default function Login() {
   return (
@@ -15,7 +15,9 @@ export default function Login() {
       <AppBar
         leadingIcon={
           <Link href="/" className="no-underline">
-            <IconButton>arrow_back</IconButton>
+            <IconButton>
+              <Icon>arrow_back</Icon>
+            </IconButton>
           </Link>
         }
       >
