@@ -1,5 +1,5 @@
 import { relations } from "drizzle-orm";
-import { date, pgTable, text, timestamp } from "drizzle-orm/pg-core";
+import { boolean, date, pgTable, text, timestamp } from "drizzle-orm/pg-core";
 import { nanoid } from "nanoid";
 
 const created_at = timestamp("created_at", {
@@ -27,12 +27,21 @@ export const keysets = pgTable("keysets", {
   icDate: date("ic_date").notNull(),
   gbLaunch: date("gb_launch"),
   gbEnd: date("gb_end"),
+  manufacturer: text("manufacturer").references(() => manufacturers.name),
+  details: text("details").notNull(),
+  notes: text("notes"),
+  salesGraph: text("sales_graph"),
+  shipped: boolean("shipped"),
 });
 
 export const keysetRelations = relations(keysets, ({ one, many }) => ({
   profileData: one(profiles, {
     fields: [keysets.profile],
     references: [profiles.name],
+  }),
+  manufacturerData: one(manufacturers, {
+    fields: [keysets.manufacturer],
+    references: [manufacturers.name],
   }),
   designs: many(designs),
   listings: many(listings),
@@ -101,3 +110,8 @@ export const listingRelations = relations(listings, ({ one }) => ({
     references: [vendors.name],
   }),
 }));
+
+export const manufacturers = pgTable("manufacturers", {
+  name: text("name").primaryKey(),
+  created_at,
+});

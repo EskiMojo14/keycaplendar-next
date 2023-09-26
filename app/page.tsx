@@ -70,8 +70,12 @@ export default async function Index() {
           helperText="Supporting label"
           sx={{ mt: 1 }}
         />
-        <Button variant="filled">A button</Button>
-        <Button variant="filledTonal">A tonal button</Button>
+        <Button variant="filled" startIcon={<Icon>bolt</Icon>}>
+          A button
+        </Button>
+        <Button variant="filledTonal" startIcon={<Icon>pets</Icon>}>
+          A tonal button
+        </Button>
         <ColorDemo />
       </Container>
     </div>
