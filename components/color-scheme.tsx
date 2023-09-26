@@ -423,6 +423,7 @@ export function ColorPicker() {
             }}
           />
         )}
+        <ColorDemo />
       </Popover>
     </>
   );

@@ -1,6 +1,7 @@
 import { deepmerge } from "@mui/utils";
 import type { SxProps as NextSxProps } from "@mui/material-next/styles";
 import type { SxProps, Theme } from "@mui/material/styles";
+import "@total-typescript/ts-reset";
 
 export const castSx = (sx: NextSxProps) => sx as SxProps<Theme>;
 

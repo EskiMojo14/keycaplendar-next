@@ -2,18 +2,10 @@ import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 import Link from "next/link";
 import LogoutButton from "../components/logout-button";
-import {
-  ColorDemo,
-  ColorPicker,
-  ColorSchemeToggle,
-} from "@/components/color-scheme";
+import { ColorPicker, ColorSchemeToggle } from "@/components/color-scheme";
 import AppBar from "@/components/md/app-bar";
 import IconButton from "@mui/material/IconButton";
 import Icon from "@mui/material/Icon";
-import InputAdornment from "@mui/material/InputAdornment";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material-next/Button";
-import Container from "@mui/material/Container";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 
@@ -33,7 +25,11 @@ export default async function Index() {
           <IconButton>
             <Icon>menu</Icon>
           </IconButton>
-          <Typography component="div" sx={{ flexGrow: 1 }}>
+          <Typography
+            variant="titleLarge"
+            component="div"
+            sx={{ flexGrow: 1, ml: 1 }}
+          >
             KeycapLendar
           </Typography>
           {user ? (
@@ -49,35 +45,6 @@ export default async function Index() {
           <ColorPicker />
         </Toolbar>
       </AppBar>
-      <Container
-        maxWidth="sm"
-        sx={{ height: "100vh", display: "flex", flexDirection: "column" }}
-      >
-        <TextField
-          label="Label text"
-          InputProps={{
-            startAdornment: (
-              <InputAdornment position="start">
-                <Icon>search</Icon>
-              </InputAdornment>
-            ),
-            endAdornment: (
-              <InputAdornment position="end">
-                <Icon>cancel</Icon>
-              </InputAdornment>
-            ),
-          }}
-          helperText="Supporting label"
-          sx={{ mt: 1 }}
-        />
-        <Button variant="filled" startIcon={<Icon>bolt</Icon>}>
-          A button
-        </Button>
-        <Button variant="filledTonal" startIcon={<Icon>pets</Icon>}>
-          A tonal button
-        </Button>
-        <ColorDemo />
-      </Container>
     </div>
   );
 }

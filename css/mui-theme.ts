@@ -18,6 +18,8 @@ import type {
   Theme,
   TypescaleValue,
 } from "@mui/material-next";
+import type { Variant } from "@mui/material/styles/createTypography";
+import { camelCase } from "lodash";
 
 declare module "@mui/material-next/styles/Theme.types" {
   export interface TypescaleValue {
@@ -88,6 +90,32 @@ declare module "@mui/material/IconButton" {
     variant?: IconButtonVariant;
     selected?: boolean;
   }
+}
+
+const sizes = [
+  "small",
+  "medium",
+  "mediumProminent",
+  "large",
+  "largeProminent",
+] satisfies Array<keyof TypescaleValue>;
+
+const typescales = ["display", "headline", "title", "body", "label"] as const;
+
+export type TypographyVariant = {
+  [Typescale in keyof MD3Typescale]: {
+    [Size in keyof TypescaleValue as `${string}Prominent` extends Size
+      ? "label" extends Typescale
+        ? Size
+        : never
+      : Size]-?: `${Typescale}${Capitalize<Size>}`;
+  }[keyof TypescaleValue];
+}[keyof MD3Typescale];
+
+declare module "@mui/material/Typography" {
+  export interface TypographyPropsVariantOverrides
+    extends Record<TypographyVariant, true>,
+      Record<Variant, false> {}
 }
 
 export const typescaleTheme: CssVarsThemeOptions = {
@@ -520,6 +548,25 @@ export const componentsTheme: { components?: Components<Theme> } = {
           backgroundColor: theme.vars.sys.color.primary,
         }),
       },
+    },
+    MuiTypography: {
+      variants: typescales
+        .flatMap((typescale) =>
+          sizes.map((size) => {
+            const prominent = size.includes("Prominent");
+            return (prominent && typescale === "label") || !prominent
+              ? {
+                  props: {
+                    variant: camelCase(
+                      `${typescale}-${size}`,
+                    ) as TypographyVariant,
+                  },
+                  style: typography(typescale, size),
+                }
+              : undefined;
+          }),
+        )
+        .filter(Boolean),
     },
   },
 };
