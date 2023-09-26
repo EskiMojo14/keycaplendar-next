@@ -394,6 +394,7 @@ export function ColorPicker() {
               const argb = argbFromHex(color);
               return (
                 <IconButton
+                  key={color}
                   variant="outlined"
                   onClick={() => {
                     setSource(argb);
