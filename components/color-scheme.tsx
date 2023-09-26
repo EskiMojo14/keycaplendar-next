@@ -153,7 +153,15 @@ export function ColorSchemeProvider({ children }: PropsWithChildren) {
           dark: {
             ref: { palette: palettes },
             sys: {
-              color: { surfaceContainer: "var(--md-ref-palette-neutral-12)" },
+              color: {
+                surfaceContainer: "var(--md-ref-palette-neutral-12)",
+                infoContainer: "var(--md-ref-palette-info-30)",
+                onInfoContainer: "var(--md-ref-palette-info-90)",
+                warningContainer: "var(--md-ref-palette-warning-30)",
+                onWarningContainer: "var(--md-ref-palette-warning-90)",
+                successContainer: "var(--md-ref-palette-success-30)",
+                onSuccessContainer: "var(--md-ref-palette-success-90)",
+              },
             },
           },
         },
