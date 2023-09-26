@@ -1,20 +1,18 @@
-.picker {
+:global(.react-colorful).picker {
+  margin: 16px;
+  width: 256px;
+  height: 256px;
+  :global(.react-colorful__hue) {
+    order: -1;
+    border-radius: var(--md-sys-shape-corner-medium);
+    margin-bottom: 16px;
+  }
   :global(.react-colorful__pointer) {
     box-shadow: var(--md-sys-elevation-1);
     background-color: var(--md-ref-palette-neutral-95);
     border-color: var(--md-ref-palette-neutral-95);
   }
   :global(.react-colorful__saturation) {
-    border-radius: var(--md-sys-shape-corner-small)
-      var(--md-sys-shape-corner-small) 0 0;
-  }
-  :global(.react-colorful__last-control) {
-    border-radius: 0 0 var(--md-sys-shape-corner-small)
-      var(--md-sys-shape-corner-small);
-  }
-  &Surface {
-    overflow: visible;
     border-radius: var(--md-sys-shape-corner-medium);
-    padding: 16px;
   }
 }

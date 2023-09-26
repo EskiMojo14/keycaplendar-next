@@ -2,7 +2,7 @@
 import type { PropsWithChildren } from "react";
 import { useState, useMemo, createContext, useRef } from "react";
 import type { Mode } from "@mui/system/cssVars/useCurrentColorScheme";
-import Popover from "@mui/material/Popover";
+import Popover, { popoverClasses } from "@mui/material/Popover";
 import { useIsMounted } from "@/logic/hooks/use-is-mounted";
 import type { Theme, TonalPalette } from "@material/material-color-utilities";
 import {
@@ -16,6 +16,8 @@ import { useSafeContext } from "@/logic/hooks/use-safe-context";
 import { HexColorPicker } from "react-colorful";
 import styles from "./color-scheme.module.scss";
 import IconButton from "@mui/material/IconButton";
+import Tabs from "@mui/material-next/Tabs";
+import Tab from "@mui/material-next/Tab";
 import type {
   MD3NeutralTones,
   MD3Palettes,
@@ -26,11 +28,12 @@ import {
   CssVarsProvider,
   getInitColorSchemeScript,
   useColorScheme,
-} from "@mui/material-next";
+} from "@mui/material-next/styles";
 import { debugPalette, componentsTheme, typescaleTheme } from "@/css/mui-theme";
 import Icon from "@mui/material/Icon";
-import { green, lightBlue, orange, red } from "@mui/material/colors";
+import * as colors from "@mui/material/colors";
 import { castSx } from "@/logic/lib/utils";
+import Box from "@mui/material/Box";
 
 declare module "@mui/material-next/styles/Theme.types" {
   export interface MD3NeutralTones {
@@ -105,10 +108,10 @@ const makePalette =
     return palette.a1;
   };
 
-const errorPalette = makePalette(argbFromHex(red[500]));
-const infoPalette = makePalette(argbFromHex(lightBlue[500]));
-const successPalette = makePalette(argbFromHex(green[500]));
-const warningPalette = makePalette(argbFromHex(orange[500]));
+const errorPalette = makePalette(argbFromHex(colors.red[500]));
+const infoPalette = makePalette(argbFromHex(colors.lightBlue[500]));
+const successPalette = makePalette(argbFromHex(colors.green[500]));
+const warningPalette = makePalette(argbFromHex(colors.orange[500]));
 
 export function ColorSchemeProvider({ children }: PropsWithChildren) {
   const [source, setSource] = useState(0xff009688);
@@ -203,7 +206,7 @@ export function ColorSchemeToggle() {
 
 export function ColorDemo() {
   return (
-    <>
+    <div style={{ display: "flex" }}>
       <Icon
         sx={castSx((theme) => ({
           color: theme.vars.sys.color.onPrimary,
@@ -316,14 +319,20 @@ export function ColorDemo() {
       >
         check_circle
       </Icon>
-    </>
+    </div>
   );
 }
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const { common, grey, ...rest } = colors;
+
+const defaultColors = Object.values(rest).map((palette) => palette[500]);
 
 export function ColorPicker() {
   const { source, setSource } = useSafeContext(ColorSchemeContext);
   const [menuOpen, setMenuOpen] = useState(false);
   const anchorEl = useRef<HTMLButtonElement>(null);
+  const [tab, setTab] = useState<"palette" | "picker">("palette");
   return (
     <>
       <IconButton
@@ -344,17 +353,67 @@ export function ColorPicker() {
         onClose={() => {
           setMenuOpen(false);
         }}
-        classes={{
-          paper: styles.pickerSurface,
-        }}
+        sx={castSx((theme) => ({
+          ["." + popoverClasses.paper]: {
+            borderRadius: theme.sys.shape.corner.medium,
+            display: "flex",
+            flexDirection: "column",
+            gap: 1,
+          },
+        }))}
       >
-        <HexColorPicker
-          className={styles.picker}
-          color={hexFromArgb(source)}
-          onChange={(hex) => {
-            setSource(argbFromHex(hex));
+        <Tabs
+          variant="fullWidth"
+          value={tab}
+          onChange={(e, v) => {
+            setTab(v as typeof tab);
           }}
-        />
+        >
+          <Tab value="palette" icon={<Icon>palette</Icon>} />
+          <Tab value="picker" icon={<Icon>colors</Icon>} />
+        </Tabs>
+        {tab === "palette" && (
+          <Box
+            display="grid"
+            gridTemplateColumns="repeat(4,42px)"
+            justifyItems="center"
+            justifyContent="space-between"
+            alignItems="center"
+            gap={2}
+            p={2}
+          >
+            {defaultColors.map((color) => {
+              const argb = argbFromHex(color);
+              return (
+                <IconButton
+                  variant="outlined"
+                  onClick={() => {
+                    setSource(argb);
+                  }}
+                  selected={argb === source}
+                >
+                  <Box
+                    sx={{
+                      height: 24,
+                      width: 24,
+                      borderRadius: "50%",
+                      backgroundColor: color,
+                    }}
+                  />
+                </IconButton>
+              );
+            })}
+          </Box>
+        )}
+        {tab === "picker" && (
+          <HexColorPicker
+            className={styles.picker}
+            color={hexFromArgb(source)}
+            onChange={(hex) => {
+              setSource(argbFromHex(hex));
+            }}
+          />
+        )}
       </Popover>
     </>
   );

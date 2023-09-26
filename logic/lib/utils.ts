@@ -23,11 +23,8 @@ export const noopTaggedTemplate = (
   ...expressions: Array<unknown>
 ) => braidArrays(strings, expressions).join("");
 
-export const safeDeepMerge = deepmerge as <T>(
-  target: T,
-  source: DeepPartial<NoInfer<T>>,
-  options?: Parameters<typeof deepmerge>[2],
-) => T;
+export const safeDeepAssign = <T>(target: T, source: DeepPartial<NoInfer<T>>) =>
+  deepmerge(target, source, { clone: false });
 
 export type RemoveIndexSignature<T> = {
   [K in keyof T as string extends K

@@ -1,4 +1,4 @@
-import { safeDeepMerge, type RemoveIndexSignature } from "@/logic/lib/utils";
+import { safeDeepAssign, type RemoveIndexSignature } from "@/logic/lib/utils";
 import type { CSSObject, Components, PaletteOptions } from "@mui/material";
 import {
   capitalize,
@@ -249,7 +249,15 @@ export const componentsTheme: { components?: Components<Theme> } = {
           if (color === "default") {
             color = "primary";
           }
-          const final: CSSObject = {};
+          const final: CSSObject = {
+            transition: theme.transitions.create(
+              ["color", "background-color"],
+              {
+                duration: theme.vars.sys.motion.duration.short3,
+                easing: theme.vars.sys.motion.easing.standard,
+              },
+            ),
+          };
           const common = ({
             color,
             backgroundColor,
@@ -292,156 +300,127 @@ export const componentsTheme: { components?: Components<Theme> } = {
 
           switch (ownerState.variant) {
             case "filled": {
-              safeDeepMerge(
-                final,
-                {
-                  ["&." + iconButtonClasses.disabled]: {
-                    backgroundColor: `rgb(${theme.vars.sys.color.onSurfaceChannel} / 0.12)`,
-                    color: `rgb(${theme.vars.sys.color.onSurfaceChannel} / 0.38)`,
-                  },
+              safeDeepAssign(final, {
+                ["&." + iconButtonClasses.disabled]: {
+                  backgroundColor: `rgb(${theme.vars.sys.color.onSurfaceChannel} / 0.12)`,
+                  color: `rgb(${theme.vars.sys.color.onSurfaceChannel} / 0.38)`,
                 },
-                { clone: false },
-              );
+              });
               switch (ownerState.selected) {
                 case true: {
-                  safeDeepMerge(
+                  safeDeepAssign(
                     final,
                     common({
                       color: theme.vars.sys.color[onColorMap[color]],
                       backgroundColor: theme.vars.sys.color[color],
                     }),
-                    { clone: false },
                   );
                   break;
                 }
                 case false: {
-                  safeDeepMerge(
+                  safeDeepAssign(
                     final,
                     common({
                       color: theme.vars.sys.color[color],
                       backgroundColor:
                         theme.vars.sys.color.surfaceContainerHighest,
                     }),
-                    { clone: false },
                   );
                   break;
                 }
                 default: {
-                  safeDeepMerge(
+                  safeDeepAssign(
                     final,
                     common({
                       color: theme.vars.sys.color[onColorMap[color]],
                       backgroundColor: theme.vars.sys.color[color],
                     }),
-                    { clone: false },
                   );
                 }
               }
               break;
             }
             case "filledTonal": {
-              safeDeepMerge(
-                final,
-                {
-                  ["&." + iconButtonClasses.disabled]: {
-                    backgroundColor: `rgb(${theme.vars.sys.color.onSurfaceChannel} / 0.12)`,
-                    color: `rgb(${theme.vars.sys.color.onSurfaceChannel} / 0.38)`,
-                  },
+              safeDeepAssign(final, {
+                ["&." + iconButtonClasses.disabled]: {
+                  backgroundColor: `rgb(${theme.vars.sys.color.onSurfaceChannel} / 0.12)`,
+                  color: `rgb(${theme.vars.sys.color.onSurfaceChannel} / 0.38)`,
                 },
-                { clone: false },
-              );
+              });
               switch (ownerState.selected) {
                 case true: {
-                  safeDeepMerge(
+                  safeDeepAssign(
                     final,
                     common({
                       color: theme.vars.sys.color[colorContainer],
                       backgroundColor: theme.vars.sys.color[onColorContainer],
                     }),
-                    { clone: false },
                   );
                   break;
                 }
                 case false: {
-                  safeDeepMerge(
+                  safeDeepAssign(
                     final,
                     common({
                       color: theme.vars.sys.color.onSurfaceVariant,
                       backgroundColor:
                         theme.vars.sys.color.surfaceContainerHighest,
                     }),
-                    { clone: false },
                   );
                   break;
                 }
                 default: {
-                  safeDeepMerge(
+                  safeDeepAssign(
                     final,
                     common({
                       color: theme.vars.sys.color[colorContainer],
                       backgroundColor: theme.vars.sys.color[onColorContainer],
                     }),
-                    { clone: false },
                   );
                 }
               }
               break;
             }
             case "outlined": {
-              safeDeepMerge(
-                final,
-                {
-                  ["&." + iconButtonClasses.disabled]: {
-                    backgroundColor: `rgb(${theme.vars.sys.color.onSurfaceChannel} / 0.12)`,
-                    color: `rgb(${theme.vars.sys.color.onSurfaceChannel} / 0.38)`,
-                  },
+              safeDeepAssign(final, {
+                ["&." + iconButtonClasses.disabled]: {
+                  backgroundColor: `rgb(${theme.vars.sys.color.onSurfaceChannel} / 0.12)`,
+                  color: `rgb(${theme.vars.sys.color.onSurfaceChannel} / 0.38)`,
                 },
-                { clone: false },
-              );
+              });
               switch (ownerState.selected) {
                 case true: {
-                  safeDeepMerge(
+                  safeDeepAssign(
                     final,
                     common({
-                      color: theme.vars.sys.color[onColorContainer],
-                      backgroundColor: theme.vars.sys.color[colorContainer],
+                      color: theme.vars.sys.color.inverseOnSurface,
+                      backgroundColor: theme.vars.sys.color.inverseSurface,
                     }),
-                    { clone: false },
                   );
                   break;
                 }
                 default: {
-                  safeDeepMerge(
-                    final,
-                    {
-                      border: `1px solid ${theme.vars.sys.color.outline}`,
-                      ...common({
-                        color: theme.vars.sys.color[onColorContainer],
-                        backgroundColor: theme.vars.sys.color[colorContainer],
-                      }),
-                    },
-                    { clone: false },
-                  );
+                  safeDeepAssign(final, {
+                    border: `1px solid ${theme.vars.sys.color.outline}`,
+                    ...common({
+                      color: theme.vars.sys.color.onSurfaceVariant,
+                    }),
+                  });
                 }
               }
               break;
             }
             default: {
-              safeDeepMerge(
-                final,
-                {
-                  ["&." + iconButtonClasses.disabled]: {
-                    color: `rgb(${theme.vars.sys.color.onSurfaceChannel} / 0.38)`,
-                  },
+              safeDeepAssign(final, {
+                ["&." + iconButtonClasses.disabled]: {
+                  color: `rgb(${theme.vars.sys.color.onSurfaceChannel} / 0.38)`,
                 },
-                { clone: false },
-              );
-              safeDeepMerge(
+              });
+              safeDeepAssign(
                 final,
                 ownerState.selected
                   ? common({ color: theme.vars.sys.color[color] })
                   : common({ color: theme.vars.sys.color.onSurfaceVariant }),
-                { clone: false },
               );
             }
           }
@@ -532,6 +511,13 @@ export const componentsTheme: { components?: Components<Theme> } = {
           ["&." + formHelperTextClasses.error]: {
             color: theme.vars.sys.color.error,
           },
+        }),
+      },
+    },
+    MuiTabs: {
+      styleOverrides: {
+        indicator: ({ theme }) => ({
+          backgroundColor: theme.vars.sys.color.primary,
         }),
       },
     },

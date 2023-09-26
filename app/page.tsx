@@ -14,6 +14,8 @@ import InputAdornment from "@mui/material/InputAdornment";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material-next/Button";
 import Container from "@mui/material/Container";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
 
 export const dynamic = "force-dynamic";
 
@@ -26,33 +28,30 @@ export default async function Index() {
 
   return (
     <div>
-      <AppBar
-        leadingIcon={
-          <IconButton variant="filledTonal" color="tertiary">
+      <AppBar position="sticky">
+        <Toolbar>
+          <IconButton>
             <Icon>menu</Icon>
           </IconButton>
-        }
-        trailingIcons={
-          <>
-            {user ? (
-              <LogoutButton />
-            ) : (
-              <Link href="/login" style={{ textDecoration: "none" }}>
-                <IconButton>
-                  <Icon>login</Icon>
-                </IconButton>
-              </Link>
-            )}
-            <ColorSchemeToggle />
-            <ColorPicker />
-          </>
-        }
-      >
-        KeycapLendar
+          <Typography component="div" sx={{ flexGrow: 1 }}>
+            KeycapLendar
+          </Typography>
+          {user ? (
+            <LogoutButton />
+          ) : (
+            <Link href="/login" style={{ textDecoration: "none" }}>
+              <IconButton>
+                <Icon>login</Icon>
+              </IconButton>
+            </Link>
+          )}
+          <ColorSchemeToggle />
+          <ColorPicker />
+        </Toolbar>
       </AppBar>
       <Container
         maxWidth="sm"
-        sx={{ display: "flex", flexDirection: "column" }}
+        sx={{ height: "100vh", display: "flex", flexDirection: "column" }}
       >
         <TextField
           label="Label text"
