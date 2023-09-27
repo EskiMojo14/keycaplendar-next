@@ -25,5 +25,36 @@ module.exports = {
     "@typescript-eslint/consistent-type-imports": "error",
     "@typescript-eslint/array-type": ["error", { default: "generic" }],
     "mui-path-imports/mui-path-imports": "error",
+    "no-restricted-imports": "off",
+    "@typescript-eslint/no-restricted-imports": [
+      "error",
+      {
+        paths: [
+          {
+            name: "@mui/material",
+            allowTypeImports: true,
+            message:
+              "Next dislikes this barrel file for some reason, use individual imports",
+          },
+          {
+            name: "@mui/material-next",
+            allowTypeImports: true,
+            message:
+              "Next dislikes this barrel file for some reason, use individual imports",
+          },
+        ],
+      },
+    ],
+    "import/order": [
+      "error",
+      {
+        alphabetize: {
+          order: "asc",
+          orderImportKind: "asc",
+          caseInsensitive: true,
+        },
+        warnOnUnassignedImports: true,
+      },
+    ],
   },
 };

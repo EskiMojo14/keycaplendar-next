@@ -1,15 +1,13 @@
-import { safeDeepAssign, type RemoveIndexSignature } from "@/logic/lib/utils";
 import type { CSSObject, Components, PaletteOptions } from "@mui/material";
-import {
-  capitalize,
-  formControlClasses,
-  formHelperTextClasses,
-  iconButtonClasses,
-  inputAdornmentClasses,
-  inputLabelClasses,
-  outlinedInputClasses,
-  touchRippleClasses,
-} from "@mui/material";
+import { touchRippleClasses } from "@mui/material/ButtonBase";
+import { formControlClasses } from "@mui/material/FormControl";
+import { formHelperTextClasses } from "@mui/material/FormHelperText";
+import { iconButtonClasses } from "@mui/material/IconButton";
+import { inputAdornmentClasses } from "@mui/material/InputAdornment";
+import { inputLabelClasses } from "@mui/material/InputLabel";
+import { outlinedInputClasses } from "@mui/material/OutlinedInput";
+import type { Variant } from "@mui/material/styles/createTypography";
+import { capitalize } from "@mui/material/utils";
 import type {
   CssVarsThemeOptions,
   MD3Palettes,
@@ -18,8 +16,9 @@ import type {
   Theme,
   TypescaleValue,
 } from "@mui/material-next";
-import type { Variant } from "@mui/material/styles/createTypography";
+import type { StrictModifiers } from "@popperjs/core";
 import { camelCase } from "lodash";
+import { safeDeepAssign, type RemoveIndexSignature } from "@/logic/lib/utils";
 
 declare module "@mui/material-next/styles/Theme.types" {
   export interface TypescaleValue {
@@ -124,21 +123,21 @@ export const typescaleTheme: CssVarsThemeOptions = {
       display: {
         large: {
           family: "var(--md-ref-typeface-brand)",
-          weight: "400",
+          weight: "500",
           size: 57,
           tracking: -0.025,
           lineHeight: 64,
         },
         medium: {
           family: "var(--md-ref-typeface-brand)",
-          weight: "400",
+          weight: "500",
           size: 45,
           tracking: 0,
           lineHeight: 52,
         },
         small: {
           family: "var(--md-ref-typeface-brand)",
-          weight: "400",
+          weight: "500",
           size: 36,
           tracking: 0,
           lineHeight: 44,
@@ -147,21 +146,21 @@ export const typescaleTheme: CssVarsThemeOptions = {
       headline: {
         large: {
           family: "var(--md-ref-typeface-brand)",
-          weight: "400",
+          weight: "500",
           size: 32,
           tracking: 0,
           lineHeight: 40,
         },
         medium: {
           family: "var(--md-ref-typeface-brand)",
-          weight: "400",
+          weight: "500",
           size: 28,
           tracking: 0,
           lineHeight: 36,
         },
         small: {
           family: "var(--md-ref-typeface-brand)",
-          weight: "400",
+          weight: "500",
           size: 24,
           tracking: 0,
           lineHeight: 32,
@@ -170,21 +169,21 @@ export const typescaleTheme: CssVarsThemeOptions = {
       title: {
         large: {
           family: "var(--md-ref-typeface-brand)",
-          weight: "400",
+          weight: "500",
           size: 22,
           tracking: 0,
           lineHeight: 28,
         },
         medium: {
           family: "var(--md-ref-typeface-brand)",
-          weight: "500",
+          weight: "600",
           size: 16,
           tracking: 0.15,
           lineHeight: 24,
         },
         small: {
           family: "var(--md-ref-typeface-brand)",
-          weight: "500",
+          weight: "600",
           size: 14,
           tracking: 0.1,
           lineHeight: 20,
@@ -468,7 +467,7 @@ export const componentsTheme: { components?: Components<Theme> } = {
     MuiOutlinedInput: {
       styleOverrides: {
         root: ({ theme }) => ({
-          borderRadius: theme.vars.shape.borderRadius,
+          borderRadius: theme.vars.sys.shape.corner.small,
           color: theme.vars.sys.color.onSurfaceVariant,
           ...typography("body", "large"),
           caretColor: theme.vars.sys.color.primary,
@@ -567,6 +566,31 @@ export const componentsTheme: { components?: Components<Theme> } = {
           }),
         )
         .filter(Boolean),
+    },
+    MuiTooltip: {
+      defaultProps: {
+        placement: "top",
+        PopperProps: {
+          modifiers: [
+            {
+              name: "offset",
+              options: {
+                offset: [0, -8],
+              },
+            },
+          ] satisfies Array<StrictModifiers>,
+        },
+      },
+      styleOverrides: {
+        tooltip: ({ theme }) => ({
+          backgroundColor: theme.vars.sys.color.inverseSurface,
+          color: theme.vars.sys.color.inverseOnSurface,
+          ...typography("body", "small"),
+          minHeight: 24,
+          display: "flex",
+          alignItems: "center",
+        }),
+      },
     },
   },
 };

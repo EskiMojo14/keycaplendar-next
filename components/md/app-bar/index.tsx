@@ -1,9 +1,9 @@
 "use client";
-import { forwardRef } from "react";
-import useScrollTrigger from "@mui/material/useScrollTrigger";
 import type { AppBarProps } from "@mui/material/AppBar";
 import MuiAppBar from "@mui/material/AppBar";
+import useScrollTrigger from "@mui/material/useScrollTrigger";
 import mergeSx from "merge-sx";
+import { forwardRef } from "react";
 import { castSx } from "@/logic/lib/utils";
 
 export default forwardRef<HTMLElement, AppBarProps>(function AppBar(

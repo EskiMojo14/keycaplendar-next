@@ -1,13 +1,14 @@
+import Icon from "@mui/material/Icon";
+import IconButton from "@mui/material/IconButton";
+import Toolbar from "@mui/material/Toolbar";
+import Tooltip from "@mui/material/Tooltip";
+import Typography from "@mui/material/Typography";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 import Link from "next/link";
 import LogoutButton from "../components/logout-button";
 import { ColorPicker, ColorSchemeToggle } from "@/components/color-scheme";
 import AppBar from "@/components/md/app-bar";
-import IconButton from "@mui/material/IconButton";
-import Icon from "@mui/material/Icon";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
 
 export const dynamic = "force-dynamic";
 
@@ -22,24 +23,19 @@ export default async function Index() {
     <div>
       <AppBar position="sticky">
         <Toolbar>
-          <IconButton>
-            <Icon>menu</Icon>
-          </IconButton>
-          <Typography
-            variant="titleLarge"
-            component="div"
-            sx={{ flexGrow: 1, ml: 1 }}
-          >
+          <Typography variant="titleLarge" component="div" sx={{ flexGrow: 1 }}>
             KeycapLendar
           </Typography>
           {user ? (
             <LogoutButton />
           ) : (
-            <Link href="/login" style={{ textDecoration: "none" }}>
-              <IconButton>
-                <Icon>login</Icon>
-              </IconButton>
-            </Link>
+            <Tooltip title="Log in">
+              <Link href="/login" style={{ textDecoration: "none" }}>
+                <IconButton>
+                  <Icon>login</Icon>
+                </IconButton>
+              </Link>
+            </Tooltip>
           )}
           <ColorSchemeToggle />
           <ColorPicker />

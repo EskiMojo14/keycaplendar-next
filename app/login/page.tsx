@@ -1,27 +1,30 @@
-import Link from "next/link";
-import Messages from "./messages";
-import AppBar from "@/components/md/app-bar";
-import IconButton from "@mui/material/IconButton";
 import Container from "@mui/material/Container";
 import Icon from "@mui/material/Icon";
+import IconButton from "@mui/material/IconButton";
 import InputAdornment from "@mui/material/InputAdornment";
 import TextField from "@mui/material/TextField";
-import styles from "./page.module.scss";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
 import Button from "@mui/material-next/Button";
+import Link from "next/link";
+import Messages from "./messages";
+import styles from "./page.module.scss";
+import AppBar from "@/components/md/app-bar";
 
 export default function Login() {
   return (
     <>
-      <AppBar
-        leadingIcon={
+      <AppBar position="static">
+        <Toolbar>
           <Link href="/" className="no-underline">
             <IconButton>
               <Icon>arrow_back</Icon>
             </IconButton>
           </Link>
-        }
-      >
-        Log in
+          <Typography variant="titleLarge" sx={{ flexGrow: 1, ml: 1 }}>
+            Log in
+          </Typography>
+        </Toolbar>
       </AppBar>
       <Container maxWidth="sm" sx={{ p: 2 }}>
         <form action="/auth/sign-in" method="post" className={styles.form}>

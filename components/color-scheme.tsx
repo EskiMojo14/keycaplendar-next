@@ -1,9 +1,7 @@
 "use client";
-import type { PropsWithChildren } from "react";
-import { useState, useMemo, createContext, useRef } from "react";
-import type { Mode } from "@mui/system/cssVars/useCurrentColorScheme";
-import Popover, { popoverClasses } from "@mui/material/Popover";
-import { useIsMounted } from "@/logic/hooks/use-is-mounted";
+import type { Options } from "@emotion/cache";
+import createCache from "@emotion/cache";
+import { CacheProvider } from "@emotion/react";
 import type { Theme, TonalPalette } from "@material/material-color-utilities";
 import {
   Blend,
@@ -12,12 +10,12 @@ import {
   hexFromArgb,
   themeFromSourceColor,
 } from "@material/material-color-utilities";
-import { useSafeContext } from "@/logic/hooks/use-safe-context";
-import { HexColorPicker } from "react-colorful";
-import styles from "./color-scheme.module.scss";
+import Box from "@mui/material/Box";
+import * as colors from "@mui/material/colors";
+import Icon from "@mui/material/Icon";
 import IconButton from "@mui/material/IconButton";
-import Tabs from "@mui/material-next/Tabs";
-import Tab from "@mui/material-next/Tab";
+import Popover, { popoverClasses } from "@mui/material/Popover";
+import Tooltip from "@mui/material/Tooltip";
 import type {
   MD3NeutralTones,
   MD3Palettes,
@@ -29,16 +27,20 @@ import {
   getInitColorSchemeScript,
   useColorScheme,
 } from "@mui/material-next/styles";
-import { debugPalette, componentsTheme, typescaleTheme } from "@/css/mui-theme";
-import Icon from "@mui/material/Icon";
-import * as colors from "@mui/material/colors";
-import { castSx } from "@/logic/lib/utils";
-import Box from "@mui/material/Box";
-import { useLocalStorage } from "@/logic/hooks/use-local-storage";
-import type { Options } from "@emotion/cache";
-import createCache from "@emotion/cache";
+import Tab from "@mui/material-next/Tab";
+import Tabs from "@mui/material-next/Tabs";
+import type { Mode } from "@mui/system/cssVars/useCurrentColorScheme";
+import { lowerCase, upperFirst } from "lodash";
 import { useServerInsertedHTML } from "next/navigation";
-import { CacheProvider } from "@emotion/react";
+import type { PropsWithChildren } from "react";
+import { useState, useMemo, createContext, useRef } from "react";
+import { HexColorPicker } from "react-colorful";
+import styles from "./color-scheme.module.scss";
+import { debugPalette, componentsTheme, typescaleTheme } from "@/css/mui-theme";
+import { useIsMounted } from "@/logic/hooks/use-is-mounted";
+import { useLocalStorage } from "@/logic/hooks/use-local-storage";
+import { useSafeContext } from "@/logic/hooks/use-safe-context";
+import { castSx } from "@/logic/lib/utils";
 
 declare module "@mui/material-next/styles/Theme.types" {
   export interface MD3NeutralTones {
@@ -98,7 +100,7 @@ const getNeutralMD3Tones = (palette: TonalPalette): MD3NeutralTones => ({
 
 const sansSerifStack = "Lato, Roboto, system-ui, sans-serif";
 const slabSerifStack =
-  "Rockwell, 'Rockwell Nova', 'Roboto Slab', 'DejaVu Serif', 'Sitka Small', serif";
+  "'Josefin Slab', Rockwell, 'Rockwell Nova', 'Roboto Slab', 'DejaVu Serif', 'Sitka Small', serif";
 
 const makePalette =
   (color: number, blend = true) =>
@@ -254,19 +256,21 @@ export function ColorSchemeToggle() {
   const mounted = useIsMounted();
   if (!mounted) return null;
   return (
-    <IconButton
-      onClick={(e) => {
-        setMode(
-          e.ctrlKey || e.metaKey
-            ? "system"
-            : mode === "dark"
-            ? "light"
-            : "dark",
-        );
-      }}
-    >
-      <Icon>{icons[mode]}</Icon>
-    </IconButton>
+    <Tooltip title="Theme mode">
+      <IconButton
+        onClick={(e) => {
+          setMode(
+            e.ctrlKey || e.metaKey
+              ? "system"
+              : mode === "dark"
+              ? "light"
+              : "dark",
+          );
+        }}
+      >
+        <Icon>{icons[mode]}</Icon>
+      </IconButton>
+    </Tooltip>
   );
 }
 
@@ -390,9 +394,7 @@ export function ColorDemo() {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-const { common, grey, ...rest } = colors;
-
-const defaultColors = Object.values(rest).map((palette) => palette[500]);
+const { common, grey, ...defaultColors } = colors;
 
 export function ColorPicker() {
   const { source, setSource } = useSafeContext(ColorSchemeContext);
@@ -401,14 +403,16 @@ export function ColorPicker() {
   const [tab, setTab] = useState<"palette" | "picker">("palette");
   return (
     <>
-      <IconButton
-        ref={anchorEl}
-        onClick={() => {
-          setMenuOpen(true);
-        }}
-      >
-        <Icon>palette</Icon>
-      </IconButton>
+      <Tooltip title="Source colour">
+        <IconButton
+          ref={anchorEl}
+          onClick={() => {
+            setMenuOpen(true);
+          }}
+        >
+          <Icon>palette</Icon>
+        </IconButton>
+      </Tooltip>
       <Popover
         anchorEl={anchorEl.current}
         anchorOrigin={{
@@ -448,26 +452,27 @@ export function ColorPicker() {
             gap={2}
             p={2}
           >
-            {defaultColors.map((color) => {
+            {Object.entries(defaultColors).map(([name, { [500]: color }]) => {
               const argb = argbFromHex(color);
               return (
-                <IconButton
-                  key={color}
-                  variant="outlined"
-                  onClick={() => {
-                    setSource(argb);
-                  }}
-                  selected={argb === source}
-                >
-                  <Box
-                    sx={{
-                      height: 24,
-                      width: 24,
-                      borderRadius: "50%",
-                      backgroundColor: color,
+                <Tooltip key={color} title={upperFirst(lowerCase(name))}>
+                  <IconButton
+                    variant="outlined"
+                    onClick={() => {
+                      setSource(argb);
                     }}
-                  />
-                </IconButton>
+                    selected={argb === source}
+                  >
+                    <Box
+                      sx={{
+                        height: 24,
+                        width: 24,
+                        borderRadius: "50%",
+                        backgroundColor: color,
+                      }}
+                    />
+                  </IconButton>
+                </Tooltip>
               );
             })}
           </Box>

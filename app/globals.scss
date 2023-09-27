@@ -1,5 +1,9 @@
 @import url(normalize.css);
 
+fieldset.MuiOutlinedInput-notchedOutline {
+  padding: 0 8px;
+}
+
 * {
   box-sizing: border-box;
 }

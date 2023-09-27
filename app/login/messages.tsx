@@ -1,7 +1,7 @@
 "use client";
+import clsx from "clsx";
 import { useSearchParams } from "next/navigation";
 import styles from "./messages.module.scss";
-import clsx from "clsx";
 
 export default function Messages() {
   const searchParams = useSearchParams();
