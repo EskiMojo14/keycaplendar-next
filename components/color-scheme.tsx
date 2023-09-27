@@ -256,7 +256,13 @@ export function ColorSchemeToggle() {
   return (
     <IconButton
       onClick={(e) => {
-        setMode(e.ctrlKey ? "system" : mode === "dark" ? "light" : "dark");
+        setMode(
+          e.ctrlKey || e.metaKey
+            ? "system"
+            : mode === "dark"
+            ? "light"
+            : "dark",
+        );
       }}
     >
       <Icon>{icons[mode]}</Icon>
