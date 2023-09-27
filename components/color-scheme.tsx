@@ -35,6 +35,7 @@ import * as colors from "@mui/material/colors";
 import { castSx } from "@/logic/lib/utils";
 import Box from "@mui/material/Box";
 import { useLocalStorage } from "@/logic/hooks/use-local-storage";
+import type { Options } from "@emotion/cache";
 import createCache from "@emotion/cache";
 import { useServerInsertedHTML } from "next/navigation";
 import { CacheProvider } from "@emotion/react";
@@ -120,7 +121,7 @@ const warningPalette = makePalette(argbFromHex(colors.orange[500]));
 export function ThemeRegistry({
   options,
   children,
-}: PropsWithChildren<{ options: { key: string; prepend?: boolean } }>) {
+}: PropsWithChildren<{ options: Options }>) {
   const [{ cache, flush }] = useState(() => {
     const cache = createCache(options);
     cache.compat = true;
