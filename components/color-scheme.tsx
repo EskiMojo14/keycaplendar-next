@@ -265,7 +265,7 @@ export function ColorSchemeToggle() {
 
 export function ColorDemo() {
   return (
-    <div style={{ display: "flex" }}>
+    <div style={{ display: "flex", margin: "auto" }}>
       <Icon
         sx={castSx((theme) => ({
           color: theme.vars.sys.color.onPrimary,
@@ -434,7 +434,7 @@ export function ColorPicker() {
         {tab === "palette" && (
           <Box
             display="grid"
-            gridTemplateColumns="repeat(4,42px)"
+            gridTemplateColumns="repeat(6,42px)"
             justifyItems="center"
             justifyContent="space-between"
             alignItems="center"
