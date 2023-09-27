@@ -1,10 +1,10 @@
 import type {} from "@mui/material/themeCssVarsAugmentation";
+import "./globals.scss";
 import {
   InitColorScheme,
   ColorSchemeProvider,
   ThemeRegistry,
 } from "@/components/color-scheme";
-import "./globals.scss";
 
 export const metadata = {
   title: "Keycaplendar",

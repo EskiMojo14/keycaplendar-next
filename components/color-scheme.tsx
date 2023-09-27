@@ -30,7 +30,8 @@ import {
 import Tab from "@mui/material-next/Tab";
 import Tabs from "@mui/material-next/Tabs";
 import type { Mode } from "@mui/system/cssVars/useCurrentColorScheme";
-import { lowerCase, upperFirst } from "lodash";
+import lowerCase from "lodash/lowerCase";
+import upperFirst from "lodash/upperFirst";
 import { useServerInsertedHTML } from "next/navigation";
 import type { PropsWithChildren } from "react";
 import { useState, useMemo, createContext, useRef } from "react";

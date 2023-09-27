@@ -1,5 +1,6 @@
 /** @type {import('eslint').Linter.Config} */
 module.exports = {
+  plugins: ["@typescript-eslint", "mui-path-imports", "lodash"],
   extends: [
     "eslint:recommended",
     "plugin:@typescript-eslint/strict-type-checked",
@@ -13,7 +14,6 @@ module.exports = {
     project: true,
     tsconfigRootDir: __dirname,
   },
-  plugins: ["@typescript-eslint", "mui-path-imports"],
   root: true,
   settings: {
     "import/resolver": {
@@ -56,5 +56,6 @@ module.exports = {
         warnOnUnassignedImports: true,
       },
     ],
+    "lodash/import-scope": "error",
   },
 };
