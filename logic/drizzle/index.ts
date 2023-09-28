@@ -9,3 +9,12 @@ if (!connectionString) {
 const client = postgres(connectionString);
 
 export const db = drizzle(client, { schema });
+
+export const selectKeysets = db.query.keysets.findMany({
+  with: {
+    designs: true,
+    listings: true,
+  },
+});
+
+console.log(selectKeysets.toSQL());

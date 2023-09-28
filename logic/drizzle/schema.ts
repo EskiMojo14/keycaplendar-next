@@ -14,6 +14,8 @@ export const profiles = pgTable("profiles", {
   created_at,
 });
 
+export type Profile = typeof profiles.$inferSelect;
+
 export const keysets = pgTable("keysets", {
   id: text("id")
     .$defaultFn(() => nanoid(10))
@@ -34,6 +36,8 @@ export const keysets = pgTable("keysets", {
   shipped: boolean("shipped"),
 });
 
+export type Keyset = typeof keysets.$inferSelect;
+
 export const keysetRelations = relations(keysets, ({ one, many }) => ({
   profileData: one(profiles, {
     fields: [keysets.profile],
@@ -52,6 +56,8 @@ export const designers = pgTable("designers", {
   created_at,
 });
 
+export type Designer = typeof designers.$inferSelect;
+
 export const designerRelations = relations(designers, ({ many }) => ({
   designs: many(designs),
 }));
@@ -65,6 +71,8 @@ export const designs = pgTable("designs", {
     .references(() => keysets.id),
   created_at,
 });
+
+export type Design = typeof designs.$inferSelect;
 
 export const designRelations = relations(designs, ({ one }) => ({
   designer: one(designers, {
@@ -83,6 +91,8 @@ export const vendors = pgTable("vendors", {
   country: text("country"),
 });
 
+export type Vendor = typeof vendors.$inferSelect;
+
 export const vendorRelations = relations(vendors, ({ many }) => ({
   listings: many(listings),
 }));
@@ -100,6 +110,8 @@ export const listings = pgTable("listings", {
   gbEnd: date("gb_end"),
 });
 
+export type Listing = typeof listings.$inferSelect;
+
 export const listingRelations = relations(listings, ({ one }) => ({
   keyset: one(keysets, {
     fields: [listings.keysetId],
@@ -115,3 +127,5 @@ export const manufacturers = pgTable("manufacturers", {
   name: text("name").primaryKey(),
   created_at,
 });
+
+export type Manufacturer = typeof manufacturers.$inferSelect;

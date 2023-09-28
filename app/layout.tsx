@@ -1,3 +1,4 @@
+import CssBaseline from "@mui/material/CssBaseline";
 import type {} from "@mui/material/themeCssVarsAugmentation";
 import "./globals.scss";
 import {
@@ -38,6 +39,7 @@ export default function RootLayout({
         <InitColorScheme />
         <ThemeRegistry options={{ key: "mui", prepend: true }}>
           <ColorSchemeProvider>
+            <CssBaseline />
             <main>{children}</main>
           </ColorSchemeProvider>
         </ThemeRegistry>

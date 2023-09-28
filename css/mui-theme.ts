@@ -17,7 +17,7 @@ import type {
   TypescaleValue,
 } from "@mui/material-next";
 import type { StrictModifiers } from "@popperjs/core";
-import { camelCase } from "lodash";
+import camelCase from "lodash/camelCase";
 import { safeDeepAssign, type RemoveIndexSignature } from "@/logic/lib/utils";
 
 declare module "@mui/material-next/styles/Theme.types" {
@@ -589,6 +589,14 @@ export const componentsTheme: { components?: Components<Theme> } = {
           minHeight: 24,
           display: "flex",
           alignItems: "center",
+        }),
+      },
+    },
+    MuiTableCell: {
+      styleOverrides: {
+        root: ({ theme }) => ({
+          borderColor: theme.vars.sys.color.outline,
+          color: theme.vars.sys.color.onSurface,
         }),
       },
     },

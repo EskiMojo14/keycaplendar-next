@@ -1,3 +1,4 @@
+import Container from "@mui/material/Container";
 import Icon from "@mui/material/Icon";
 import IconButton from "@mui/material/IconButton";
 import Toolbar from "@mui/material/Toolbar";
@@ -8,7 +9,9 @@ import { cookies } from "next/headers";
 import Link from "next/link";
 import LogoutButton from "../components/logout-button";
 import { ColorPicker, ColorSchemeToggle } from "@/components/color-scheme";
+import { DisplayTable } from "@/components/display";
 import AppBar from "@/components/md/app-bar";
+import { selectKeysets } from "@/logic/drizzle";
 
 export const dynamic = "force-dynamic";
 
@@ -18,6 +21,8 @@ export default async function Index() {
   const {
     data: { user },
   } = await supabase.auth.getUser();
+
+  const entries = await selectKeysets;
 
   return (
     <div>
@@ -41,6 +46,9 @@ export default async function Index() {
           <ColorPicker />
         </Toolbar>
       </AppBar>
+      <Container maxWidth="lg">
+        <DisplayTable data={entries} />
+      </Container>
     </div>
   );
 }

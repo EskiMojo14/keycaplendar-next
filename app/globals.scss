@@ -1,16 +1,11 @@
-@import url(normalize.css);
-
-fieldset.MuiOutlinedInput-notchedOutline {
-  padding: 0 8px;
-}
-
 * {
   box-sizing: border-box;
 }
 
-html {
+body {
   background-color: var(--md-sys-color-background);
   color: var(--md-sys-color-onBackground);
+  font-family: var(--md-ref-typeface-plain);
 }
 
 pre,
