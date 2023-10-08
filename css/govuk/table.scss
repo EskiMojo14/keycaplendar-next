@@ -1,0 +1,46 @@
+@use "css/util";
+
+.govuk-table {
+  &__sort-label {
+    @include util.button-reset;
+    padding: 0 1em 0 0;
+    position: relative;
+    [aria-sort] & {
+      &::before {
+        content: " \25bc";
+        position: absolute;
+        right: -2px;
+        top: 10px;
+        font-size: 0.5em;
+      }
+      &::after {
+        content: " \25b2";
+        position: absolute;
+        right: -2px;
+        top: 1px;
+        font-size: 0.5em;
+      }
+    }
+    [aria-sort="ascending"] &::before,
+    [aria-sort="descending"] &::before {
+      content: none;
+    }
+    [aria-sort="ascending"] &::after {
+      content: " \25b2";
+      font-size: 0.7em;
+      position: absolute;
+      right: -2px;
+      top: 2px;
+    }
+    [aria-sort="descending"] &::after {
+      content: " \25bc";
+      font-size: 0.7em;
+      position: absolute;
+      right: -2px;
+      top: 2px;
+    }
+  }
+  &__sort-status {
+    @include util.hide;
+  }
+}

@@ -52,3 +52,7 @@ type DeepPartialArray<Thing> = Array<DeepPartial<Thing>>;
 type DeepPartialObject<Thing> = {
   [Key in keyof Thing]?: DeepPartial<Thing[Key]>;
 };
+
+export type Tail<T extends Array<unknown>> = T extends [unknown, ...infer Tail]
+  ? Tail
+  : never;

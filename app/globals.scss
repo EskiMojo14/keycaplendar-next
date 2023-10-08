@@ -1,3 +1,21 @@
+@use "sass:map";
+@use "sass-material-colors" as mdPalette;
+@use "css/util";
+@use "govuk-frontend/govuk/settings/colours-palette" as govPalette;
+
+$plain-font: Lato, Roboto, system-ui, sans-serif;
+$brand-font: "Josefin Slab", Rockwell, "Rockwell Nova", "Roboto Slab",
+  "DejaVu Serif", "Sitka Small", serif;
+$mono-font: "Martian Mono", ui-monospace, "Cascadia Code", "Source Code Pro",
+  Menlo, Consolas, "DejaVu Sans Mono", monospace;
+
+@use "govuk-frontend/govuk/all" with (
+  $govuk-font-family: $plain-font,
+  $govuk-brand-colour: map.get(govPalette.$govuk-colours, "purple")
+);
+
+@use "css/govuk";
+
 * {
   box-sizing: border-box;
 }
@@ -5,13 +23,12 @@
 body {
   background-color: var(--md-sys-color-background);
   color: var(--md-sys-color-onBackground);
-  font-family: var(--md-ref-typeface-plain);
+  font-family: $plain-font;
 }
 
 pre,
 code {
-  font-family: "Martian Mono", ui-monospace, "Cascadia Code", "Source Code Pro",
-    Menlo, Consolas, "DejaVu Sans Mono", monospace;
+  font-family: $mono-font;
 }
 
 a.no-underline {

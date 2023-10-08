@@ -1,8 +1,6 @@
 "use client";
 import Box from "@mui/material/Box";
 import Icon from "@mui/material/Icon";
-import Paper from "@mui/material/Paper";
-import TableContainer from "@mui/material/TableContainer";
 import Chip from "@mui/material-next/Chip";
 import {
   createColumnHelper,
@@ -11,9 +9,8 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import Link from "next/link";
-import { ReactTable } from "./md/table";
+import { ReactTable } from "./govuk/table";
 import { type Design, type Keyset, type Listing } from "@/logic/drizzle/schema";
-import { castSx } from "@/logic/lib/utils";
 
 type KeysetWithDesignsAndListings = Keyset & {
   designs: Array<Design>;
@@ -83,15 +80,5 @@ export function DisplayTable({
     getSortedRowModel: getSortedRowModel(),
     enableSortingRemoval: false,
   });
-  return (
-    <TableContainer
-      component={Paper}
-      sx={castSx((theme) => ({
-        backgroundColor: theme.vars.sys.color.surfaceContainer,
-        color: theme.vars.sys.color.onSurface,
-      }))}
-    >
-      <ReactTable table={table} />
-    </TableContainer>
-  );
+  return <ReactTable table={table} />;
 }

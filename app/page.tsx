@@ -10,6 +10,7 @@ import Link from "next/link";
 import LogoutButton from "../components/logout-button";
 import { ColorPicker, ColorSchemeToggle } from "@/components/color-scheme";
 import { DisplayTable } from "@/components/display";
+import Button, { ButtonGroup } from "@/components/govuk/button";
 import AppBar from "@/components/md/app-bar";
 import { selectKeysets } from "@/logic/drizzle";
 
@@ -47,6 +48,15 @@ export default async function Index() {
         </Toolbar>
       </AppBar>
       <Container maxWidth="lg">
+        <ButtonGroup>
+          <Button>A button</Button>
+          <Button color="secondary">Secondary</Button>
+          <Button color="warning">Warning</Button>
+          <Button color="inverse">Inverse</Button>
+          <Button color="warning" disabled>
+            A button
+          </Button>
+        </ButtonGroup>
         <DisplayTable data={entries} />
       </Container>
     </div>

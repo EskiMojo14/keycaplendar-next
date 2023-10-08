@@ -6,6 +6,7 @@ import {
   ColorSchemeProvider,
   ThemeRegistry,
 } from "@/components/color-scheme";
+import JSEnabled from "@/components/govuk/js-enabled";
 
 export const metadata = {
   title: "Keycaplendar",
@@ -37,6 +38,7 @@ export default function RootLayout({
       </head>
       <body>
         <InitColorScheme />
+        <JSEnabled />
         <ThemeRegistry options={{ key: "mui", prepend: true }}>
           <ColorSchemeProvider>
             <CssBaseline />
