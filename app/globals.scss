@@ -1,5 +1,4 @@
 @use "sass:map";
-@use "sass-material-colors" as mdPalette;
 @use "css/util";
 @use "govuk-frontend/govuk/settings/colours-palette" as govPalette;
 
@@ -21,8 +20,6 @@ $mono-font: "Martian Mono", ui-monospace, "Cascadia Code", "Source Code Pro",
 }
 
 body {
-  background-color: var(--md-sys-color-background);
-  color: var(--md-sys-color-onBackground);
   font-family: $plain-font;
 }
 

@@ -1,16 +1,14 @@
 "use client";
-import Box from "@mui/material/Box";
-import Icon from "@mui/material/Icon";
-import Chip from "@mui/material-next/Chip";
 import {
   createColumnHelper,
   getCoreRowModel,
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import Link from "next/link";
+import Link from "./govuk/link";
+import List from "./govuk/list";
 import { ReactTable } from "./govuk/table";
-import { type Design, type Keyset, type Listing } from "@/logic/drizzle/schema";
+import type { Design, Keyset, Listing } from "@/logic/drizzle/schema";
 
 type KeysetWithDesignsAndListings = Keyset & {
   designs: Array<Design>;
@@ -27,15 +25,11 @@ const columns = [
     cell: ({ getValue }) => {
       const designs = getValue();
       return designs.length ? (
-        <Box display="flex" gap={1} flexWrap="wrap">
+        <List>
           {designs.map((design) => (
-            <Chip
-              key={design.designerName}
-              variant="outlined"
-              label={design.designerName}
-            />
+            <li key={design.designerName}>{design.designerName}</li>
           ))}
-        </Box>
+        </List>
       ) : null;
     },
     enableSorting: false,
@@ -45,23 +39,17 @@ const columns = [
     cell: ({ getValue }) => {
       const listings = getValue();
       return listings.length ? (
-        <Box display="flex" gap={1} flexWrap="wrap">
+        <List variant="bullet">
           {listings.map((listing) =>
             listing.url ? (
-              <Chip
-                component={Link}
-                key={listing.vendorName}
-                icon={<Icon fontSize="small">open_in_new</Icon>}
-                label={listing.vendorName}
-                href={listing.url}
-                target="_blank"
-                rel="noopener noreferrer"
-              />
+              <li key={listing.vendorName}>
+                <Link href={listing.url}>{listing.vendorName}</Link>
+              </li>
             ) : (
-              <Chip key={listing.vendorName} label={listing.vendorName} />
+              <li key={listing.vendorName}>{listing.vendorName}</li>
             ),
           )}
-        </Box>
+        </List>
       ) : null;
     },
     enableSorting: false,

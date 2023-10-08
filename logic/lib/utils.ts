@@ -1,9 +1,4 @@
-import { deepmerge } from "@mui/utils";
-import type { SxProps as NextSxProps } from "@mui/material-next/styles";
-import type { SxProps, Theme } from "@mui/material/styles";
 import "@total-typescript/ts-reset";
-
-export const castSx = (sx: NextSxProps) => sx as SxProps<Theme>;
 
 export const braidArrays = <T>(
   arr1: ReadonlyArray<T>,
@@ -23,9 +18,6 @@ export const noopTaggedTemplate = (
   strings: TemplateStringsArray,
   ...expressions: Array<unknown>
 ) => braidArrays(strings, expressions).join("");
-
-export const safeDeepAssign = <T>(target: T, source: DeepPartial<NoInfer<T>>) =>
-  deepmerge(target, source, { clone: false });
 
 export type RemoveIndexSignature<T> = {
   [K in keyof T as string extends K

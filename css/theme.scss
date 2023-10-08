@@ -1,7 +1,0 @@
-@mixin typography($style, $size) {
-  font-family: var(--md-sys-typescale-#{$style}-#{$size}-family);
-  font-weight: var(--md-sys-typescale-#{$style}-#{$size}-weight);
-  font-size: var(--md-sys-typescale-#{$style}-#{$size}-size);
-  letter-spacing: var(--md-sys-typescale-#{$style}-#{$size}-tracking);
-  line-height: calc(var(--md-sys-typescale-#{$style}-#{$size}-lineHeight) / 14);
-}
