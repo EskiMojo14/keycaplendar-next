@@ -1,4 +1,3 @@
-import Container from "@mui/material/Container";
 import Messages from "./messages";
 import styles from "./page.module.scss";
 import Button, { ButtonGroup } from "@/components/govuk/button";
@@ -6,14 +5,15 @@ import Fieldset, {
   FieldsetHeading,
   FieldsetLegend,
 } from "@/components/govuk/fieldset";
+import { MainWrapper, WidthContainer } from "@/components/govuk/grid";
 import { InputFormGroup } from "@/components/govuk/input";
 import { BackLink } from "@/components/govuk/link";
 
 export default function Login() {
   return (
-    <>
+    <WidthContainer>
       <BackLink href="/">Back</BackLink>
-      <Container maxWidth="sm" sx={{ p: 2 }}>
+      <MainWrapper>
         <form action="/auth/sign-in" method="post" className={styles.form}>
           <Fieldset>
             <FieldsetLegend size="l">
@@ -36,7 +36,7 @@ export default function Login() {
           </ButtonGroup>
           <Messages />
         </form>
-      </Container>
-    </>
+      </MainWrapper>
+    </WidthContainer>
   );
 }

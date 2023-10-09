@@ -24,7 +24,6 @@ module.exports = {
   rules: {
     "@typescript-eslint/consistent-type-imports": "error",
     "@typescript-eslint/array-type": ["error", { default: "generic" }],
-    "mui-path-imports/mui-path-imports": "error",
     "no-restricted-imports": "off",
     "@typescript-eslint/no-restricted-imports": [
       "error",

@@ -12,7 +12,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" data-mui-color-scheme="dark">
+    <html lang="en" className="govuk-template">
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
@@ -25,9 +25,9 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body>
+      <body className="govuk-template__body">
         <JSEnabled />
-        <main>{children}</main>
+        {children}
       </body>
     </html>
   );
