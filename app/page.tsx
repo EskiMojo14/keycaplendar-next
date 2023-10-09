@@ -15,6 +15,8 @@ import Header, {
 import Navigation, {
   NavigationItem,
 } from "@/components/govuk/header/navigation";
+import Link from "@/components/govuk/link";
+import List from "@/components/govuk/list";
 import SummaryCard, {
   SummaryCardContent,
   SummaryCardTitle,
@@ -78,9 +80,29 @@ export default async function Index() {
                   <SummaryListRow>
                     <SummaryListKey>Designer(s)</SummaryListKey>
                     <SummaryListValue>
-                      {entry.designs
-                        .map((design) => design.designerName)
-                        .join(", ")}
+                      <List>
+                        {entry.designs.map(({ designerName }) => (
+                          <li key={designerName}>{designerName}</li>
+                        ))}
+                      </List>
+                    </SummaryListValue>
+                  </SummaryListRow>
+                  <SummaryListRow>
+                    <SummaryListKey>Vendors</SummaryListKey>
+                    <SummaryListValue>
+                      <List variant="bullet">
+                        {entry.listings.map((listing) => (
+                          <li key={listing.vendorName}>
+                            {listing.url ? (
+                              <Link href={listing.url}>
+                                {listing.vendorName}
+                              </Link>
+                            ) : (
+                              listing.vendorName
+                            )}
+                          </li>
+                        ))}
+                      </List>
                     </SummaryListValue>
                   </SummaryListRow>
                 </SummaryList>
