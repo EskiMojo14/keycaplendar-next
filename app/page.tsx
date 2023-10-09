@@ -27,7 +27,9 @@ import SummaryList, {
   SummaryListRow,
   SummaryListValue,
 } from "@/components/govuk/summary-list";
+import StatusTag from "@/components/status-tag";
 import { selectKeysets } from "@/logic/drizzle";
+import { getKeysetStatus } from "@/logic/lib/date";
 import { getKeysetName } from "@/logic/lib/format";
 
 export const dynamic = "force-dynamic";
@@ -66,45 +68,54 @@ export default async function Index() {
               <Button>Log in</Button>
             </NextLink>
           )}
-          {entries.map((entry) => (
-            <SummaryCard key={entry.id}>
-              <SummaryCardTitleWrapper>
-                <SummaryCardTitle>{getKeysetName(entry)}</SummaryCardTitle>
-              </SummaryCardTitleWrapper>
-              <SummaryCardContent>
-                <SummaryList>
-                  <SummaryListRow>
-                    <SummaryListKey>Designer(s)</SummaryListKey>
-                    <SummaryListValue>
-                      <List>
-                        {entry.designs.map(({ designerName }) => (
-                          <li key={designerName}>{designerName}</li>
-                        ))}
-                      </List>
-                    </SummaryListValue>
-                  </SummaryListRow>
-                  <SummaryListRow>
-                    <SummaryListKey>Vendors</SummaryListKey>
-                    <SummaryListValue>
-                      <List variant="bullet">
-                        {entry.listings.map((listing) => (
-                          <li key={listing.vendorName}>
-                            {listing.url ? (
-                              <Link href={listing.url}>
-                                {listing.vendorName}
-                              </Link>
-                            ) : (
-                              listing.vendorName
-                            )}
-                          </li>
-                        ))}
-                      </List>
-                    </SummaryListValue>
-                  </SummaryListRow>
-                </SummaryList>
-              </SummaryCardContent>
-            </SummaryCard>
-          ))}
+          {entries.map((entry) => {
+            const status = getKeysetStatus(entry);
+            return (
+              <SummaryCard key={entry.id}>
+                <SummaryCardTitleWrapper>
+                  <SummaryCardTitle>{getKeysetName(entry)}</SummaryCardTitle>
+                </SummaryCardTitleWrapper>
+                <SummaryCardContent>
+                  <SummaryList>
+                    <SummaryListRow>
+                      <SummaryListKey>Designer(s)</SummaryListKey>
+                      <SummaryListValue>
+                        <List>
+                          {entry.designs.map(({ designerName }) => (
+                            <li key={designerName}>{designerName}</li>
+                          ))}
+                        </List>
+                      </SummaryListValue>
+                    </SummaryListRow>
+                    <SummaryListRow>
+                      <SummaryListKey>Vendors</SummaryListKey>
+                      <SummaryListValue>
+                        <List variant="bullet">
+                          {entry.listings.map((listing) => (
+                            <li key={listing.vendorName}>
+                              {listing.url ? (
+                                <Link href={listing.url}>
+                                  {listing.vendorName}
+                                </Link>
+                              ) : (
+                                listing.vendorName
+                              )}
+                            </li>
+                          ))}
+                        </List>
+                      </SummaryListValue>
+                    </SummaryListRow>
+                    <SummaryListRow>
+                      <SummaryListKey>Status</SummaryListKey>
+                      <SummaryListValue>
+                        <StatusTag status={status} />
+                      </SummaryListValue>
+                    </SummaryListRow>
+                  </SummaryList>
+                </SummaryCardContent>
+              </SummaryCard>
+            );
+          })}
           <DisplayTable data={entries} />
         </MainWrapper>
       </WidthContainer>

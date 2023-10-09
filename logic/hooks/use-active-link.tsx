@@ -12,7 +12,6 @@ export const useActiveLink = (
 ) => {
   const pathname = usePathname();
   const sanitizedPath = pathname.split("#")[0]?.split("?")[0];
-  console.log(sanitizedPath);
   // check if the link or a sub-page is active and return the according class name
   // remove trailing slash if present
   if (typeof href === "object") {

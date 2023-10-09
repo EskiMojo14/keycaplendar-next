@@ -8,7 +8,9 @@ import {
 import Link from "./govuk/link";
 import List from "./govuk/list";
 import { ReactTable } from "./govuk/table";
+import StatusTag from "./status-tag";
 import type { Design, Keyset, Listing } from "@/logic/drizzle/schema";
+import { getKeysetStatus } from "@/logic/lib/date";
 
 type KeysetWithDesignsAndListings = Keyset & {
   designs: Array<Design>;
@@ -53,6 +55,10 @@ const columns = [
       ) : null;
     },
     enableSorting: false,
+  }),
+  columnHelper.accessor(getKeysetStatus, {
+    header: "Status",
+    cell: ({ getValue }) => <StatusTag status={getValue()} />,
   }),
 ];
 
