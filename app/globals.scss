@@ -2,14 +2,12 @@
 @use "css/util";
 @use "govuk-frontend/govuk/settings/colours-palette" as govPalette;
 
-$plain-font: Lato, Roboto, system-ui, sans-serif;
-$brand-font: "Josefin Slab", Rockwell, "Rockwell Nova", "Roboto Slab",
-  "DejaVu Serif", "Sitka Small", serif;
+$brand-font: Lato, Roboto, system-ui, sans-serif;
 $mono-font: "Martian Mono", ui-monospace, "Cascadia Code", "Source Code Pro",
   Menlo, Consolas, "DejaVu Sans Mono", monospace;
 
 @use "govuk-frontend/govuk/all" with (
-  $govuk-font-family: $plain-font,
+  $govuk-font-family: $brand-font,
   $govuk-brand-colour: map.get(govPalette.$govuk-colours, "purple")
 );
 
@@ -20,7 +18,7 @@ $mono-font: "Martian Mono", ui-monospace, "Cascadia Code", "Source Code Pro",
 }
 
 body {
-  font-family: $plain-font;
+  font-family: $brand-font;
 }
 
 pre,

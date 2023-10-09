@@ -4,12 +4,14 @@ import type { ComponentPropsWithoutRef } from "react";
 import { forwardRef, useReducer } from "react";
 import { HeaderLink, headerClasses } from ".";
 import { useActiveLink } from "@/logic/hooks/use-active-link";
+import { useIsMounted } from "@/logic/hooks/use-is-mounted";
 import { useMediaQuery } from "@/logic/hooks/use-media-query";
 
 export default forwardRef<HTMLElement, ComponentPropsWithoutRef<"nav">>(
   function Navigation({ className, children, ...props }, ref) {
     const [navExpanded, toggleNav] = useReducer((b) => !b, false);
-    const collapseNav = !useMediaQuery("(min-width: 48.0625em)");
+    const largeScreen = useMediaQuery("(min-width: 48.0625em)");
+    const mounted = useIsMounted();
     return (
       <nav
         ref={ref}
@@ -26,7 +28,7 @@ export default forwardRef<HTMLElement, ComponentPropsWithoutRef<"nav">>(
           )}
           aria-controls="navigation"
           aria-label="Show or hide menu"
-          hidden={!collapseNav}
+          hidden={!mounted || largeScreen}
           aria-expanded={navExpanded}
           onClick={toggleNav}
         >
@@ -35,7 +37,7 @@ export default forwardRef<HTMLElement, ComponentPropsWithoutRef<"nav">>(
         <ul
           id="navigation"
           className={headerClasses("navigation-list")}
-          hidden={collapseNav && !navExpanded}
+          hidden={mounted && !largeScreen && !navExpanded}
         >
           {children}
         </ul>
