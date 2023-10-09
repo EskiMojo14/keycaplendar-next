@@ -62,6 +62,9 @@ export function DisplayTable({
   data: Array<KeysetWithDesignsAndListings>;
 }) {
   const table = useReactTable({
+    initialState: {
+      sorting: [{ id: "profile", desc: false }],
+    },
     data,
     columns,
     getCoreRowModel: getCoreRowModel(),
