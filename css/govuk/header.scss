@@ -1,0 +1,11 @@
+@use "govuk-frontend/govuk/all" as govuk;
+
+.govuk-header {
+  &--app {
+    border-bottom: 10px solid govuk.$govuk-brand-colour;
+    .govuk-header__container {
+      margin-bottom: 0;
+      border-bottom: 0;
+    }
+  }
+}

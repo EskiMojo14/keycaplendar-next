@@ -26,7 +26,7 @@ export default forwardRef<HTMLAnchorElement, LinkProps>(function Link(
         modifiers: {
           "no-underline": noUnderline,
           "no-visited-state": noVisitedState,
-          ...(color && { [color]: true }),
+          [color ?? ""]: true,
         },
         extra: className,
       })}
@@ -49,7 +49,7 @@ export const BackLink = forwardRef<HTMLAnchorElement, BacklinkProps>(
         ref={ref}
         {...props}
         className={backLinkClasses({
-          modifiers: { ...(color && { [color]: true }) },
+          modifiers: { [color ?? ""]: true },
           extra: className,
         })}
       />

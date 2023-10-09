@@ -1,13 +1,13 @@
 /** @type {import('eslint').Linter.Config} */
 module.exports = {
-  plugins: ["@typescript-eslint", "mui-path-imports", "lodash"],
+  plugins: ["@typescript-eslint", "lodash"],
   extends: [
     "eslint:recommended",
     "plugin:@typescript-eslint/strict-type-checked",
     "plugin:@typescript-eslint/stylistic-type-checked",
+    "plugin:@next/next/core-web-vitals",
     "plugin:import/recommended",
     "plugin:import/typescript",
-    "plugin:@next/next/recommended",
   ],
   parser: "@typescript-eslint/parser",
   parserOptions: {
