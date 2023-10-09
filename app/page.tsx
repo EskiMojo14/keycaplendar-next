@@ -28,6 +28,7 @@ import SummaryList, {
   SummaryListValue,
 } from "@/components/govuk/summary-list";
 import { selectKeysets } from "@/logic/drizzle";
+import { getKeysetName } from "@/logic/lib/format";
 
 export const dynamic = "force-dynamic";
 
@@ -68,12 +69,7 @@ export default async function Index() {
           {entries.map((entry) => (
             <SummaryCard key={entry.id}>
               <SummaryCardTitleWrapper>
-                <SummaryCardTitle>
-                  {entry.profile === "Cherry"
-                    ? entry.manufacturer ?? entry.profile
-                    : entry.profile}{" "}
-                  {entry.colorway}
-                </SummaryCardTitle>
+                <SummaryCardTitle>{getKeysetName(entry)}</SummaryCardTitle>
               </SummaryCardTitleWrapper>
               <SummaryCardContent>
                 <SummaryList>
