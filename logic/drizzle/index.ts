@@ -16,5 +16,3 @@ export const selectKeysets = db.query.keysets.findMany({
     listings: true,
   },
 });
-
-console.log(selectKeysets.toSQL());
