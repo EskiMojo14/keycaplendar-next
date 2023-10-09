@@ -1,9 +1,7 @@
 "use client";
-import { Button as GovUKButton } from "govuk-frontend";
 import type { ComponentPropsWithoutRef } from "react";
 import { forwardRef, useRef } from "react";
 import { mergeRefs } from "react-merge-refs";
-import { makeUseModule } from "./use-module";
 import { govukBem } from ".";
 
 export interface ButtonProps extends ComponentPropsWithoutRef<"button"> {
@@ -12,14 +10,11 @@ export interface ButtonProps extends ComponentPropsWithoutRef<"button"> {
 
 const buttonClasses = govukBem("button");
 
-const useButton = makeUseModule(GovUKButton, "Button");
-
 export default forwardRef<HTMLButtonElement, ButtonProps>(function Button(
   { className, color, ...props },
   ref,
 ) {
   const ownRef = useRef<HTMLButtonElement>(null);
-  useButton(ownRef);
   return (
     <button
       {...props}
