@@ -1,6 +1,6 @@
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
-import Link from "next/link";
+import NextLink from "next/link";
 import LogoutButton from "../components/logout-button";
 import { DisplayTable } from "@/components/display";
 import Button from "@/components/govuk/button";
@@ -15,6 +15,16 @@ import Header, {
 import Navigation, {
   NavigationItem,
 } from "@/components/govuk/header/navigation";
+import SummaryCard, {
+  SummaryCardContent,
+  SummaryCardTitle,
+  SummaryCardTitleWrapper,
+} from "@/components/govuk/summary-card";
+import SummaryList, {
+  SummaryListKey,
+  SummaryListRow,
+  SummaryListValue,
+} from "@/components/govuk/summary-list";
 import { selectKeysets } from "@/logic/drizzle";
 
 export const dynamic = "force-dynamic";
@@ -49,10 +59,34 @@ export default async function Index() {
           {user ? (
             <LogoutButton />
           ) : (
-            <Link href="/login" style={{ textDecoration: "none" }}>
+            <NextLink href="/login" style={{ textDecoration: "none" }}>
               <Button>Log in</Button>
-            </Link>
+            </NextLink>
           )}
+          {entries.map((entry) => (
+            <SummaryCard key={entry.id}>
+              <SummaryCardTitleWrapper>
+                <SummaryCardTitle>
+                  {entry.profile === "Cherry"
+                    ? entry.manufacturer ?? entry.profile
+                    : entry.profile}{" "}
+                  {entry.colorway}
+                </SummaryCardTitle>
+              </SummaryCardTitleWrapper>
+              <SummaryCardContent>
+                <SummaryList>
+                  <SummaryListRow>
+                    <SummaryListKey>Designer(s)</SummaryListKey>
+                    <SummaryListValue>
+                      {entry.designs
+                        .map((design) => design.designerName)
+                        .join(", ")}
+                    </SummaryListValue>
+                  </SummaryListRow>
+                </SummaryList>
+              </SummaryCardContent>
+            </SummaryCard>
+          ))}
           <DisplayTable data={entries} />
         </MainWrapper>
       </WidthContainer>
