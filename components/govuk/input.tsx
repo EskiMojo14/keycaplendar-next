@@ -1,7 +1,7 @@
 import type { ComponentPropsWithoutRef, ReactNode } from "react";
 import { forwardRef } from "react";
 import ErrorMessage from "./error-message";
-import FormGroup from "./formgroup";
+import FormGroup from "./form-group";
 import Hint from "./hint";
 import Label, { LabelWrapper } from "./label";
 import { govukBem } from ".";
@@ -90,12 +90,15 @@ interface InputFormGroupProps extends InputProps {
   label: ReactNode;
   labelIsHeading?: boolean;
   labelSize?: "xl" | "l" | "m" | "s";
-  hint?: ReactNode;
-  errorMessage?: ReactNode;
+  hint?: string;
+  errorMessage?: string;
 }
 
 const append = (base: string | undefined, suffix: string) =>
   base && base + suffix;
+
+const describedBy = (...ids: Array<string | undefined>) =>
+  ids.filter(Boolean).join(" ");
 
 export const InputFormGroup = forwardRef<HTMLInputElement, InputFormGroupProps>(
   function InputFormGroup(
@@ -107,14 +110,21 @@ export const InputFormGroup = forwardRef<HTMLInputElement, InputFormGroupProps>(
         {label}
       </Label>
     );
+    const hintId = append(id, "-hint");
+    const errorId = append(id, "-error");
     return (
       <FormGroup>
         {labelIsHeading ? <LabelWrapper>{labelEl}</LabelWrapper> : labelEl}
-        {hint && <Hint id={append(id, "-hint")}>{hint}</Hint>}
+        {hint && <Hint id={hintId}>{hint}</Hint>}
         {errorMessage && (
-          <ErrorMessage id={append(id, "-error")}>{errorMessage}</ErrorMessage>
+          <ErrorMessage id={errorId}>{errorMessage}</ErrorMessage>
         )}
-        <Input ref={ref} {...props} id="id" />
+        <Input
+          ref={ref}
+          aria-describedby={describedBy(hintId, errorId)}
+          {...props}
+          id="id"
+        />
       </FormGroup>
     );
   },
