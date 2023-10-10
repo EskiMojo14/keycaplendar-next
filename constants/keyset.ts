@@ -1,15 +1,8 @@
-export enum Status {
-  IC,
-  FutureGB,
-  Ongoing,
-  Closed,
-  Shipped,
-}
+import type { Status } from "@/logic/drizzle/schema";
 
 export const statusLabels: Record<Status, string> = {
-  [Status.IC]: "IC",
-  [Status.FutureGB]: "Future",
-  [Status.Ongoing]: "Ongoing",
-  [Status.Closed]: "Closed",
-  [Status.Shipped]: "Shipped",
+  ic: "IC",
+  future: "Future",
+  ongoing: "Ongoing",
+  closed: "Closed",
 };

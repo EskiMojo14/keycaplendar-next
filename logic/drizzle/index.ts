@@ -10,7 +10,16 @@ const client = postgres(connectionString);
 
 export const db = drizzle(client, { schema });
 
+export const pagesByStatus = {
+  calendar: ["ongoing", "future"],
+  live: ["ongoing"],
+  ic: ["ic"],
+  previous: ["closed"],
+  timeline: ["future", "ongoing", "future"],
+} satisfies Record<string, Array<schema.Status>>;
+
 export const selectKeysets = db.query.keysets.findMany({
+  where: (keysets, { inArray }) => inArray(keysets.status, ["ic", "closed"]),
   with: {
     designs: true,
     listings: true,

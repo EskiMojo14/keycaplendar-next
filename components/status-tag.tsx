@@ -1,17 +1,17 @@
 import type { TagProps } from "./govuk/tag";
 import Tag from "./govuk/tag";
-import { Status, statusLabels } from "@/constants/keyset";
+import { statusLabels } from "@/constants/keyset";
+import type { Status } from "@/logic/drizzle/schema";
 
 export interface StatusTagProps extends Omit<TagProps, "color"> {
   status: Status;
 }
 
 const statusColors: Record<Status, NonNullable<TagProps["color"]>> = {
-  [Status.IC]: "blue",
-  [Status.FutureGB]: "pink",
-  [Status.Ongoing]: "turquoise",
-  [Status.Closed]: "grey",
-  [Status.Shipped]: "green",
+  ic: "blue",
+  future: "pink",
+  ongoing: "turquoise",
+  closed: "grey",
 };
 
 export default function StatusTag({ status, ...props }: StatusTagProps) {

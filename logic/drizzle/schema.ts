@@ -1,5 +1,12 @@
 import { relations } from "drizzle-orm";
-import { boolean, date, pgTable, text, timestamp } from "drizzle-orm/pg-core";
+import {
+  boolean,
+  date,
+  pgEnum,
+  pgTable,
+  text,
+  timestamp,
+} from "drizzle-orm/pg-core";
 import { nanoid } from "nanoid";
 
 const created_at = timestamp("created_at", {
@@ -15,6 +22,15 @@ export const profiles = pgTable("profiles", {
 });
 
 export type Profile = typeof profiles.$inferSelect;
+
+export const statusEnum = pgEnum("keyset_status", [
+  "ic",
+  "future",
+  "ongoing",
+  "closed",
+]);
+
+export type Status = (typeof statusEnum.enumValues)[number];
 
 export const keysets = pgTable("keysets", {
   id: text("id")
@@ -34,6 +50,7 @@ export const keysets = pgTable("keysets", {
   notes: text("notes"),
   salesGraph: text("sales_graph"),
   shipped: boolean("shipped"),
+  status: statusEnum("status").notNull(),
 });
 
 export type Keyset = typeof keysets.$inferSelect;
