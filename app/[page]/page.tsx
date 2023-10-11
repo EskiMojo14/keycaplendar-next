@@ -28,7 +28,7 @@ export default async function Index({
 }) {
   const { page } = params;
   if (!(page in pagesByStatus)) {
-    redirect("/404");
+    redirect("/not-found");
   }
   const supabase = createServerComponentClient({ cookies });
 
