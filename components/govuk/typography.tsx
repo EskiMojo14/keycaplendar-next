@@ -42,7 +42,7 @@ export const Caption = forwardRef<HTMLSpanElement, CaptionProps>(
 const bodyClasses = govukBem({ name: "body", modifierDelimiter: "-" });
 
 interface BodyProps extends ComponentPropsWithoutRef<"h1"> {
-  size: "xl" | "l" | "m" | "s";
+  size?: "xl" | "l" | "m" | "s";
   lead?: boolean;
 }
 
@@ -53,7 +53,7 @@ export const Body = forwardRef<HTMLParagraphElement, BodyProps>(
         ref={ref}
         {...props}
         className={bodyClasses({
-          modifiers: [size, lead ? "lead" : ""],
+          modifiers: [size ?? "", lead ? "lead" : ""],
           extra: className,
         })}
       />
