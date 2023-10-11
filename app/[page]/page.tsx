@@ -6,17 +6,9 @@ import LogoutButton from "../../components/logout-button";
 import { DisplayCard } from "@/components/display-cards";
 import { DisplayTable } from "@/components/display-table";
 import Button from "@/components/govuk/button";
-import { MainWrapper, WidthContainer } from "@/components/govuk/grid";
-import Header, {
-  HeaderContent,
-  HeaderLink,
-  HeaderLogo,
-  HeaderLogotype,
-  HeaderService,
-} from "@/components/govuk/header";
-import Navigation, {
-  NavigationItem,
-} from "@/components/govuk/header/navigation";
+import { HeaderService } from "@/components/govuk/header";
+import { NavigationItem } from "@/components/govuk/header/navigation";
+import Template from "@/components/govuk/template";
 import { pagesByStatus, getKeysetsByPage } from "@/logic/drizzle";
 
 export const dynamic = "force-dynamic";
@@ -39,39 +31,29 @@ export default async function Index({
   const entries = await getKeysetsByPage(page);
 
   return (
-    <>
-      <Header app>
-        <HeaderLogo>
-          <HeaderLink href="/" homepage>
-            <HeaderLogotype>KeycapLendar</HeaderLogotype>
-          </HeaderLink>
-        </HeaderLogo>
-        <HeaderContent>
-          <HeaderService href="/">Home</HeaderService>
-          <Navigation>
-            <NavigationItem href="/calendar">Calendar</NavigationItem>
-            <NavigationItem href="/live">Live</NavigationItem>
-            <NavigationItem href="/ic">IC</NavigationItem>
-            <NavigationItem href="/previous">Previous</NavigationItem>
-            <NavigationItem href="/timeline">Timeline</NavigationItem>
-          </Navigation>
-        </HeaderContent>
-      </Header>
-      <WidthContainer>
-        <MainWrapper size="l">
-          {user ? (
-            <LogoutButton />
-          ) : (
-            <NextLink href="/login" style={{ textDecoration: "none" }}>
-              <Button>Log in</Button>
-            </NextLink>
-          )}
-          {entries.map((entry) => (
-            <DisplayCard key={entry.id} keyset={entry} />
-          ))}
-          <DisplayTable data={entries} />
-        </MainWrapper>
-      </WidthContainer>
-    </>
+    <Template
+      service={<HeaderService href="/">Home</HeaderService>}
+      nav={
+        <>
+          <NavigationItem href="/calendar">Calendar</NavigationItem>
+          <NavigationItem href="/live">Live</NavigationItem>
+          <NavigationItem href="/ic">IC</NavigationItem>
+          <NavigationItem href="/previous">Previous</NavigationItem>
+          <NavigationItem href="/timeline">Timeline</NavigationItem>
+        </>
+      }
+    >
+      {user ? (
+        <LogoutButton />
+      ) : (
+        <NextLink href="/login" style={{ textDecoration: "none" }}>
+          <Button>Log in</Button>
+        </NextLink>
+      )}
+      {entries.map((entry) => (
+        <DisplayCard key={entry.id} keyset={entry} />
+      ))}
+      <DisplayTable data={entries} />
+    </Template>
   );
 }

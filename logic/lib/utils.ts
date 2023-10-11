@@ -48,3 +48,5 @@ type DeepPartialObject<Thing> = {
 export type Tail<T extends Array<unknown>> = T extends [unknown, ...infer Tail]
   ? Tail
   : never;
+
+export type Satisfies<T extends U, U> = T;
