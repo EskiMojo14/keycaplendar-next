@@ -1,6 +1,7 @@
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 import NextLink from "next/link";
+import { redirect } from "next/navigation";
 import LogoutButton from "../../components/logout-button";
 import { DisplayCard } from "@/components/display-cards";
 import { DisplayTable } from "@/components/display-table";
@@ -16,8 +17,7 @@ import Header, {
 import Navigation, {
   NavigationItem,
 } from "@/components/govuk/header/navigation";
-import type { pagesByStatus } from "@/logic/drizzle";
-import { getKeysetsByPage } from "@/logic/drizzle";
+import { pagesByStatus, getKeysetsByPage } from "@/logic/drizzle";
 
 export const dynamic = "force-dynamic";
 
@@ -26,13 +26,17 @@ export default async function Index({
 }: {
   params: { page: keyof typeof pagesByStatus };
 }) {
+  const { page } = params;
+  if (!(page in pagesByStatus)) {
+    redirect("/404");
+  }
   const supabase = createServerComponentClient({ cookies });
 
   const {
     data: { user },
   } = await supabase.auth.getUser();
 
-  const entries = await getKeysetsByPage(params.page);
+  const entries = await getKeysetsByPage(page);
 
   return (
     <>
