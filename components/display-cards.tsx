@@ -1,3 +1,4 @@
+import type { Route } from "next";
 import Link from "@/components/govuk/link";
 import List from "@/components/govuk/list";
 import SummaryCard, {
@@ -47,7 +48,9 @@ export const DisplayCard = ({
               {keyset.listings.map((listing) => (
                 <li key={listing.vendorName}>
                   {listing.url ? (
-                    <Link href={listing.url}>{listing.vendorName}</Link>
+                    <Link href={listing.url as Route}>
+                      {listing.vendorName}
+                    </Link>
                   ) : (
                     listing.vendorName
                   )}

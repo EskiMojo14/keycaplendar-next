@@ -5,6 +5,7 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
+import type { Route } from "next";
 import Link from "./govuk/link";
 import List from "./govuk/list";
 import { ReactTable } from "./govuk/table";
@@ -44,7 +45,7 @@ const columns = [
           {listings.map((listing) =>
             listing.url ? (
               <li key={listing.vendorName}>
-                <Link href={listing.url}>{listing.vendorName}</Link>
+                <Link href={listing.url as Route}>{listing.vendorName}</Link>
               </li>
             ) : (
               <li key={listing.vendorName}>{listing.vendorName}</li>
