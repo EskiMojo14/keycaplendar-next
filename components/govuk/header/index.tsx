@@ -1,9 +1,10 @@
 import type { LinkProps } from "next/link";
 import Link from "next/link";
-import type { ComponentPropsWithoutRef } from "react";
+import type { ComponentPropsWithoutRef, ForwardedRef } from "react";
 import { forwardRef } from "react";
 import { govukBem } from "..";
 import { WidthContainer } from "../grid";
+import { forwardGenericRef } from "@/logic/lib/react";
 
 export const headerClasses = govukBem("header");
 
@@ -18,9 +19,9 @@ export default forwardRef<HTMLElement, HeaderProps>(function Header(
 ) {
   return (
     <header
-      ref={ref}
       role="banner"
       {...props}
+      ref={ref}
       className={headerClasses({ modifiers: { app }, extra: className })}
     >
       <WidthContainer
@@ -38,30 +39,29 @@ export const HeaderLogo = forwardRef<
 >(function HeaderLogo({ className, ...props }, ref) {
   return (
     <div
-      ref={ref}
       {...props}
+      ref={ref}
       className={headerClasses("logo", undefined, className)}
     />
   );
 });
 
-export interface HeaderLinkProps
-  extends Omit<ComponentPropsWithoutRef<"a">, keyof LinkProps>,
-    LinkProps {
+export interface HeaderLinkProps<T> extends LinkProps<T> {
   homepage?: boolean;
 }
 
-export const HeaderLink = forwardRef<HTMLAnchorElement, HeaderLinkProps>(
-  function HeaderLink({ className, homepage = false, ...props }, ref) {
-    return (
-      <Link
-        ref={ref}
-        {...props}
-        className={headerClasses("link", { homepage }, className)}
-      />
-    );
-  },
-);
+export const HeaderLink = forwardGenericRef(function HeaderLink<T>(
+  { className, homepage = false, ...props }: HeaderLinkProps<T>,
+  ref: ForwardedRef<HTMLAnchorElement>,
+) {
+  return (
+    <Link
+      {...props}
+      ref={ref}
+      className={headerClasses("link", { homepage }, className)}
+    />
+  );
+});
 
 export const HeaderLogotype = forwardRef<
   HTMLDivElement,
@@ -69,8 +69,8 @@ export const HeaderLogotype = forwardRef<
 >(function HeaderLogotype({ className, children, ...props }, ref) {
   return (
     <div
-      ref={ref}
       {...props}
+      ref={ref}
       className={headerClasses("logotype", undefined, className)}
     >
       <span className={headerClasses("logotype-text")}>{children}</span>
@@ -84,21 +84,21 @@ export const HeaderContent = forwardRef<
 >(function HeaderContent({ className, ...props }, ref) {
   return (
     <div
-      ref={ref}
       {...props}
+      ref={ref}
       className={headerClasses("content", undefined, className)}
     />
   );
 });
 
-export const HeaderService = forwardRef<
-  HTMLAnchorElement,
-  Omit<ComponentPropsWithoutRef<"a">, keyof LinkProps> & LinkProps
->(function HeaderService({ className, ...props }, ref) {
+export const HeaderService = forwardGenericRef(function HeaderService<T>(
+  { className, ...props }: LinkProps<T>,
+  ref: ForwardedRef<HTMLAnchorElement>,
+) {
   return (
     <HeaderLink
-      ref={ref}
       {...props}
+      ref={ref}
       className={headerClasses("service-name", undefined, className)}
     />
   );

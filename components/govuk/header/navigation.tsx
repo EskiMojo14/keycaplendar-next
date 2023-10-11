@@ -1,11 +1,12 @@
 "use client";
 import type { LinkProps } from "next/link";
-import type { ComponentPropsWithoutRef } from "react";
+import type { ComponentPropsWithoutRef, ForwardedRef } from "react";
 import { forwardRef, useReducer } from "react";
 import { HeaderLink, headerClasses } from ".";
 import { useActiveLink } from "@/logic/hooks/use-active-link";
 import { useIsMounted } from "@/logic/hooks/use-is-mounted";
 import { useMediaQuery } from "@/logic/hooks/use-media-query";
+import { forwardGenericRef } from "@/logic/lib/react";
 
 export default forwardRef<HTMLElement, ComponentPropsWithoutRef<"nav">>(
   function Navigation({ className, children, ...props }, ref) {
@@ -46,14 +47,10 @@ export default forwardRef<HTMLElement, ComponentPropsWithoutRef<"nav">>(
   },
 );
 
-export interface NavigationItemProps
-  extends Omit<ComponentPropsWithoutRef<"a">, keyof LinkProps>,
-    LinkProps {}
-
-export const NavigationItem = forwardRef<
-  HTMLAnchorElement,
-  NavigationItemProps
->(function NavigationItem({ className, ...props }, ref) {
+export const NavigationItem = forwardGenericRef(function NavigationItem<T>(
+  { className, ...props }: LinkProps<T>,
+  ref: ForwardedRef<HTMLAnchorElement>,
+) {
   const activeClass = useActiveLink(props, {
     activeClass: "govuk-header__navigation-item--active",
     activeSubClass: "",
@@ -65,7 +62,7 @@ export const NavigationItem = forwardRef<
         className ?? "",
       ])}
     >
-      <HeaderLink ref={ref} {...props} />
+      <HeaderLink {...props} ref={ref} />
     </li>
   );
 });

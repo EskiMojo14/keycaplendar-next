@@ -1,10 +1,11 @@
 "use client";
 import url from "url";
+import type { Route } from "next";
 import type { LinkProps } from "next/link";
 import { usePathname } from "next/navigation";
 
-export const useActiveLink = (
-  { href, as }: Pick<LinkProps, "href" | "as">,
+export const useActiveLink = <T extends string>(
+  { href, as }: Pick<LinkProps<T>, "href" | "as">,
   {
     activeClass,
     activeSubClass,
@@ -15,9 +16,10 @@ export const useActiveLink = (
   // check if the link or a sub-page is active and return the according class name
   // remove trailing slash if present
   if (typeof href === "object") {
-    href = url.format(href);
+    href = url.format(href) as Route<T>;
   }
-  href = href && href !== "/" && href.endsWith("/") ? href.slice(0, -1) : href;
+  href =
+    href !== "/" && href.endsWith("/") ? (href.slice(0, -1) as Route<T>) : href;
   if (typeof as === "object") {
     as = url.format(as);
   }

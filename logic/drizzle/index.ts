@@ -15,13 +15,15 @@ export const pagesByStatus = {
   live: ["ongoing"],
   ic: ["ic"],
   previous: ["closed"],
-  timeline: ["future", "ongoing", "future"],
+  timeline: ["future", "ongoing", "closed"],
 } satisfies Record<string, Array<schema.Status>>;
 
-export const selectKeysets = db.query.keysets.findMany({
-  where: (keysets, { inArray }) => inArray(keysets.status, ["ic", "closed"]),
-  with: {
-    designs: true,
-    listings: true,
-  },
-});
+export const getKeysetsByPage = (page: keyof typeof pagesByStatus) =>
+  db.query.keysets.findMany({
+    where: (keysets, { inArray }) =>
+      inArray(keysets.status, pagesByStatus[page]),
+    with: {
+      designs: true,
+      listings: true,
+    },
+  });

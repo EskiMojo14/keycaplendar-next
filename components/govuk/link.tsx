@@ -1,27 +1,31 @@
 import type { LinkProps as NextLinkProps } from "next/link";
 import NextLink from "next/link";
-import type { ComponentPropsWithoutRef } from "react";
-import { forwardRef } from "react";
+import type { ForwardedRef } from "react";
 import { govukBem } from ".";
+import { forwardGenericRef } from "@/logic/lib/react";
 
 const linkClasses = govukBem("link");
 
-interface LinkProps
-  extends NextLinkProps,
-    Omit<ComponentPropsWithoutRef<"a">, keyof NextLinkProps> {
+interface LinkProps<T> extends NextLinkProps<T> {
   noVisitedState?: boolean;
   color?: "inverse";
   noUnderline?: boolean;
 }
 
-export default forwardRef<HTMLAnchorElement, LinkProps>(function Link(
-  { className, noUnderline = false, noVisitedState = false, color, ...props },
-  ref,
+export default forwardGenericRef(function Link<T>(
+  {
+    className,
+    noUnderline = false,
+    noVisitedState = false,
+    color,
+    ...props
+  }: LinkProps<T>,
+  ref: ForwardedRef<HTMLAnchorElement>,
 ) {
   return (
     <NextLink
-      ref={ref}
       {...props}
+      ref={ref}
       className={linkClasses({
         modifiers: {
           "no-underline": noUnderline,
@@ -36,23 +40,22 @@ export default forwardRef<HTMLAnchorElement, LinkProps>(function Link(
 
 const backLinkClasses = govukBem("back-link");
 
-export interface BacklinkProps
-  extends NextLinkProps,
-    Omit<ComponentPropsWithoutRef<"a">, keyof NextLinkProps> {
+export interface BacklinkProps<T> extends NextLinkProps<T> {
   color?: "inverse";
 }
 
-export const BackLink = forwardRef<HTMLAnchorElement, BacklinkProps>(
-  function BackLink({ className, color, ...props }, ref) {
-    return (
-      <NextLink
-        ref={ref}
-        {...props}
-        className={backLinkClasses({
-          modifiers: { [color ?? ""]: true },
-          extra: className,
-        })}
-      />
-    );
-  },
-);
+export const BackLink = forwardGenericRef(function BackLink<T>(
+  { className, color, ...props }: BacklinkProps<T>,
+  ref: ForwardedRef<HTMLAnchorElement>,
+) {
+  return (
+    <NextLink
+      {...props}
+      ref={ref}
+      className={backLinkClasses({
+        modifiers: { [color ?? ""]: true },
+        extra: className,
+      })}
+    />
+  );
+});

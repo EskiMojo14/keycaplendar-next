@@ -1,7 +1,7 @@
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 import NextLink from "next/link";
-import LogoutButton from "../components/logout-button";
+import LogoutButton from "../../components/logout-button";
 import { DisplayCard } from "@/components/display-cards";
 import { DisplayTable } from "@/components/display-table";
 import Button from "@/components/govuk/button";
@@ -16,18 +16,23 @@ import Header, {
 import Navigation, {
   NavigationItem,
 } from "@/components/govuk/header/navigation";
-import { selectKeysets } from "@/logic/drizzle";
+import type { pagesByStatus } from "@/logic/drizzle";
+import { getKeysetsByPage } from "@/logic/drizzle";
 
 export const dynamic = "force-dynamic";
 
-export default async function Index() {
+export default async function Index({
+  params,
+}: {
+  params: { page: keyof typeof pagesByStatus };
+}) {
   const supabase = createServerComponentClient({ cookies });
 
   const {
     data: { user },
   } = await supabase.auth.getUser();
 
-  const entries = await selectKeysets;
+  const entries = await getKeysetsByPage(params.page);
 
   return (
     <>
@@ -40,8 +45,11 @@ export default async function Index() {
         <HeaderContent>
           <HeaderService href="/">Home</HeaderService>
           <Navigation>
-            <NavigationItem href="/">Navigation item 1</NavigationItem>
-            <NavigationItem href="/somewhere">Navigation item 2</NavigationItem>
+            <NavigationItem href="/calendar">Calendar</NavigationItem>
+            <NavigationItem href="/live">Live</NavigationItem>
+            <NavigationItem href="/ic">IC</NavigationItem>
+            <NavigationItem href="/previous">Previous</NavigationItem>
+            <NavigationItem href="/timeline">Timeline</NavigationItem>
           </Navigation>
         </HeaderContent>
       </Header>
