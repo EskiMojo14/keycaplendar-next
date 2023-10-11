@@ -19,7 +19,7 @@ export default async function Index({
   params: { page: keyof typeof pagesByStatus };
 }) {
   const { page } = params;
-  if (!(page in pagesByStatus)) {
+  if (!Object.hasOwn(pagesByStatus, page)) {
     redirect("/not-found");
   }
   const supabase = createServerComponentClient({ cookies });
