@@ -2,6 +2,8 @@ import type { Route } from "next";
 import Link from "@/components/govuk/link";
 import List from "@/components/govuk/list";
 import SummaryCard, {
+  SummaryCardAction,
+  SummaryCardActions,
   SummaryCardContent,
   SummaryCardTitle,
   SummaryCardTitleWrapper,
@@ -28,6 +30,14 @@ export const DisplayCard = ({
   <SummaryCard>
     <SummaryCardTitleWrapper>
       <SummaryCardTitle>{getKeysetName(keyset)}</SummaryCardTitle>
+      <SummaryCardActions>
+        <SummaryCardAction>
+          <Link href={`/edit-keyset/${keyset.id}`}>Edit</Link>
+        </SummaryCardAction>
+        <SummaryCardAction>
+          <Link href={`/delete-keyset/${keyset.id}`}>Delete</Link>
+        </SummaryCardAction>
+      </SummaryCardActions>
     </SummaryCardTitleWrapper>
     <SummaryCardContent>
       <SummaryList>

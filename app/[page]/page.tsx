@@ -1,4 +1,5 @@
 import { redirect } from "next/navigation";
+import styles from "./page.module.scss";
 import { DisplayCard } from "@/components/display-cards";
 import { DisplayTable } from "@/components/display-table";
 import { GridColumn, GridRow } from "@/components/govuk/grid";
@@ -36,7 +37,7 @@ export default async function Index({
       }
     >
       <GridRow>
-        <GridColumn size="one-quarter">
+        <GridColumn size="one-quarter" className={styles.actions}>
           <Link href="/add-keyset">Add keyset</Link>
         </GridColumn>
         <GridColumn size="three-quarters">
