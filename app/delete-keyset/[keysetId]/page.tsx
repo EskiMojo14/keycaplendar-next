@@ -1,11 +1,12 @@
 import { eq } from "drizzle-orm";
 import { redirect } from "next/navigation";
+import CancelButton from "@/components/cancel-button";
 import Button, { ButtonGroup } from "@/components/govuk/button";
 import FormGroup from "@/components/govuk/form-group";
 import Label, { LabelWrapper } from "@/components/govuk/label";
 import { BackLink } from "@/components/govuk/link";
 import Template from "@/components/govuk/template";
-import { Caption } from "@/components/govuk/typography";
+import { Body, Caption } from "@/components/govuk/typography";
 import { db } from "@/logic/drizzle";
 import { keysets } from "@/logic/drizzle/schema";
 import { getKeysetName } from "@/logic/lib/format";
@@ -27,21 +28,21 @@ export default async function DeleteKeyset({
     return redirect("/");
   }
   return (
-    <Template beforeContent={<BackLink href="/">Back</BackLink>}>
+    <Template beforeContent={<BackLink />}>
       <form action={deleteKeyset}>
         <FormGroup>
           <LabelWrapper>
             <Label size="l">
-              Delete {getKeysetName(keyset)}?
-              <Caption size="m">
-                Listings will also be deleted. This cannot be undone.
-              </Caption>
+              <Caption size="l">{getKeysetName(keyset)}</Caption>
+              Do you want to delete this keyset?
             </Label>
           </LabelWrapper>
+          <Body>
+            This will also delete any linked listings/designs. This cannot be
+            undone.
+          </Body>
           <ButtonGroup>
-            <Button color="secondary" formAction="/">
-              Cancel
-            </Button>
+            <CancelButton />
             <Button color="warning" type="submit">
               Delete
             </Button>

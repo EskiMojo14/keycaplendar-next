@@ -11,7 +11,7 @@ import Template from "@/components/govuk/template";
 
 export default function Login() {
   return (
-    <Template beforeContent={<BackLink href="/">Back</BackLink>}>
+    <Template beforeContent={<BackLink />}>
       <form action="/auth/sign-in" method="post" className={styles.form}>
         <Fieldset>
           <FieldsetLegend size="l">

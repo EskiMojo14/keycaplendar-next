@@ -22,7 +22,7 @@ export const Heading = forwardRef<HTMLHeadingElement, HeadingProps>(
 );
 
 interface CaptionProps extends ComponentPropsWithoutRef<"h1"> {
-  size: "xl" | "l" | "m" | "s";
+  size: "xl" | "l" | "m";
 }
 
 const captionClasses = govukBem({ name: "caption", modifierDelimiter: "-" });
