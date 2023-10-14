@@ -28,7 +28,7 @@ export default async function DeleteKeyset({
   }
   return (
     <Template beforeContent={<BackLink href="/">Back</BackLink>}>
-      <form action={() => void deleteKeyset()}>
+      <form action={deleteKeyset}>
         <FormGroup>
           <LabelWrapper>
             <Label size="l">
