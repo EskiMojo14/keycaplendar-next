@@ -1,3 +1,5 @@
+import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
+import { cookies } from "next/headers";
 import type { ReactNode } from "react";
 import { MainWrapper, WidthContainer } from "@/components/govuk/grid";
 import Header, {
@@ -6,7 +8,9 @@ import Header, {
   HeaderLogo,
   HeaderLogotype,
 } from "@/components/govuk/header";
-import Navigation from "@/components/govuk/header/navigation";
+import Navigation, {
+  NavigationItem,
+} from "@/components/govuk/header/navigation";
 
 type Slottable<MainSlot extends string, InnerSlot extends string> =
   | (Partial<Record<MainSlot, ReactNode>> & Partial<Record<InnerSlot, never>>)
@@ -20,9 +24,11 @@ type TemplateSlot = "bodyStart" | "skipLink" | "footer" | "bodyEnd";
 
 export type TemplateProps = Partial<Record<TemplateSlot, ReactNode>> &
   HeaderSlots &
-  MainSlots;
+  MainSlots & {
+    showLogin?: boolean;
+  };
 
-export default function Template({
+export default async function Template({
   bodyStart,
   skipLink,
   header,
@@ -33,7 +39,13 @@ export default function Template({
   children,
   footer,
   bodyEnd,
+  showLogin = true,
 }: TemplateProps) {
+  const supabase = createServerComponentClient({ cookies });
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   return (
     <>
       {bodyStart}
@@ -48,7 +60,16 @@ export default function Template({
           {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}
           {(service || nav) && (
             <HeaderContent>
-              {service}
+              <div className="govuk-service-row">
+                {service}
+                {showLogin ? (
+                  user ? (
+                    <NavigationItem href="/logout">Sign out</NavigationItem>
+                  ) : (
+                    <NavigationItem href="/login">Sign in</NavigationItem>
+                  )
+                ) : null}
+              </div>
               {nav && <Navigation>{nav}</Navigation>}
             </HeaderContent>
           )}
