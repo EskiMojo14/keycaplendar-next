@@ -1,5 +1,5 @@
-import type { TagProps } from "./govuk/tag";
-import Tag from "./govuk/tag";
+import type { TagProps } from "../govuk/tag";
+import Tag from "../govuk/tag";
 import { statusLabels } from "@/constants/keyset";
 import type { Status } from "@/logic/drizzle/schema";
 

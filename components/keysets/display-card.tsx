@@ -12,7 +12,7 @@ import SummaryList, {
   SummaryListRow,
   SummaryListValue,
 } from "@/components/govuk/summary-list";
-import StatusTag from "@/components/status-tag";
+import StatusTag from "@/components/keysets/status-tag";
 import type { Design, Keyset } from "@/logic/drizzle/schema";
 import { getKeysetName } from "@/logic/lib/format";
 

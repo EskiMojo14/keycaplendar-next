@@ -1,4 +1,4 @@
-import Button from "./govuk/button";
+import Button from "../govuk/button";
 
 export default function LogoutButton() {
   return (

@@ -6,9 +6,9 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import styles from "./display-table.module.scss";
-import Link from "./govuk/link";
-import List from "./govuk/list";
-import { ReactTable } from "./govuk/table";
+import Link from "../govuk/link";
+import List from "../govuk/list";
+import { ReactTable } from "../govuk/table";
 import StatusTag from "./status-tag";
 import type { Design, Keyset } from "@/logic/drizzle/schema";
 

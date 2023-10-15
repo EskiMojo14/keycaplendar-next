@@ -1,6 +1,6 @@
 "use client";
 
-import { DisplayCard } from "./display-cards";
+import { DisplayCard } from "./display-card";
 import { DisplayTable } from "./display-table";
 import type { Design, Keyset } from "@/logic/drizzle/schema";
 import { useMediaQuery } from "@/logic/hooks/use-media-query";

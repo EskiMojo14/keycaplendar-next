@@ -4,7 +4,7 @@ import { GridColumn, GridRow } from "@/components/govuk/grid";
 import { NavigationItem } from "@/components/govuk/header/navigation";
 import Link from "@/components/govuk/link";
 import Template from "@/components/govuk/template";
-import KeysetList from "@/components/keyset-list";
+import KeysetList from "@/components/keysets/keyset-list";
 import { pagesByStatus, getKeysetsByPage } from "@/logic/drizzle";
 
 export const dynamic = "force-dynamic";

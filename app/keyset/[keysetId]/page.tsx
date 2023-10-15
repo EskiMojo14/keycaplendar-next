@@ -8,7 +8,7 @@ import Link, { BackLink } from "@/components/govuk/link";
 import Template from "@/components/govuk/template";
 import { Body, Caption, Heading } from "@/components/govuk/typography";
 import ListingCard from "@/components/keysets/listing-card";
-import StatusTag from "@/components/status-tag";
+import StatusTag from "@/components/keysets/status-tag";
 import { dateFormat } from "@/constants/format";
 import { getKeysetById } from "@/logic/cached";
 import { getKeysetName, getKeysetRun } from "@/logic/lib/format";
