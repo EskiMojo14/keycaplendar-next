@@ -3,7 +3,6 @@ import styles from "./page.module.scss";
 import { DisplayCard } from "@/components/display-cards";
 import { DisplayTable } from "@/components/display-table";
 import { GridColumn, GridRow } from "@/components/govuk/grid";
-import { HeaderService } from "@/components/govuk/header";
 import { NavigationItem } from "@/components/govuk/header/navigation";
 import Link from "@/components/govuk/link";
 import Template from "@/components/govuk/template";
@@ -25,7 +24,6 @@ export default async function Index({
 
   return (
     <Template
-      service={<HeaderService href="/">Home</HeaderService>}
       nav={
         <>
           <NavigationItem href="/calendar">Calendar</NavigationItem>

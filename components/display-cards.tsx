@@ -1,4 +1,3 @@
-import type { Route } from "next";
 import Link from "@/components/govuk/link";
 import List from "@/components/govuk/list";
 import SummaryCard, {
@@ -32,10 +31,10 @@ export const DisplayCard = ({
       <SummaryCardTitle>{getKeysetName(keyset)}</SummaryCardTitle>
       <SummaryCardActions>
         <SummaryCardAction>
-          <Link href={`/edit-keyset/${keyset.id}`}>Edit</Link>
+          <Link href={`/keyset/${keyset.id}`}>View</Link>
         </SummaryCardAction>
         <SummaryCardAction>
-          <Link href={`/delete-keyset/${keyset.id}`}>Delete</Link>
+          <Link href={`/edit-keyset/${keyset.id}`}>Edit</Link>
         </SummaryCardAction>
       </SummaryCardActions>
     </SummaryCardTitleWrapper>
@@ -48,26 +47,6 @@ export const DisplayCard = ({
               {keyset.designs.map(({ designerName }) => (
                 <li key={designerName}>{designerName}</li>
               ))}
-            </List>
-          </SummaryListValue>
-        </SummaryListRow>
-        <SummaryListRow>
-          <SummaryListKey>Vendors</SummaryListKey>
-          <SummaryListValue>
-            <List variant="bullet">
-              {[...keyset.listings]
-                .sort((a, b) => a.vendorName.localeCompare(b.vendorName))
-                .map((listing) => (
-                  <li key={listing.vendorName}>
-                    {listing.url ? (
-                      <Link href={listing.url as Route}>
-                        {listing.vendorName}
-                      </Link>
-                    ) : (
-                      listing.vendorName
-                    )}
-                  </li>
-                ))}
             </List>
           </SummaryListValue>
         </SummaryListRow>

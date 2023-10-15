@@ -19,13 +19,13 @@ export default async function DeleteKeyset({
   async function deleteKeyset() {
     "use server";
     await db.delete(keysets).where(eq(keysets.id, keysetId));
-    redirect("/");
+    redirect("/calendar");
   }
   const keyset = await db.query.keysets.findFirst({
     where: (keysets, { eq }) => eq(keysets.id, keysetId),
   });
   if (!keyset) {
-    return redirect("/");
+    return redirect("/calendar");
   }
   return (
     <Template beforeContent={<BackLink />}>
