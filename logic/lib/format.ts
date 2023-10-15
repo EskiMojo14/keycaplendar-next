@@ -17,7 +17,7 @@ export function getKeysetName(
 
 type KeysetDates = Pick<Keyset, "status" | "gbLaunch" | "gbEnd">;
 
-type DiscrimKeyset = Satisfies<
+export type KeysetDiscrim = Satisfies<
   | {
       status: "closed";
       gbLaunch: string;
@@ -37,7 +37,7 @@ type DiscrimKeyset = Satisfies<
 >;
 
 export function getKeysetRun(keyset: KeysetDates) {
-  assertType<DiscrimKeyset>(keyset);
+  assertType<KeysetDiscrim>(keyset);
   switch (keyset.status) {
     case "closed":
       return `Ran from ${format(
@@ -50,7 +50,7 @@ export function getKeysetRun(keyset: KeysetDates) {
         new Date(keyset.gbLaunch),
         dateFormat,
       )}${
-        keyset.gbEnd ? `to ${format(new Date(keyset.gbEnd), dateFormat)}` : ""
+        keyset.gbEnd ? ` to ${format(new Date(keyset.gbEnd), dateFormat)}` : ""
       }.`;
   }
 }
