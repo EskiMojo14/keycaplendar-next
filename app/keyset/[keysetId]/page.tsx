@@ -62,13 +62,20 @@ export default async function Keyset({
       </Body>
       <Body size="m">{getKeysetRun(keyset)}</Body>
       {keyset.shipped ? <Body size="m">This set has shipped.</Body> : null}
-      <Body size="s">{keyset.notes}</Body>
+      {keyset.notes && (
+        <>
+          <Heading size="s">Notes</Heading>
+          <Body size="s">{keyset.notes}</Body>
+        </>
+      )}
       {keyset.listings.length ? (
         <>
-          <Heading size="m">Listings</Heading>
-          {keyset.listings.map((listing) => (
-            <ListingCard key={listing.vendorName} listing={listing} />
-          ))}
+          <Heading size="m">Vendors</Heading>
+          {[...keyset.listings]
+            .sort((a, b) => a.vendorName.localeCompare(b.vendorName))
+            .map((listing) => (
+              <ListingCard key={listing.vendorName} listing={listing} />
+            ))}
         </>
       ) : null}
     </Template>

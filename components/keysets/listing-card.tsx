@@ -28,7 +28,7 @@ export default async function ListingCard({ listing }: { listing: Listing }) {
         {listing.url && (
           <SummaryCardActions>
             <SummaryCardAction>
-              <Link href={listing.url as Route}>Open</Link>
+              <Link href={listing.url as Route}>Go to listing</Link>
             </SummaryCardAction>
           </SummaryCardActions>
         )}
