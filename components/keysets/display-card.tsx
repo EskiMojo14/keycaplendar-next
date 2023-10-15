@@ -37,10 +37,14 @@ export const DisplayCard = ({ keyset }: { keyset: KeysetWithDesigns }) => (
       <SummaryList>
         <SummaryListRow>
           <SummaryListKey>
-            {pluralise(keyset.designs.length, {
-              one: "Designer",
-              other: "Designers",
-            })}
+            {pluralise(
+              keyset.designs.length,
+              {
+                one: "Designer",
+                other: "Designers",
+              },
+              "Designer(s)",
+            )}
           </SummaryListKey>
           <SummaryListValue>
             <List>

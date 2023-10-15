@@ -64,6 +64,7 @@ const cardinalRules = new Intl.PluralRules();
 export function pluralise(
   count: number,
   mapping: Partial<Record<Intl.LDMLPluralRule, string>>,
+  fallback: string,
 ) {
-  return mapping[cardinalRules.select(count)];
+  return mapping[cardinalRules.select(count)] ?? fallback;
 }

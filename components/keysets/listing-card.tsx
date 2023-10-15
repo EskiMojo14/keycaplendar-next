@@ -38,10 +38,14 @@ export default async function ListingCard({ listing }: { listing: Listing }) {
         <SummaryList>
           <SummaryListRow>
             <SummaryListKey>
-              {pluralise(listing.regions?.length ?? 1, {
-                one: "Region",
-                other: "Regions",
-              })}
+              {pluralise(
+                listing.regions?.length ?? 1,
+                {
+                  one: "Region",
+                  other: "Regions",
+                },
+                "Region(s)",
+              )}
             </SummaryListKey>
             <SummaryListValue>
               <List>
