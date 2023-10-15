@@ -4,7 +4,7 @@ import Template from "@/components/govuk/template";
 export default function AddKeyset() {
   return (
     <Template
-      service={<HeaderService href="#">Add keyset</HeaderService>}
+      service={<HeaderService href="#">Edit keyset</HeaderService>}
     ></Template>
   );
 }
