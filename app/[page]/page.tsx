@@ -5,17 +5,15 @@ import { NavigationItem } from "@/components/govuk/header/navigation";
 import Link from "@/components/govuk/link";
 import Template from "@/components/govuk/template";
 import KeysetList from "@/components/keysets/keyset-list";
-import { pagesByStatus, getKeysetsByPage } from "@/logic/drizzle";
+import type { Page } from "@/constants/keyset";
+import { pageLabels, pages } from "@/constants/keyset";
+import { getKeysetsByPage } from "@/logic/drizzle";
 
 export const dynamic = "force-dynamic";
 
-export default async function Index({
-  params,
-}: {
-  params: { page: keyof typeof pagesByStatus };
-}) {
+export default async function Index({ params }: { params: { page: Page } }) {
   const { page } = params;
-  if (!Object.hasOwn(pagesByStatus, page)) {
+  if (!pages.includes(page)) {
     return notFound();
   }
 
@@ -23,15 +21,11 @@ export default async function Index({
 
   return (
     <Template
-      nav={
-        <>
-          <NavigationItem href="/calendar">Calendar</NavigationItem>
-          <NavigationItem href="/live">Live</NavigationItem>
-          <NavigationItem href="/ic">IC</NavigationItem>
-          <NavigationItem href="/previous">Previous</NavigationItem>
-          <NavigationItem href="/timeline">Timeline</NavigationItem>
-        </>
-      }
+      nav={pages.map((page) => (
+        <NavigationItem key={page} href={`/${page}`}>
+          {pageLabels[page]}
+        </NavigationItem>
+      ))}
     >
       <GridRow>
         <GridColumn size="one-quarter" className={styles.actions}>
