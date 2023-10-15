@@ -7,7 +7,7 @@ import {
 } from "@tanstack/react-table";
 import Link from "../govuk/link";
 import List from "../govuk/list";
-import { ReactTable } from "../govuk/table";
+import ReactTable from "../govuk/table/react";
 import styles from "./display-table.module.scss";
 import StatusTag from "./status-tag";
 import type { Status, Design, Keyset } from "@/logic/drizzle/schema";

@@ -1,5 +1,4 @@
 "use client";
-
 import { DisplayCard } from "./display-card";
 import { DisplayTable } from "./display-table";
 import type { Design, Keyset } from "@/logic/drizzle/schema";

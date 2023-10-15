@@ -17,6 +17,7 @@ import SummaryList, {
 import { dateFormat } from "@/constants/format";
 import { getVendorByName } from "@/logic/cached";
 import type { Listing } from "@/logic/drizzle/schema";
+import { pluralise } from "@/logic/lib/format";
 
 export default async function ListingCard({ listing }: { listing: Listing }) {
   const vendor = await getVendorByName(listing.vendorName);
@@ -36,7 +37,12 @@ export default async function ListingCard({ listing }: { listing: Listing }) {
       <SummaryCardContent>
         <SummaryList>
           <SummaryListRow>
-            <SummaryListKey>Regions</SummaryListKey>
+            <SummaryListKey>
+              {pluralise(listing.regions?.length ?? 1, {
+                one: "Region",
+                other: "Regions",
+              })}
+            </SummaryListKey>
             <SummaryListValue>
               <List>
                 {listing.regions ? (

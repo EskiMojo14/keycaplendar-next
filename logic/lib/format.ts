@@ -58,3 +58,12 @@ export function getKeysetRun(keyset: KeysetDates) {
 export function compareStatus(a: Status, b: Status) {
   return statusOrder[a] - statusOrder[b];
 }
+
+const cardinalRules = new Intl.PluralRules();
+
+export function pluralise(
+  count: number,
+  mapping: Partial<Record<Intl.LDMLPluralRule, string>>,
+) {
+  return mapping[cardinalRules.select(count)];
+}

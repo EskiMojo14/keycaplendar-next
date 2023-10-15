@@ -14,7 +14,7 @@ import SummaryList, {
 } from "@/components/govuk/summary-list";
 import StatusTag from "@/components/keysets/status-tag";
 import type { Design, Keyset } from "@/logic/drizzle/schema";
-import { getKeysetName } from "@/logic/lib/format";
+import { getKeysetName, pluralise } from "@/logic/lib/format";
 
 type KeysetWithDesigns = Keyset & {
   designs: Array<Design>;
@@ -36,7 +36,12 @@ export const DisplayCard = ({ keyset }: { keyset: KeysetWithDesigns }) => (
     <SummaryCardContent>
       <SummaryList>
         <SummaryListRow>
-          <SummaryListKey>Designer(s)</SummaryListKey>
+          <SummaryListKey>
+            {pluralise(keyset.designs.length, {
+              one: "Designer",
+              other: "Designers",
+            })}
+          </SummaryListKey>
           <SummaryListValue>
             <List>
               {keyset.designs.map(({ designerName }) => (
