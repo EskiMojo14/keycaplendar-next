@@ -55,17 +55,19 @@ export const DisplayCard = ({
           <SummaryListKey>Vendors</SummaryListKey>
           <SummaryListValue>
             <List variant="bullet">
-              {keyset.listings.map((listing) => (
-                <li key={listing.vendorName}>
-                  {listing.url ? (
-                    <Link href={listing.url as Route}>
-                      {listing.vendorName}
-                    </Link>
-                  ) : (
-                    listing.vendorName
-                  )}
-                </li>
-              ))}
+              {[...keyset.listings]
+                .sort((a, b) => a.vendorName.localeCompare(b.vendorName))
+                .map((listing) => (
+                  <li key={listing.vendorName}>
+                    {listing.url ? (
+                      <Link href={listing.url as Route}>
+                        {listing.vendorName}
+                      </Link>
+                    ) : (
+                      listing.vendorName
+                    )}
+                  </li>
+                ))}
             </List>
           </SummaryListValue>
         </SummaryListRow>

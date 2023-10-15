@@ -18,7 +18,7 @@ export default async function Index({
 }) {
   const { page } = params;
   if (!Object.hasOwn(pagesByStatus, page)) {
-    redirect("/not-found");
+    return redirect("/not-found");
   }
 
   const entries = await getKeysetsByPage(page);

@@ -42,15 +42,17 @@ const columns = [
       const listings = getValue();
       return listings.length ? (
         <List variant="bullet">
-          {listings.map((listing) =>
-            listing.url ? (
-              <li key={listing.vendorName}>
-                <Link href={listing.url as Route}>{listing.vendorName}</Link>
-              </li>
-            ) : (
-              <li key={listing.vendorName}>{listing.vendorName}</li>
-            ),
-          )}
+          {[...listings]
+            .sort((a, b) => a.vendorName.localeCompare(b.vendorName))
+            .map((listing) =>
+              listing.url ? (
+                <li key={listing.vendorName}>
+                  <Link href={listing.url as Route}>{listing.vendorName}</Link>
+                </li>
+              ) : (
+                <li key={listing.vendorName}>{listing.vendorName}</li>
+              ),
+            )}
         </List>
       ) : null;
     },
