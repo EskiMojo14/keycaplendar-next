@@ -1,4 +1,4 @@
-import { redirect } from "next/navigation";
+import { notFound } from "next/navigation";
 import styles from "./page.module.scss";
 import { DisplayCard } from "@/components/display-cards";
 import { DisplayTable } from "@/components/display-table";
@@ -17,7 +17,7 @@ export default async function Index({
 }) {
   const { page } = params;
   if (!Object.hasOwn(pagesByStatus, page)) {
-    return redirect("/not-found");
+    return notFound();
   }
 
   const entries = await getKeysetsByPage(page);
