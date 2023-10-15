@@ -10,8 +10,8 @@ import List from "../govuk/list";
 import { ReactTable } from "../govuk/table";
 import styles from "./display-table.module.scss";
 import StatusTag from "./status-tag";
-import { statusOrder } from "@/constants/format";
 import type { Status, Design, Keyset } from "@/logic/drizzle/schema";
+import { compareStatus } from "@/logic/lib/format";
 
 type KeysetWithDesigns = Keyset & {
   designs: Array<Design>;
@@ -40,8 +40,7 @@ const columns = [
     header: "Status",
     cell: ({ getValue }) => <StatusTag status={getValue()} />,
     sortingFn: (a, b, columnId) =>
-      statusOrder[a.getValue<Status>(columnId)] -
-      statusOrder[b.getValue<Status>(columnId)],
+      compareStatus(a.getValue<Status>(columnId), b.getValue<Status>(columnId)),
   }),
   columnHelper.accessor("id", {
     header: "Actions",

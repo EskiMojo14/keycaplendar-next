@@ -1,8 +1,8 @@
 import { format } from "date-fns";
-import type { Keyset } from "../drizzle/schema";
+import type { Keyset, Status } from "../drizzle/schema";
 import type { Satisfies } from "./utils";
 import { assertType } from "./utils";
-import { dateFormat } from "@/constants/format";
+import { dateFormat, statusOrder } from "@/constants/format";
 
 export function getKeysetName(
   keyset: Pick<Keyset, "profile" | "colorway" | "manufacturer">,
@@ -53,4 +53,8 @@ export function getKeysetRun(keyset: KeysetDates) {
         keyset.gbEnd ? `to ${format(new Date(keyset.gbEnd), dateFormat)}` : ""
       }.`;
   }
+}
+
+export function compareStatus(a: Status, b: Status) {
+  return statusOrder[a] - statusOrder[b];
 }
