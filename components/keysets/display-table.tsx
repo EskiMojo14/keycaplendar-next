@@ -5,12 +5,13 @@ import {
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table";
-import styles from "./display-table.module.scss";
 import Link from "../govuk/link";
 import List from "../govuk/list";
 import { ReactTable } from "../govuk/table";
+import styles from "./display-table.module.scss";
 import StatusTag from "./status-tag";
-import type { Design, Keyset } from "@/logic/drizzle/schema";
+import { statusOrder } from "@/constants/format";
+import type { Status, Design, Keyset } from "@/logic/drizzle/schema";
 
 type KeysetWithDesigns = Keyset & {
   designs: Array<Design>;
@@ -38,6 +39,9 @@ const columns = [
   columnHelper.accessor("status", {
     header: "Status",
     cell: ({ getValue }) => <StatusTag status={getValue()} />,
+    sortingFn: (a, b, columnId) =>
+      statusOrder[a.getValue<Status>(columnId)] -
+      statusOrder[b.getValue<Status>(columnId)],
   }),
   columnHelper.accessor("id", {
     header: "Actions",
