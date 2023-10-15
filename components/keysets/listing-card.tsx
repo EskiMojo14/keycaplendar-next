@@ -1,4 +1,4 @@
-import { format } from "date-fns";
+import { format, isPast } from "date-fns";
 import type { Route } from "next";
 import Link from "../govuk/link";
 import List from "../govuk/list";
@@ -20,6 +20,7 @@ import type { Listing } from "@/logic/drizzle/schema";
 
 export default async function ListingCard({ listing }: { listing: Listing }) {
   const vendor = await getVendorByName(listing.vendorName);
+  const end = listing.gbEnd && new Date(listing.gbEnd);
   return (
     <SummaryCard>
       <SummaryCardTitleWrapper>
@@ -48,12 +49,10 @@ export default async function ListingCard({ listing }: { listing: Listing }) {
               </List>
             </SummaryListValue>
           </SummaryListRow>
-          {listing.gbEnd && (
+          {end && (
             <SummaryListRow>
-              <SummaryListKey>Ends</SummaryListKey>
-              <SummaryListValue>
-                {format(new Date(listing.gbEnd), dateFormat)}
-              </SummaryListValue>
+              <SummaryListKey>{isPast(end) ? "Ended" : "Ends"}</SummaryListKey>
+              <SummaryListValue>{format(end, dateFormat)}</SummaryListValue>
             </SummaryListRow>
           )}
         </SummaryList>

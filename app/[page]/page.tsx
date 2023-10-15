@@ -1,11 +1,10 @@
 import { notFound } from "next/navigation";
 import styles from "./page.module.scss";
-import { DisplayCard } from "@/components/display-cards";
-import { DisplayTable } from "@/components/display-table";
 import { GridColumn, GridRow } from "@/components/govuk/grid";
 import { NavigationItem } from "@/components/govuk/header/navigation";
 import Link from "@/components/govuk/link";
 import Template from "@/components/govuk/template";
+import KeysetList from "@/components/keyset-list";
 import { pagesByStatus, getKeysetsByPage } from "@/logic/drizzle";
 
 export const dynamic = "force-dynamic";
@@ -39,11 +38,8 @@ export default async function Index({
           <Link href="/add-keyset">Add keyset</Link>
         </GridColumn>
         <GridColumn size="three-quarters">
-          {entries.map((entry) => (
-            <DisplayCard key={entry.id} keyset={entry} />
-          ))}
+          <KeysetList keysets={entries} />
         </GridColumn>
-        <DisplayTable data={entries} />
       </GridRow>
     </Template>
   );

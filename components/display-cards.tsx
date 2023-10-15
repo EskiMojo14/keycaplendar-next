@@ -13,19 +13,14 @@ import SummaryList, {
   SummaryListValue,
 } from "@/components/govuk/summary-list";
 import StatusTag from "@/components/status-tag";
-import type { Design, Keyset, Listing } from "@/logic/drizzle/schema";
+import type { Design, Keyset } from "@/logic/drizzle/schema";
 import { getKeysetName } from "@/logic/lib/format";
 
-type KeysetWithDesignsAndListings = Keyset & {
+type KeysetWithDesigns = Keyset & {
   designs: Array<Design>;
-  listings: Array<Listing>;
 };
 
-export const DisplayCard = ({
-  keyset,
-}: {
-  keyset: KeysetWithDesignsAndListings;
-}) => (
+export const DisplayCard = ({ keyset }: { keyset: KeysetWithDesigns }) => (
   <SummaryCard>
     <SummaryCardTitleWrapper>
       <SummaryCardTitle>{getKeysetName(keyset)}</SummaryCardTitle>

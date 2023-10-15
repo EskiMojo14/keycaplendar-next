@@ -43,7 +43,6 @@ export default async function Keyset({
             <Link href={`/edit-keyset/${keysetId}`}>Edit</Link>
             <Link href={`/delete-keyset/${keysetId}`}>Delete</Link>
           </div>
-          <Body size="s">{keyset.notes}</Body>
         </GridColumn>
         <GridColumn size="one-third">
           <div className={styles.thumbnail}>
@@ -63,6 +62,7 @@ export default async function Keyset({
       </Body>
       <Body size="m">{getKeysetRun(keyset)}</Body>
       {keyset.shipped ? <Body size="m">This set has shipped.</Body> : null}
+      <Body size="s">{keyset.notes}</Body>
       {keyset.listings.length ? (
         <>
           <Heading size="m">Listings</Heading>

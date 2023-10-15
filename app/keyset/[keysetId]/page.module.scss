@@ -9,4 +9,5 @@
 .thumbnail {
   position: relative;
   @include util.aspect-ratio(16, 9);
+  margin-bottom: 15px;
 }
