@@ -50,3 +50,6 @@ export type Tail<T extends Array<unknown>> = T extends [unknown, ...infer Tail]
   : never;
 
 export type Satisfies<T extends U, U> = T;
+
+// eslint-disable-next-line @typescript-eslint/no-empty-function
+export function assertType<T>(input: unknown): asserts input is T {}

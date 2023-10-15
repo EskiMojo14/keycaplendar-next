@@ -55,7 +55,7 @@ export const SummaryListKey = forwardRef<
     <dt
       ref={ref}
       {...props}
-      className={summaryListClasses("value", undefined, className)}
+      className={summaryListClasses("key", undefined, className)}
     />
   );
 });

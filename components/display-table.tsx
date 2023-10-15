@@ -6,6 +6,7 @@ import {
   useReactTable,
 } from "@tanstack/react-table";
 import type { Route } from "next";
+import styles from "./display-table.module.scss";
 import Link from "./govuk/link";
 import List from "./govuk/list";
 import { ReactTable } from "./govuk/table";
@@ -65,6 +66,16 @@ const columns = [
   columnHelper.accessor("shipped", {
     header: "Shipped",
     cell: ({ getValue }) => (getValue() ? "Yes" : "No"),
+  }),
+  columnHelper.accessor("id", {
+    header: "Actions",
+    enableSorting: false,
+    cell: ({ getValue }) => (
+      <div className={styles.actions}>
+        <Link href={`/keyset/${getValue()}`}>View</Link>
+        <Link href={`/edit-keyset/${getValue()}`}>Edit</Link>
+      </div>
+    ),
   }),
 ];
 
