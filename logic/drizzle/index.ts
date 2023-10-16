@@ -22,13 +22,24 @@ export const pageDefaultSorts: Record<Page, ValueOrArray<SQL>> = {
   timeline: asc(schema.keysets.gbLaunch),
 };
 
+const overviewFields = {
+  profile: true,
+  colorway: true,
+  status: true,
+  id: true,
+  shipped: true,
+  manufacturer: true,
+} satisfies Partial<Record<keyof schema.Keyset, true>>;
+
+export type OverviewKeyset = Pick<schema.Keyset, keyof typeof overviewFields>;
+
 export const getKeysetsByPage = (page: Page) =>
   db.query.keysets.findMany({
     where: (keysets, { inArray }) =>
       inArray(keysets.status, pagesByStatus[page]),
     with: {
       designs: true,
-      listings: true,
     },
+    columns: overviewFields,
     orderBy: pageDefaultSorts[page],
   });

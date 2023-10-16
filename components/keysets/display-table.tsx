@@ -10,10 +10,11 @@ import List from "../govuk/list";
 import ReactTable from "../govuk/table/react";
 import styles from "./display-table.module.scss";
 import StatusTag from "./status-tag";
-import type { Status, Design, Keyset } from "@/logic/drizzle/schema";
+import type { OverviewKeyset } from "@/logic/drizzle";
+import type { Status, Design } from "@/logic/drizzle/schema";
 import { compareStatus } from "@/logic/lib/format";
 
-type KeysetWithDesigns = Keyset & {
+type KeysetWithDesigns = OverviewKeyset & {
   designs: Array<Design>;
 };
 

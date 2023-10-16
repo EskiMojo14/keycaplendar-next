@@ -13,10 +13,11 @@ import SummaryList, {
   SummaryListValue,
 } from "@/components/govuk/summary-list";
 import StatusTag from "@/components/keysets/status-tag";
-import type { Design, Keyset } from "@/logic/drizzle/schema";
+import type { OverviewKeyset } from "@/logic/drizzle";
+import type { Design } from "@/logic/drizzle/schema";
 import { getKeysetName, pluralise } from "@/logic/lib/format";
 
-type KeysetWithDesigns = Keyset & {
+type KeysetWithDesigns = OverviewKeyset & {
   designs: Array<Design>;
 };
 
