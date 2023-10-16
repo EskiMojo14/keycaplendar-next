@@ -8,7 +8,6 @@ import {
 import Link from "../govuk/link";
 import List from "../govuk/list";
 import ReactTable from "../govuk/table/react";
-import styles from "./display-table.module.scss";
 import StatusTag from "./status-tag";
 import type { OverviewKeyset } from "@/logic/drizzle";
 import type { Status, Design } from "@/logic/drizzle/schema";
@@ -43,15 +42,14 @@ const columns = [
     sortingFn: (a, b, columnId) =>
       compareStatus(a.getValue<Status>(columnId), b.getValue<Status>(columnId)),
   }),
+  columnHelper.accessor("shipped", {
+    header: "Shipped",
+    cell: ({ getValue }) => (getValue() ? "Yes" : "No"),
+  }),
   columnHelper.accessor("id", {
-    header: "Actions",
+    header: "",
     enableSorting: false,
-    cell: ({ getValue }) => (
-      <div className={styles.actions}>
-        <Link href={`/keyset/${getValue()}`}>View</Link>
-        <Link href={`/edit-keyset/${getValue()}`}>Edit</Link>
-      </div>
-    ),
+    cell: ({ getValue }) => <Link href={`/keyset/${getValue()}`}>View</Link>,
   }),
 ];
 
