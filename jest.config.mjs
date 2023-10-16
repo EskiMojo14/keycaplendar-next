@@ -1,4 +1,7 @@
 import nextJest from "next/jest.js";
+import { createRequire } from "node:module";
+
+const require = createRequire(import.meta.url);
 
 const createJestConfig = nextJest({
   // Provide the path to your Next.js app to load next.config.js and .env files in your test environment
@@ -10,7 +13,7 @@ const createJestConfig = nextJest({
 const config = {
   // Add more setup options before each test is run
   // setupFilesAfterEnv: ['<rootDir>/jest.setup.js'],
-
+  prettierPath: require.resolve("prettier-2"),
   testEnvironment: "jest-environment-jsdom",
 };
 
