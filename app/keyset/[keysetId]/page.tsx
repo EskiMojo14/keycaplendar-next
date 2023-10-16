@@ -8,9 +8,9 @@ import Link, { BackLink } from "@/components/govuk/link";
 import Template from "@/components/govuk/template";
 import { Body, Caption, Heading } from "@/components/govuk/typography";
 import ListingCard from "@/components/keysets/listing-card";
+import RunTagline from "@/components/keysets/run-tagline";
 import StatusTag from "@/components/keysets/status-tag";
 import { dateFormat } from "@/constants/format";
-import { statusVerbs } from "@/constants/keyset";
 import { getKeysetById } from "@/logic/cached";
 import { db } from "@/logic/drizzle";
 import { getKeysetName } from "@/logic/lib/format";
@@ -82,25 +82,7 @@ export default async function Keyset({ params: { keysetId } }: Props) {
               IC posted {format(new Date(keyset.icDate), dateFormat)}.
             </Link>
           </Body>
-          {keyset.status !== "ic" ? (
-            <Body size="m">
-              {statusVerbs[keyset.status]} from{" "}
-              <span className={styles.date}>
-                {keyset.gbLaunch &&
-                  format(new Date(keyset.gbLaunch), dateFormat)}
-              </span>
-              {keyset.gbEnd && (
-                <>
-                  {" "}
-                  to{" "}
-                  <span className={styles.date}>
-                    {format(new Date(keyset.gbEnd), dateFormat)}
-                  </span>
-                </>
-              )}
-              .
-            </Body>
-          ) : null}
+          <RunTagline keyset={keyset} />
           {keyset.shipped ? <Body size="m">This set has shipped.</Body> : null}
           {keyset.notes && (
             <>
