@@ -15,6 +15,18 @@ describe("logic / lib / utils", () => {
                 }
               "
       `);
+      const html = noopTaggedTemplate;
+      expect(html`
+        <body>
+          <h1>Cool!</h1>
+        </body>
+      `).toMatchInlineSnapshot(`
+        "
+                <body>
+                  <h1>Cool!</h1>
+                </body>
+              "
+      `);
     });
   });
 });

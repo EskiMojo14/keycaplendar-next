@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import styles from "./page.module.scss";
 import { GridColumn, GridRow } from "@/components/govuk/grid";
@@ -11,8 +12,17 @@ import { getKeysetsByPage } from "@/logic/drizzle";
 
 export const dynamic = "force-dynamic";
 
-export default async function Index({ params }: { params: { page: Page } }) {
-  const { page } = params;
+interface Props {
+  params: { page: Page };
+}
+
+export function generateMetadata({ params: { page } }: Props): Metadata {
+  return {
+    title: `KeycapLendar: ${pageLabels[page]}`,
+  };
+}
+
+export default async function Index({ params: { page } }: Props) {
   if (!pages.includes(page)) {
     return notFound();
   }

@@ -32,3 +32,9 @@ export const pagesByStatus: Record<Page, Array<Status>> = {
   previous: ["closed"],
   timeline: ["future", "ongoing", "closed"],
 };
+
+export const statusVerbs = {
+  future: "Runs",
+  ongoing: "Running",
+  closed: "Ran",
+} satisfies Record<Exclude<Status, "ic">, string>;

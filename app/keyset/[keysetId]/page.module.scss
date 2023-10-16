@@ -6,8 +6,15 @@
   padding: 15px 0;
 }
 
-.thumbnail {
-  position: relative;
-  @include util.aspect-ratio(16, 9);
-  margin-bottom: 15px;
+.thumbnailContainer {
+  max-width: 480px;
+  .thumbnail {
+    position: relative;
+    @include util.aspect-ratio(16, 9);
+    margin-bottom: 15px;
+  }
+}
+
+.date {
+  white-space: nowrap;
 }
