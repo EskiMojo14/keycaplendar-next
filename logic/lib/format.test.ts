@@ -9,6 +9,7 @@ describe("logic / lib / format", () => {
           profile: "KAT",
           colorway: "Lich",
           manufacturer: "Keyreative",
+          revision: null,
         }),
       ).toBe("KAT Lich");
       expect(
@@ -16,6 +17,7 @@ describe("logic / lib / format", () => {
           profile: "SA R3",
           colorway: "Bliss",
           manufacturer: "Signature Plastics",
+          revision: null,
         }),
       ).toBe("SA R3 Bliss");
     });
@@ -25,6 +27,7 @@ describe("logic / lib / format", () => {
           profile: "Cherry",
           colorway: "Café",
           manufacturer: "GMK",
+          revision: null,
         }),
       ).toBe("GMK Café");
       expect(
@@ -32,8 +35,19 @@ describe("logic / lib / format", () => {
           profile: "Cherry",
           colorway: "Café",
           manufacturer: null,
+          revision: null,
         }),
       ).toBe("Cherry Café");
+    });
+    it("includes revision if provided", () => {
+      expect(
+        getKeysetName({
+          profile: "KAT",
+          colorway: "Lich",
+          manufacturer: "Keyreative",
+          revision: 2,
+        }),
+      ).toBe("KAT Lich r2");
     });
   });
   describe("compareStatus", () => {

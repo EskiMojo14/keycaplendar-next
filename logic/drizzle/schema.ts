@@ -4,6 +4,7 @@ import {
   date,
   pgEnum,
   pgTable,
+  smallint,
   text,
   timestamp,
 } from "drizzle-orm/pg-core";
@@ -51,6 +52,7 @@ export const keysets = pgTable("keysets", {
   salesGraph: text("sales_graph"),
   shipped: boolean("shipped"),
   status: statusEnum("status").notNull(),
+  revision: smallint("revision"),
 });
 
 export type Keyset = typeof keysets.$inferSelect;

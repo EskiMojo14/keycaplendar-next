@@ -3,14 +3,18 @@ import type { Satisfies } from "./utils";
 import { statusOrder } from "@/constants/format";
 
 export function getKeysetName(
-  keyset: Pick<Keyset, "profile" | "colorway" | "manufacturer">,
+  keyset: Pick<Keyset, "profile" | "colorway" | "manufacturer" | "revision">,
 ) {
-  let { profile } = keyset;
-  const { colorway, manufacturer } = keyset;
+  const { profile, colorway, manufacturer, revision } = keyset;
+  let name = profile;
   if (profile === "Cherry") {
-    profile = manufacturer ?? profile;
+    name = manufacturer ?? profile;
   }
-  return profile + " " + colorway;
+  name += " " + colorway;
+  if (typeof revision === "number") {
+    name += " r" + revision;
+  }
+  return name;
 }
 
 type KeysetDates = Pick<Keyset, "status" | "gbLaunch" | "gbEnd">;
