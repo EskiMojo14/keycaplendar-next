@@ -47,6 +47,12 @@ const columns = [
     header: "IC Date",
     cell: ({ getValue }) => format(new Date(getValue()), shortDateFormat),
   }),
+  columnHelper.accessor("status", {
+    header: "Status",
+    cell: ({ getValue }) => <StatusTag status={getValue()} />,
+    sortingFn: (a, b, columnId) =>
+      compareStatus(a.getValue<Status>(columnId), b.getValue<Status>(columnId)),
+  }),
   columnHelper.accessor("gbLaunch", {
     header: "GB Launch",
     cell: ({ getValue }) => {
@@ -60,12 +66,6 @@ const columns = [
       const date = getValue();
       return date ? format(new Date(date), shortDateFormat) : "n/a";
     },
-  }),
-  columnHelper.accessor("status", {
-    header: "Status",
-    cell: ({ getValue }) => <StatusTag status={getValue()} />,
-    sortingFn: (a, b, columnId) =>
-      compareStatus(a.getValue<Status>(columnId), b.getValue<Status>(columnId)),
   }),
   columnHelper.accessor("id", {
     header: "",

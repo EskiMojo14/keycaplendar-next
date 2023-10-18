@@ -1,3 +1,4 @@
+import { format } from "date-fns";
 import Link from "@/components/govuk/link";
 import List from "@/components/govuk/list";
 import SummaryCard, {
@@ -13,6 +14,7 @@ import SummaryList, {
   SummaryListValue,
 } from "@/components/govuk/summary-list";
 import StatusTag from "@/components/keysets/status-tag";
+import { dateFormat } from "@/constants/format";
 import type { OverviewKeyset } from "@/logic/drizzle";
 import type { Design } from "@/logic/drizzle/schema";
 import { getKeysetName, pluralise } from "@/logic/lib/format";
@@ -56,14 +58,30 @@ export const DisplayCard = ({ keyset }: { keyset: KeysetWithDesigns }) => (
           </SummaryListValue>
         </SummaryListRow>
         <SummaryListRow>
+          <SummaryListKey>IC Date</SummaryListKey>
+          <SummaryListValue>
+            {format(new Date(keyset.icDate), dateFormat)}
+          </SummaryListValue>
+        </SummaryListRow>
+        <SummaryListRow>
           <SummaryListKey>Status</SummaryListKey>
           <SummaryListValue>
             <StatusTag status={keyset.status} />
           </SummaryListValue>
         </SummaryListRow>
         <SummaryListRow>
-          <SummaryListKey>Shipped</SummaryListKey>
-          <SummaryListValue>{keyset.shipped ? "Yes" : "No"}</SummaryListValue>
+          <SummaryListKey>GB Launch</SummaryListKey>
+          <SummaryListValue>
+            {keyset.gbLaunch
+              ? format(new Date(keyset.gbLaunch), dateFormat)
+              : "n/a"}
+          </SummaryListValue>
+        </SummaryListRow>
+        <SummaryListRow>
+          <SummaryListKey>GB End</SummaryListKey>
+          <SummaryListValue>
+            {keyset.gbEnd ? format(new Date(keyset.gbEnd), dateFormat) : "n/a"}
+          </SummaryListValue>
         </SummaryListRow>
       </SummaryList>
     </SummaryCardContent>
