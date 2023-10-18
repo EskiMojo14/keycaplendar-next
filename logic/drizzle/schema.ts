@@ -33,6 +33,24 @@ export const statusEnum = pgEnum("keyset_status", [
 
 export type Status = (typeof statusEnum.enumValues)[number];
 
+export const datePrecisionEnum = pgEnum("date_precision", [
+  "microseconds",
+  "milliseconds",
+  "second",
+  "minute",
+  "hour",
+  "day",
+  "week",
+  "month",
+  "quarter",
+  "year",
+  "decade",
+  "century",
+  "millennium",
+]);
+
+export type DatePrecision = (typeof datePrecisionEnum.enumValues)[number];
+
 export const keysets = pgTable("keysets", {
   id: text("id")
     .$defaultFn(() => nanoid(10))
@@ -53,6 +71,12 @@ export const keysets = pgTable("keysets", {
   shipped: boolean("shipped"),
   status: statusEnum("status").notNull(),
   revision: smallint("revision"),
+  _eta: date("_eta"), // non-truncated
+  _etaPrecision: datePrecisionEnum("_eta_precision"),
+  eta: date("eta"), // truncated
+  _shipDate: date("_ship_date"), // non-truncated
+  _shipDatePrecision: datePrecisionEnum("_ship_date_precision"),
+  shipDate: date("ship_date"), // truncated
 });
 
 export type Keyset = typeof keysets.$inferSelect;
