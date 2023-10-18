@@ -13,7 +13,7 @@ import StatusTag from "@/components/keysets/status-tag";
 import { dateFormat } from "@/constants/format";
 import { getKeysetById } from "@/logic/cached";
 import { db } from "@/logic/drizzle";
-import { getKeysetName } from "@/logic/lib/format";
+import { getKeysetName, getShippedBlurb } from "@/logic/lib/format";
 
 const listFormat = new Intl.ListFormat();
 
@@ -30,6 +30,7 @@ export async function generateMetadata({
       profile: true,
       colorway: true,
       manufacturer: true,
+      revision: true,
     },
   });
   return {
@@ -43,6 +44,8 @@ export default async function Keyset({ params: { keysetId } }: Props) {
   if (!keyset) {
     return notFound();
   }
+
+  const shippedMessage = getShippedBlurb(keyset);
   return (
     <Template beforeContent={<BackLink />}>
       <GridRow>
@@ -83,7 +86,7 @@ export default async function Keyset({ params: { keysetId } }: Props) {
             </Link>
           </Body>
           <RunTagline keyset={keyset} />
-          {keyset.shipped ? <Body size="m">This set has shipped.</Body> : null}
+          {shippedMessage ? <Body size="m">{shippedMessage}</Body> : null}
           {keyset.notes && (
             <>
               <Heading size="s">Notes</Heading>

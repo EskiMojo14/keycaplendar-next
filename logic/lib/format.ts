@@ -1,6 +1,7 @@
-import type { Keyset, Status } from "../drizzle/schema";
+import { format, lastDayOfQuarter, startOfQuarter } from "date-fns";
+import type { DatePrecision, Keyset, Status } from "../drizzle/schema";
 import type { Satisfies } from "./utils";
-import { statusOrder } from "@/constants/format";
+import { dateFormat, precisionFormats, statusOrder } from "@/constants/format";
 
 export function getKeysetName(
   keyset: Pick<Keyset, "profile" | "colorway" | "manufacturer" | "revision">,
@@ -50,4 +51,58 @@ export function pluralise(
   fallback: string,
 ) {
   return mapping[cardinalRules.select(count)] ?? fallback;
+}
+
+export const precisionFormat = (
+  date: Date | number,
+  precision: DatePrecision,
+) => {
+  if (precision === "quarter") {
+    return `${format(startOfQuarter(date), precisionFormats.month)} to ${format(
+      lastDayOfQuarter(date),
+      precisionFormats.month,
+    )}`;
+  }
+  return format(date, precisionFormats[precision] ?? dateFormat);
+};
+
+export function getShippedBlurb({
+  shipped,
+  _etaPrecision,
+  eta,
+  _shipDatePrecision,
+  shipDate,
+}: Pick<
+  Keyset,
+  "shipped" | "_etaPrecision" | "eta" | "_shipDatePrecision" | "shipDate"
+>) {
+  if (!shipped) {
+    return eta
+      ? `This keyset is predicted to ship ${precisionFormat(
+          new Date(eta),
+          _etaPrecision ?? "month",
+        )}.`
+      : "";
+  }
+  if (!shipDate) {
+    return `This keyset has shipped${
+      eta
+        ? `. It was predicted to ship ${precisionFormat(
+            new Date(eta),
+            _etaPrecision ?? "month",
+          )}`
+        : ""
+    }.`;
+  }
+  return `${
+    eta
+      ? `This keyset was predicted to ship ${precisionFormat(
+          new Date(eta),
+          _etaPrecision ?? "month",
+        )}, and`
+      : "This keyset"
+  } shipped ${precisionFormat(
+    new Date(shipDate),
+    _shipDatePrecision ?? "month",
+  )}.`;
 }
