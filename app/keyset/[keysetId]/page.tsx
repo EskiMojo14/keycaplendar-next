@@ -87,6 +87,12 @@ export default async function Keyset({ params: { keysetId } }: Props) {
           </Body>
           <RunTagline keyset={keyset} />
           {shippedMessage ? <Body size="m">{shippedMessage}</Body> : null}
+          {keyset.manufacturer && (
+            <Body size="m">
+              {!keyset.shipped ? "To be manufactured" : "Manufactured "} by{" "}
+              {keyset.manufacturer}.
+            </Body>
+          )}
           {keyset.notes && (
             <>
               <Heading size="s">Notes</Heading>
