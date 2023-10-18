@@ -1,5 +1,6 @@
 import type { DatePrecision, Status } from "@/logic/drizzle/schema";
 
+export const shortDateFormat = "d LLL yyyy";
 export const dateFormat = "d LLLL yyyy";
 
 const makeFormats = <SuppliedKeys extends DatePrecision>(
