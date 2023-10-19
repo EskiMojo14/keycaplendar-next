@@ -1,4 +1,5 @@
-import type { Keyset, Status } from "@/logic/drizzle/schema";
+import type { OverviewKeyset } from "@/logic/drizzle";
+import type { Status } from "@/logic/drizzle/schema";
 
 export const statusLabels: Record<Status, string> = {
   ic: "IC",
@@ -35,7 +36,7 @@ export const pagesByStatus: Record<Page, Array<Status>> = {
 
 export const pageSorts: Record<
   Page,
-  Array<{ id: keyof Keyset; desc: boolean }>
+  Array<{ id: keyof OverviewKeyset; desc: boolean }>
 > = {
   calendar: [{ id: "gbLaunch", desc: false }],
   live: [{ id: "gbEnd", desc: false }],
