@@ -5,7 +5,7 @@ import Template from "@/components/govuk/template";
 import KeysetList from "@/components/keysets/keyset-list";
 import type { Page } from "@/constants/keyset";
 import { pageLabels, pages } from "@/constants/keyset";
-import { getKeysetsByPage } from "@/logic/drizzle";
+import { getKeysetsByPage } from "@/logic/cached";
 
 export const dynamic = "force-dynamic";
 

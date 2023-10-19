@@ -81,6 +81,21 @@ export const keysets = pgTable("keysets", {
 
 export type Keyset = typeof keysets.$inferSelect;
 
+export const overviewFields = {
+  profile: true,
+  colorway: true,
+  revision: true,
+  status: true,
+  id: true,
+  shipped: true,
+  manufacturer: true,
+  icDate: true,
+  gbLaunch: true,
+  gbEnd: true,
+} satisfies Partial<Record<keyof Keyset, true>>;
+
+export type OverviewKeyset = Pick<Keyset, keyof typeof overviewFields>;
+
 export const keysetRelations = relations(keysets, ({ one, many }) => ({
   profileData: one(profiles, {
     fields: [keysets.profile],

@@ -15,8 +15,7 @@ import SummaryList, {
 } from "@/components/govuk/summary-list";
 import StatusTag from "@/components/keysets/status-tag";
 import { dateFormat } from "@/constants/format";
-import type { OverviewKeyset } from "@/logic/drizzle";
-import type { Design } from "@/logic/drizzle/schema";
+import type { OverviewKeyset, Design } from "@/logic/drizzle/schema";
 import { getKeysetName, pluralise } from "@/logic/lib/format";
 
 type KeysetWithDesigns = OverviewKeyset & {

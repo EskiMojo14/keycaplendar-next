@@ -3,8 +3,7 @@ import { DisplayCard } from "./display-card";
 import { DisplayTable } from "./display-table";
 import type { Page } from "@/constants/keyset";
 import { pageSorts } from "@/constants/keyset";
-import type { OverviewKeyset } from "@/logic/drizzle";
-import type { Design } from "@/logic/drizzle/schema";
+import type { OverviewKeyset, Design } from "@/logic/drizzle/schema";
 import { useMediaQuery } from "@/logic/hooks/use-media-query";
 
 export default function KeysetList({

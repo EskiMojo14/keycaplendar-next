@@ -12,8 +12,7 @@ import List from "../govuk/list";
 import ReactTable from "../govuk/table/react";
 import StatusTag from "./status-tag";
 import { shortDateFormat } from "@/constants/format";
-import type { OverviewKeyset } from "@/logic/drizzle";
-import type { Status, Design } from "@/logic/drizzle/schema";
+import type { OverviewKeyset, Status, Design } from "@/logic/drizzle/schema";
 import { compareStatus } from "@/logic/lib/format";
 
 type KeysetWithDesigns = OverviewKeyset & {

@@ -1,5 +1,4 @@
-import type { OverviewKeyset } from "@/logic/drizzle";
-import type { Status } from "@/logic/drizzle/schema";
+import type { OverviewKeyset, Status } from "@/logic/drizzle/schema";
 
 export const statusLabels: Record<Status, string> = {
   ic: "IC",
