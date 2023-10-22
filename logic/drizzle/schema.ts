@@ -74,6 +74,9 @@ export const keysets = pgTable("keysets", {
   _eta: date("_eta"), // non-truncated
   _etaPrecision: datePrecisionEnum("_eta_precision"),
   eta: date("eta"), // truncated
+  _originalEta: date("_original_eta"), // non-truncated
+  _originalEtaPrecision: datePrecisionEnum("_original_eta_precision"),
+  originalEta: date("original_eta"), // truncated
   _shipDate: date("_ship_date"), // non-truncated
   _shipDatePrecision: datePrecisionEnum("_ship_date_precision"),
   shipDate: date("ship_date"), // truncated
