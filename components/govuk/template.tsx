@@ -57,7 +57,6 @@ export default async function Template({
               <HeaderLogotype>KeycapLendar</HeaderLogotype>
             </HeaderLink>
           </HeaderLogo>
-          {/* eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing */}
           {(service || nav) && (
             <HeaderContent>
               <div className="govuk-service-row">

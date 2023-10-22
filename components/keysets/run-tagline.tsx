@@ -1,5 +1,4 @@
 import { format } from "date-fns";
-import { Body } from "../govuk/typography";
 import styles from "./run-tagline.module.scss";
 import { dateFormat } from "@/constants/format";
 import { statusVerbs } from "@/constants/keyset";
@@ -12,7 +11,7 @@ export default function RunTagline({
 }) {
   if (keyset.status === "ic") return null;
   return (
-    <Body size="m">
+    <li>
       {statusVerbs[keyset.status]} from{" "}
       <span className={styles.date}>
         {keyset.gbLaunch && format(new Date(keyset.gbLaunch), dateFormat)}
@@ -27,6 +26,6 @@ export default function RunTagline({
         </>
       )}
       .
-    </Body>
+    </li>
   );
 }

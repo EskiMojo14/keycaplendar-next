@@ -27,8 +27,7 @@ export const useActiveLink = <T extends string>(
   const activityClassName =
     sanitizedPath === href || sanitizedPath === as
       ? activeClass
-      : // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
-      sanitizedPath?.startsWith(href + "/") ||
+      : sanitizedPath?.startsWith(href + "/") ||
         sanitizedPath?.startsWith(as + "/")
       ? activeSubClass
       : "";

@@ -1,10 +1,5 @@
 import type { Status } from "../drizzle/schema";
-import {
-  compareStatus,
-  getKeysetName,
-  getShippedBlurb,
-  precisionFormat,
-} from "./format";
+import { compareStatus, getKeysetName, precisionFormat } from "./format";
 
 describe("logic / lib / format", () => {
   describe("getKeysetName", () => {
@@ -81,70 +76,6 @@ describe("logic / lib / format", () => {
     });
     it("defaults to dateFormat for unknown precisions", () => {
       expect(precisionFormat(0, "milliseconds")).toBe("1 January 1970");
-    });
-  });
-  describe("getShippedBlurb", () => {
-    it("formats test cases", () => {
-      expect(
-        getShippedBlurb({
-          shipped: false,
-          _etaPrecision: null,
-          eta: null,
-          _shipDatePrecision: null,
-          shipDate: null,
-        }),
-      ).toMatchInlineSnapshot(`""`);
-      expect(
-        getShippedBlurb({
-          shipped: false,
-          _etaPrecision: "quarter",
-          eta: "2020-07-01",
-          _shipDatePrecision: null,
-          shipDate: null,
-        }),
-      ).toMatchInlineSnapshot(
-        `"This keyset is predicted to ship July 2020 to September 2020."`,
-      );
-      expect(
-        getShippedBlurb({
-          shipped: true,
-          _etaPrecision: null,
-          eta: null,
-          _shipDatePrecision: null,
-          shipDate: null,
-        }),
-      ).toMatchInlineSnapshot(`"This keyset has shipped."`);
-      expect(
-        getShippedBlurb({
-          shipped: true,
-          _etaPrecision: "quarter",
-          eta: "2020-07-01",
-          _shipDatePrecision: null,
-          shipDate: null,
-        }),
-      ).toMatchInlineSnapshot(
-        `"This keyset has shipped. It was predicted to ship July 2020 to September 2020."`,
-      );
-      expect(
-        getShippedBlurb({
-          shipped: true,
-          _etaPrecision: null,
-          eta: null,
-          _shipDatePrecision: "month",
-          shipDate: "2021-01-01",
-        }),
-      ).toMatchInlineSnapshot(`"This keyset shipped January 2021."`);
-      expect(
-        getShippedBlurb({
-          shipped: true,
-          _etaPrecision: "quarter",
-          eta: "2020-07-01",
-          _shipDatePrecision: "month",
-          shipDate: "2021-01-01",
-        }),
-      ).toMatchInlineSnapshot(
-        `"This keyset was predicted to ship July 2020 to September 2020, and shipped January 2021."`,
-      );
     });
   });
 });

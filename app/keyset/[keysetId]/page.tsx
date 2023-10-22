@@ -5,15 +5,17 @@ import { notFound } from "next/navigation";
 import styles from "./page.module.scss";
 import { GridColumn, GridRow } from "@/components/govuk/grid";
 import Link, { BackLink } from "@/components/govuk/link";
+import List from "@/components/govuk/list";
 import Template from "@/components/govuk/template";
 import { Body, Caption, Heading } from "@/components/govuk/typography";
 import ListingCard from "@/components/keysets/listing-card";
 import RunTagline from "@/components/keysets/run-tagline";
+import ShipTagline from "@/components/keysets/ship-tagline";
 import StatusTag from "@/components/keysets/status-tag";
 import { dateFormat } from "@/constants/format";
 import { getKeysetById } from "@/logic/cached";
 import { db } from "@/logic/drizzle";
-import { getKeysetName, getShippedBlurb } from "@/logic/lib/format";
+import { getKeysetName } from "@/logic/lib/format";
 
 const listFormat = new Intl.ListFormat();
 
@@ -45,7 +47,6 @@ export default async function Keyset({ params: { keysetId } }: Props) {
     return notFound();
   }
 
-  const shippedMessage = getShippedBlurb(keyset);
   return (
     <Template beforeContent={<BackLink />}>
       <GridRow>
@@ -80,19 +81,21 @@ export default async function Keyset({ params: { keysetId } }: Props) {
       </GridRow>
       <GridRow>
         <GridColumn size={keyset.listings.length ? "one-third" : "full"}>
-          <Body size="m">
-            <Link href={keyset.details as Route}>
-              IC posted {format(new Date(keyset.icDate), dateFormat)}.
-            </Link>
-          </Body>
-          <RunTagline keyset={keyset} />
-          {shippedMessage ? <Body size="m">{shippedMessage}</Body> : null}
-          {keyset.manufacturer && (
-            <Body size="m">
-              {!keyset.shipped ? "To be manufactured" : "Manufactured "} by{" "}
-              {keyset.manufacturer}.
-            </Body>
-          )}
+          <List variant="bullet">
+            <li>
+              <Link href={keyset.details as Route}>
+                IC posted {format(new Date(keyset.icDate), dateFormat)}.
+              </Link>
+            </li>
+            <RunTagline keyset={keyset} />
+            <ShipTagline keyset={keyset} />
+            {keyset.manufacturer && (
+              <li>
+                {!keyset.shipped ? "To be manufactured" : "Manufactured "} by{" "}
+                {keyset.manufacturer}.
+              </li>
+            )}
+          </List>
           {keyset.notes && (
             <>
               <Heading size="s">Notes</Heading>

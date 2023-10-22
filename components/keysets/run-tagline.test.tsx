@@ -8,7 +8,7 @@ describe("RunTagline", () => {
   const matchText =
     (textContent: string): MatcherFunction =>
     (_, el) =>
-      el?.tagName.toLowerCase() === "p" && el.textContent === textContent;
+      el?.tagName.toLowerCase() === "div" && el.textContent === textContent;
   it("uses past tense for closed sets", () => {
     const gbLaunch = addDays(new Date(), -30);
     const gbEnd = addDays(new Date(), -2);
