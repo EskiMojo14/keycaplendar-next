@@ -4,7 +4,6 @@ import CancelButton from "@/components/cancel-button";
 import Button, { ButtonGroup } from "@/components/govuk/button";
 import FormGroup from "@/components/govuk/form-group";
 import Label, { LabelWrapper } from "@/components/govuk/label";
-import { BackLink } from "@/components/govuk/link";
 import Template from "@/components/govuk/template";
 import { Body, Caption } from "@/components/govuk/typography";
 import { db } from "@/logic/drizzle";
@@ -28,7 +27,7 @@ export default async function DeleteKeyset({
     return redirect("/calendar");
   }
   return (
-    <Template beforeContent={<BackLink />}>
+    <Template>
       <form action={deleteKeyset}>
         <FormGroup>
           <LabelWrapper>

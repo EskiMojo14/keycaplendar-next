@@ -31,7 +31,7 @@ type ColumnSize =
   | "one-quarter";
 
 export interface GridColumnProps extends ComponentPropsWithoutRef<"div"> {
-  size: ColumnSize;
+  size?: ColumnSize;
   desktop?: ColumnSize;
 }
 
@@ -43,7 +43,7 @@ export const GridColumn = forwardRef<HTMLDivElement, GridColumnProps>(
         {...props}
         className={gridColumnClasses({
           modifiers: {
-            [size]: true,
+            [size ?? ""]: true,
             ...(desktop && { [desktop + "-from-desktop"]: true }),
           },
           extra: className,

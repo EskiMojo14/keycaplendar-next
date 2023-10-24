@@ -4,7 +4,7 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import styles from "./page.module.scss";
 import { GridColumn, GridRow } from "@/components/govuk/grid";
-import Link, { BackLink } from "@/components/govuk/link";
+import Link from "@/components/govuk/link";
 import List from "@/components/govuk/list";
 import Template from "@/components/govuk/template";
 import { Body, Caption, Heading } from "@/components/govuk/typography";
@@ -48,7 +48,7 @@ export default async function Keyset({ params: { keysetId } }: Props) {
   }
 
   return (
-    <Template beforeContent={<BackLink />}>
+    <Template>
       <GridRow>
         <GridColumn size="two-thirds">
           <Heading size="l">

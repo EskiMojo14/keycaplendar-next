@@ -44,8 +44,8 @@ export const pageSorts: Record<
   timeline: [{ id: "gbLaunch", desc: false }],
 };
 
-export const statusVerbs = {
+export const statusVerbs: Record<Exclude<Status, "ic">, string> = {
   future: "Runs",
   ongoing: "Running",
   closed: "Ran",
-} satisfies Record<Exclude<Status, "ic">, string>;
+};

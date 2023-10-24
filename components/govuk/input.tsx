@@ -102,7 +102,16 @@ const describedBy = (...ids: Array<string | undefined>) =>
 
 export const InputFormGroup = forwardRef<HTMLInputElement, InputFormGroupProps>(
   function InputFormGroup(
-    { label, labelIsHeading, labelSize, hint, errorMessage, id, ...props },
+    {
+      label,
+      labelIsHeading,
+      labelSize,
+      hint,
+      errorMessage,
+      id,
+      error,
+      ...props
+    },
     ref,
   ) {
     const labelEl = (
@@ -113,7 +122,7 @@ export const InputFormGroup = forwardRef<HTMLInputElement, InputFormGroupProps>(
     const hintId = append(id, "-hint");
     const errorId = append(id, "-error");
     return (
-      <FormGroup>
+      <FormGroup error={error}>
         {labelIsHeading ? <LabelWrapper>{labelEl}</LabelWrapper> : labelEl}
         {hint && <Hint id={hintId}>{hint}</Hint>}
         {errorMessage && (
@@ -123,7 +132,8 @@ export const InputFormGroup = forwardRef<HTMLInputElement, InputFormGroupProps>(
           ref={ref}
           aria-describedby={describedBy(hintId, errorId)}
           {...props}
-          id="id"
+          error={error}
+          id={id}
         />
       </FormGroup>
     );

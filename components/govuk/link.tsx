@@ -1,19 +1,13 @@
 "use client";
 import type { LinkProps as NextLinkProps } from "next/link";
 import NextLink from "next/link";
-import { useRouter } from "next/navigation";
-import {
-  forwardRef,
-  type ComponentPropsWithoutRef,
-  type ForwardedRef,
-} from "react";
-import styles from "./link.module.scss";
+import type { ForwardedRef } from "react";
 import { govukBem } from ".";
 import { forwardGenericRef } from "@/logic/lib/react";
 
 const linkClasses = govukBem("link");
 
-interface LinkProps<T> extends NextLinkProps<T> {
+export interface LinkProps<T> extends NextLinkProps<T> {
   noVisitedState?: boolean;
   color?: "inverse";
   noUnderline?: boolean;
@@ -47,29 +41,24 @@ export default forwardGenericRef(function Link<T>(
 
 const backLinkClasses = govukBem("back-link");
 
-export interface BacklinkProps extends ComponentPropsWithoutRef<"button"> {
+export interface BackLinkProps<T> extends NextLinkProps<T> {
   color?: "inverse";
 }
 
-export const BackLink = forwardRef(function BackLink(
-  { className, color, onClick, ...props }: BacklinkProps,
-  ref: ForwardedRef<HTMLButtonElement>,
+export const BackLink = forwardGenericRef(function BackLink<T>(
+  { className, color, ...props }: BackLinkProps<T>,
+  ref: ForwardedRef<HTMLAnchorElement>,
 ) {
-  const router = useRouter();
   return (
-    <button
+    <NextLink
       {...props}
       ref={ref}
       className={backLinkClasses({
         modifiers: { [color ?? ""]: true },
-        extra: [className ?? "", styles.backLink ?? ""],
+        extra: [className ?? ""],
       })}
-      onClick={(e) => {
-        router.back();
-        onClick?.(e);
-      }}
     >
       Back
-    </button>
+    </NextLink>
   );
 });

@@ -10,7 +10,7 @@ import {
 } from "drizzle-orm/pg-core";
 import { nanoid } from "nanoid";
 
-const created_at = timestamp("created_at", {
+const createdAt = timestamp("created_at", {
   mode: "string",
   withTimezone: true,
 })
@@ -19,7 +19,7 @@ const created_at = timestamp("created_at", {
 
 export const profiles = pgTable("profiles", {
   name: text("name").primaryKey(),
-  created_at,
+  createdAt,
 });
 
 export type Profile = typeof profiles.$inferSelect;
@@ -55,7 +55,7 @@ export const keysets = pgTable("keysets", {
   id: text("id")
     .$defaultFn(() => nanoid(10))
     .primaryKey(),
-  created_at,
+  createdAt,
   profile: text("profile")
     .notNull()
     .references(() => profiles.name),
@@ -114,7 +114,7 @@ export const keysetRelations = relations(keysets, ({ one, many }) => ({
 
 export const designers = pgTable("designers", {
   username: text("username").primaryKey(),
-  created_at,
+  createdAt,
 });
 
 export type Designer = typeof designers.$inferSelect;
@@ -130,7 +130,7 @@ export const designs = pgTable("designs", {
   keysetId: text("keyset_id")
     .primaryKey()
     .references(() => keysets.id),
-  created_at,
+  createdAt,
 });
 
 export type Design = typeof designs.$inferSelect;
@@ -148,7 +148,7 @@ export const designRelations = relations(designs, ({ one }) => ({
 
 export const vendors = pgTable("vendors", {
   name: text("name").primaryKey(),
-  created_at,
+  createdAt,
   country: text("country"),
 });
 
@@ -165,7 +165,7 @@ export const listings = pgTable("listings", {
   vendorName: text("vendor_name")
     .primaryKey()
     .references(() => vendors.name),
-  created_at,
+  createdAt,
   url: text("url"),
   regions: text("regions").array(),
   gbEnd: date("gb_end"),
@@ -186,7 +186,7 @@ export const listingRelations = relations(listings, ({ one }) => ({
 
 export const manufacturers = pgTable("manufacturers", {
   name: text("name").primaryKey(),
-  created_at,
+  createdAt,
 });
 
 export type Manufacturer = typeof manufacturers.$inferSelect;

@@ -6,12 +6,11 @@ import Fieldset, {
   FieldsetLegend,
 } from "@/components/govuk/fieldset";
 import { InputFormGroup } from "@/components/govuk/input";
-import { BackLink } from "@/components/govuk/link";
 import Template from "@/components/govuk/template";
 
 export default function Login() {
   return (
-    <Template beforeContent={<BackLink />}>
+    <Template>
       <form action="/auth/sign-in" method="post" className={styles.form}>
         <Fieldset>
           <FieldsetLegend size="l">

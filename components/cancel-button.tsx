@@ -10,7 +10,6 @@ export default function CancelButton() {
       onClick={() => {
         router.back();
       }}
-      type="button"
     >
       Cancel
     </Button>

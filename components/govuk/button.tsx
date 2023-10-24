@@ -11,13 +11,14 @@ export interface ButtonProps extends ComponentPropsWithoutRef<"button"> {
 const buttonClasses = govukBem("button");
 
 export default forwardRef<HTMLButtonElement, ButtonProps>(function Button(
-  { className, color, ...props },
+  { className, color, type = "button", ...props },
   ref,
 ) {
   const ownRef = useRef<HTMLButtonElement>(null);
   return (
     <button
       {...props}
+      type={type}
       ref={mergeRefs([ref, ownRef])}
       className={buttonClasses({
         modifiers: color ?? "",

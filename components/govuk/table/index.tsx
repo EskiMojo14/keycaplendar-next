@@ -96,6 +96,7 @@ export const TableSortButton = forwardRef<
 >(function TableSortButton({ className, ...props }, ref) {
   return (
     <button
+      type="button"
       ref={ref}
       {...props}
       className={tableClasses("sort-label", undefined, className)}
