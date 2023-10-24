@@ -23,7 +23,7 @@ export default function AddProfileForm({
     <form action={formAction} noValidate>
       {hasErrors && (
         <ErrorSummary>
-          {state.formErrors?.map((msg) => <li key={msg}>msg</li>)}
+          {state.formErrors?.map((msg) => <li key={msg}>{msg}</li>)}
           {Object.entries(state.fieldErrors ?? {}).flatMap(([field, msgs]) =>
             msgs.map((msg) => (
               <li key={msg}>
