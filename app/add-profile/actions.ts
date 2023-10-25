@@ -12,9 +12,9 @@ const formSchema = zfd.formData({
   name: zfd.text(z.string({ required_error: "Enter a name" })),
 });
 
-type ProcessState = Partial<z.typeToFlattenedError<Profile>>;
+export type NameState = Partial<z.typeToFlattenedError<Profile>>;
 
-export const processForm: ServerActionReducer<ProcessState, FormData> = async (
+export const nameStep: ServerActionReducer<NameState, FormData> = async (
   prevState,
   formData,
 ) => {
@@ -37,6 +37,6 @@ export const processForm: ServerActionReducer<ProcessState, FormData> = async (
     }
     return redirect("/add-profile/summary");
   } else {
-    return parsed.error.flatten() as any;
+    return parsed.error.flatten() as NameState;
   }
 };

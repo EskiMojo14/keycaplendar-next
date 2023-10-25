@@ -1,7 +1,7 @@
 "use client";
 
 import { useMemo } from "react";
-import { uploadProfile } from "../actions/upload";
+import { uploadProfile } from "./actions";
 import Button from "@/components/govuk/button";
 import ErrorMessage from "@/components/govuk/error-message";
 import type { Profile } from "@/logic/drizzle/schema";
