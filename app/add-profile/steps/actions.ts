@@ -8,10 +8,6 @@ import { db } from "@/logic/drizzle";
 import type { Profile } from "@/logic/drizzle/schema";
 import type { ServerActionReducer } from "@/logic/form";
 
-const formSchema = zfd.formData({
-  name: zfd.text(z.string({ required_error: "Enter a name" })),
-});
-
 export type NameState = Partial<z.typeToFlattenedError<Profile>>;
 
 export const nameStep: ServerActionReducer<NameState, FormData> = async (
@@ -19,7 +15,11 @@ export const nameStep: ServerActionReducer<NameState, FormData> = async (
   formData,
 ) => {
   "use server";
-  const parsed = formSchema.safeParse(formData);
+  const parsed = zfd
+    .formData({
+      name: zfd.text(z.string({ required_error: "Enter a name" })),
+    })
+    .safeParse(formData);
   if (parsed.success) {
     const { data } = parsed;
     cookies().set(profilePaths.name, data.name);

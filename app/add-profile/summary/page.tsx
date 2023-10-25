@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { cookies } from "next/headers";
 import { z } from "zod";
 import SubmitForm from "./submit";
@@ -11,6 +12,13 @@ import SummaryList, {
 import Template from "@/components/govuk/template";
 import { Body, Heading } from "@/components/govuk/typography";
 import { profilePaths } from "@/constants/cookies";
+
+export function generateMetadata(): Metadata {
+  const name = cookies().get(profilePaths.name)?.value;
+  return {
+    title: `Add profile${name ? ": " + name : ""}`,
+  };
+}
 
 const profileSchema = z.object({
   name: z.string(),

@@ -1,12 +1,19 @@
+import type { Metadata } from "next";
 import { GridColumn, GridRow } from "@/components/govuk/grid";
 import Panel from "@/components/govuk/panel";
 import Template from "@/components/govuk/template";
 
-export default function ConfirmProfile({
-  searchParams: { name },
-}: {
+interface Props {
   searchParams: { name?: string };
-}) {
+}
+
+export function generateMetadata({ searchParams: { name } }: Props): Metadata {
+  return {
+    title: `Added profile${name ? ": " + name : ""}`,
+  };
+}
+
+export default function ConfirmProfile({ searchParams: { name } }: Props) {
   return (
     <Template>
       <GridRow>
