@@ -5,10 +5,9 @@ import { z } from "zod";
 import { zfd } from "zod-form-data";
 import { profilePaths } from "@/constants/cookies";
 import { db } from "@/logic/drizzle";
-import type { Profile } from "@/logic/drizzle/schema";
 import type { ServerActionReducer } from "@/logic/form";
 
-export type NameState = Partial<z.typeToFlattenedError<Profile>>;
+export type NameState = Partial<z.typeToFlattenedError<{ name: string }>>;
 
 export const nameStep: ServerActionReducer<NameState, FormData> = async (
   prevState,
