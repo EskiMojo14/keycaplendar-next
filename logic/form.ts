@@ -8,8 +8,8 @@ export type ServerActionReducer<
   State,
   Payload = never,
   BoundArguments extends Array<any> = [],
-> = [Payload] extends [never]
-  ? (...args: [...BoundArguments, state: State]) => Promise<State>
-  : (
-      ...args: [...BoundArguments, state: State, payload: Payload]
-    ) => Promise<State>;
+> = (
+  ...args: [Payload] extends [never]
+    ? [...BoundArguments, state: State]
+    : [...BoundArguments, state: State, payload: Payload]
+) => Promise<State>;
