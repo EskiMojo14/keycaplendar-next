@@ -35,14 +35,14 @@ export default function ProfileSummary() {
         <Heading size="l">Something went wrong</Heading>
         <Body size="m">
           Details failed to pass through the form. Please{" "}
-          <Link href="/add-profile">retry</Link>.
+          <Link href="/profile/add/steps/name">retry</Link>.
         </Body>
       </Template>
     );
   }
   const { data } = parsed;
   return (
-    <Template beforeContent={<BackLink href="/add-profile" />}>
+    <Template beforeContent={<BackLink href="/profile/add/steps/name" />}>
       <GridRow>
         <GridColumn desktop="two-thirds">
           <Heading size="l">Check answers before submission</Heading>
@@ -54,7 +54,7 @@ export default function ProfileSummary() {
               <SummaryListKey>Name</SummaryListKey>
               <SummaryListValue>{data.name}</SummaryListValue>
               <SummaryListValue>
-                <Link href="/add-profile">Change</Link>
+                <Link href="/profile/add/steps/name">Change</Link>
               </SummaryListValue>
             </SummaryListRow>
           </SummaryList>
