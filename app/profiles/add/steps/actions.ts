@@ -34,7 +34,7 @@ export const nameStep: ServerActionReducer<NameState, FormData> = async (
         fieldErrors: {},
       };
     }
-    return redirect("/profile/add/summary");
+    return redirect("/profiles/add/summary");
   } else {
     return parsed.error.flatten() as NameState;
   }

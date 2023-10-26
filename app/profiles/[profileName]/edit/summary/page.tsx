@@ -49,7 +49,7 @@ export default async function ProfileSummary({
         <Heading size="l">Something went wrong</Heading>
         <Body size="m">
           Details failed to pass through the form. Please{" "}
-          <Link href={`/profile/${encodedProfileName}/edit`}>retry</Link>.
+          <Link href={`/profiles/${encodedProfileName}/edit`}>retry</Link>.
         </Body>
       </Template>
     );
@@ -57,7 +57,7 @@ export default async function ProfileSummary({
   const { data } = parsed;
   return (
     <Template
-      beforeContent={<BackLink href={`/profile/${encodedProfileName}`} />}
+      beforeContent={<BackLink href={`/profiles/${encodedProfileName}`} />}
     >
       <GridRow>
         <GridColumn desktop="two-thirds">
@@ -70,7 +70,7 @@ export default async function ProfileSummary({
               <SummaryListKey>Name</SummaryListKey>
               <SummaryListValue>{data.name ?? profile.name}</SummaryListValue>
               <SummaryListValue>
-                <Link href={`/profile/${encodedProfileName}/edit/steps/name`}>
+                <Link href={`/profiles/${encodedProfileName}/edit/steps/name`}>
                   Change
                 </Link>
               </SummaryListValue>

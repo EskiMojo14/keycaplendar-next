@@ -35,7 +35,7 @@ export const nameStep: ServerActionReducer<FormState, FormData> = async (
       }
     }
     return redirect(
-      `/profile/${encodeURIComponent(data.originalName)}/edit/summary`,
+      `/profiles/${encodeURIComponent(data.originalName)}/edit/summary`,
     );
   } else {
     return parsed.error.flatten();

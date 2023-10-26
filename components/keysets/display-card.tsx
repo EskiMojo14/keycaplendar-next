@@ -28,10 +28,10 @@ export const DisplayCard = ({ keyset }: { keyset: KeysetWithDesigns }) => (
       <SummaryCardTitle>{getKeysetName(keyset)}</SummaryCardTitle>
       <SummaryCardActions>
         <SummaryCardAction>
-          <Link href={`/keyset/${keyset.id}`}>View</Link>
+          <Link href={`/keysets/${keyset.id}`}>View</Link>
         </SummaryCardAction>
         <SummaryCardAction>
-          <Link href={`/edit-keyset/${keyset.id}`}>Edit</Link>
+          <Link href={`/keysets/${keyset.id}/edit`}>Edit</Link>
         </SummaryCardAction>
       </SummaryCardActions>
     </SummaryCardTitleWrapper>

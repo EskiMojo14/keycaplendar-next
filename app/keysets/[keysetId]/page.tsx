@@ -62,8 +62,8 @@ export default async function Keyset({ params: { keysetId } }: Props) {
           </Heading>
           <StatusTag status={keyset.status} />
           <div className={styles.actions}>
-            <Link href={`/edit-keyset/${keysetId}`}>Edit</Link>
-            <Link href={`/delete-keyset/${keysetId}`}>Delete</Link>
+            <Link href={`/keysets/${keysetId}/edit`}>Edit</Link>
+            <Link href={`/keysets/${keysetId}/delete`}>Delete</Link>
           </div>
         </GridColumn>
         <GridColumn size="one-third">

@@ -69,7 +69,7 @@ const columns = [
   columnHelper.accessor("id", {
     header: "",
     enableSorting: false,
-    cell: ({ getValue }) => <Link href={`/keyset/${getValue()}`}>View</Link>,
+    cell: ({ getValue }) => <Link href={`/keysets//${getValue()}`}>View</Link>,
   }),
 ];
 

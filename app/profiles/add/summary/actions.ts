@@ -18,5 +18,5 @@ export const uploadProfile: ServerActionReducer<
     console.error("Failed to upload profile", e);
     return { message: "Failed to upload profile" };
   }
-  return redirect(`/profile/add/confirm?name=${data.name}`);
+  return redirect(`/profiles/add/confirm?name=${data.name}`);
 };
