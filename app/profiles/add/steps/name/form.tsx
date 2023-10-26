@@ -1,9 +1,8 @@
 "use client";
+import { useFormState } from "react-dom";
 import { nameStep } from "../actions";
 import FormStep from "@/components/form";
 import { InputFormGroup } from "@/components/govuk/input";
-import { profilePaths } from "@/constants/cookies";
-import { useFormState } from "@/logic/react-dom.shim";
 
 export default function ProfileName({
   defaultValue,
@@ -18,7 +17,7 @@ export default function ProfileName({
         labelIsHeading
         labelSize="l"
         name="name"
-        id={profilePaths.name}
+        id="profile.name"
         width={5}
         error={!!state.fieldErrors?.name}
         errorMessage={state.fieldErrors?.name?.join("\n")}

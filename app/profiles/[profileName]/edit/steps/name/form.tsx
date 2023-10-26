@@ -1,8 +1,8 @@
 "use client";
+import { useFormState } from "react-dom";
 import { nameStep } from "../actions";
 import FormStep from "@/components/form";
 import { InputFormGroup } from "@/components/govuk/input";
-import { useFormState } from "@/logic/react-dom.shim";
 
 export default function ProfileName({
   defaultValue,

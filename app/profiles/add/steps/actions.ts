@@ -3,7 +3,6 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 import { zfd } from "zod-form-data";
-import { profilePaths } from "@/constants/cookies";
 import { db } from "@/logic/drizzle";
 import type { ServerActionReducer } from "@/logic/form";
 
@@ -21,7 +20,7 @@ export const nameStep: ServerActionReducer<NameState, FormData> = async (
     .safeParse(formData);
   if (parsed.success) {
     const { data } = parsed;
-    cookies().set(profilePaths.name, data.name);
+    cookies().set("profile.name", data.name);
     const sameName = await db.query.profiles.findFirst({
       where: (profiles, { eq }) => eq(profiles.name, data.name),
       columns: {

@@ -1,11 +1,11 @@
 "use client";
 
 import { useMemo } from "react";
+import { useFormState } from "react-dom";
 import { updateProfile } from "./actions";
 import Button from "@/components/govuk/button";
 import ErrorMessage from "@/components/govuk/error-message";
 import type { Profile } from "@/logic/drizzle/schema";
-import { useFormState } from "@/logic/react-dom.shim";
 
 export default function SubmitForm({
   data,
