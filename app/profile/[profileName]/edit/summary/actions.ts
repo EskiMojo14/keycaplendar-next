@@ -1,22 +1,23 @@
 "use server";
+import { eq } from "drizzle-orm";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { db } from "@/logic/drizzle";
 import { profiles, type Profile } from "@/logic/drizzle/schema";
 import type { ServerActionReducer } from "@/logic/form";
 
-export const uploadProfile: ServerActionReducer<
+export const updateProfile: ServerActionReducer<
   { message: string },
   never,
-  [data: Omit<Profile, "createdAt">]
-> = async (data) => {
+  [data: Partial<Omit<Profile, "createdAt">>, originalName: string]
+> = async (data, originalName) => {
   const cookieStore = cookies();
   try {
-    await db.insert(profiles).values(data);
-    cookieStore.delete("profile.name");
+    await db.update(profiles).set(data).where(eq(profiles.name, originalName));
+    cookieStore.delete("edit.profile.name");
   } catch (e) {
     console.error("Failed to upload profile", e);
     return { message: "Failed to upload profile" };
   }
-  return redirect(`/profile/add/confirm?name=${data.name}`);
+  return redirect(`/profile/${data.name}/edit/confirm`);
 };

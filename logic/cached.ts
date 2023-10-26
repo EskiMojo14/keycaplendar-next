@@ -40,3 +40,9 @@ export const getVendorByName = cache((name: string) =>
     where: (vendors, { eq }) => eq(vendors.name, name),
   }),
 );
+
+export const getProfileByName = cache((name: string) =>
+  db.query.profiles.findFirst({
+    where: (profiles, { eq }) => eq(profiles.name, name),
+  }),
+);

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { cookies } from "next/headers";
+import { notFound } from "next/navigation";
 import { z } from "zod";
 import SubmitForm from "./submit";
 import { GridColumn, GridRow } from "@/components/govuk/grid";
@@ -11,11 +12,18 @@ import SummaryList, {
 } from "@/components/govuk/summary-list";
 import Template from "@/components/govuk/template";
 import { Body, Heading } from "@/components/govuk/typography";
+import { getProfileByName } from "@/logic/cached";
 
-export function generateMetadata(): Metadata {
-  const name = cookies().get("profile.name")?.value;
+interface Props {
+  params: { profileName: string };
+}
+
+export function generateMetadata({
+  params: { profileName: encodedProfileName },
+}: Props): Metadata {
+  const profileName = decodeURIComponent(encodedProfileName);
   return {
-    title: `Add profile${name ? ": " + name : ""}`,
+    title: `Edit profile: ${profileName}`,
   };
 }
 
@@ -23,10 +31,17 @@ const profileSchema = z.object({
   name: z.string(),
 });
 
-export default function ProfileSummary() {
+export default async function ProfileSummary({
+  params: { profileName: encodedProfileName },
+}: Props) {
+  const profileName = decodeURIComponent(encodedProfileName);
+  const profile = await getProfileByName(profileName);
+  if (!profile) {
+    return notFound();
+  }
   const cookieStore = cookies();
-  const parsed = profileSchema.safeParse({
-    name: cookieStore.get("profile.name")?.value,
+  const parsed = profileSchema.partial().safeParse({
+    name: cookieStore.get("edit.profile.name")?.value,
   });
   if (!parsed.success) {
     return (
@@ -34,14 +49,16 @@ export default function ProfileSummary() {
         <Heading size="l">Something went wrong</Heading>
         <Body size="m">
           Details failed to pass through the form. Please{" "}
-          <Link href="/profile/add/steps/name">retry</Link>.
+          <Link href={`/profile/${encodedProfileName}/edit`}>retry</Link>.
         </Body>
       </Template>
     );
   }
   const { data } = parsed;
   return (
-    <Template beforeContent={<BackLink href="/profile/add/steps/name" />}>
+    <Template
+      beforeContent={<BackLink href={`/profile/${encodedProfileName}`} />}
+    >
       <GridRow>
         <GridColumn desktop="two-thirds">
           <Heading size="l">Check answers before submission</Heading>
@@ -51,16 +68,18 @@ export default function ProfileSummary() {
           <SummaryList>
             <SummaryListRow>
               <SummaryListKey>Name</SummaryListKey>
-              <SummaryListValue>{data.name}</SummaryListValue>
+              <SummaryListValue>{data.name ?? profile.name}</SummaryListValue>
               <SummaryListValue>
-                <Link href="/profile/add/steps/name">Change</Link>
+                <Link href={`/profile/${encodedProfileName}/edit/steps/name`}>
+                  Change
+                </Link>
               </SummaryListValue>
             </SummaryListRow>
           </SummaryList>
           <Heading size="m" tag="h2">
-            Confirm upload
+            Confirm edit
           </Heading>
-          <SubmitForm data={data} />
+          <SubmitForm data={data} originalName={profileName} />
         </GridColumn>
       </GridRow>
     </Template>

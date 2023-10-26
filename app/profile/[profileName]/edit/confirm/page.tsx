@@ -4,22 +4,22 @@ import Panel from "@/components/govuk/panel";
 import Template from "@/components/govuk/template";
 
 interface Props {
-  searchParams: { name: string };
+  params: { profileName: string };
 }
 
-export function generateMetadata({ searchParams: { name } }: Props): Metadata {
+export function generateMetadata({ params: { profileName } }: Props): Metadata {
   return {
-    title: `Added profile: ${name}`,
+    title: `Edited profile: ${decodeURIComponent(profileName)}`,
   };
 }
 
-export default function ConfirmProfile({ searchParams: { name } }: Props) {
+export default function ConfirmProfile({ params: { profileName } }: Props) {
   return (
     <Template>
       <GridRow>
         <GridColumn size="two-thirds">
-          <Panel confirmation title="Upload successful">
-            Profile <strong>{name}</strong> added.
+          <Panel confirmation title="Edit successful">
+            Profile <strong>{decodeURIComponent(profileName)}</strong> edited.
           </Panel>
         </GridColumn>
       </GridRow>
