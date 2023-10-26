@@ -1,23 +1,24 @@
 import type { ComponentPropsWithoutRef, ReactNode } from "react";
+import { Body } from "./govuk/typography";
 import Button from "@/components/govuk/button";
 import ErrorMessage from "@/components/govuk/error-message";
 import ErrorSummary, {
   ErrorSummaryLink,
 } from "@/components/govuk/error-summary";
+import type { FormState } from "@/logic/form";
 
 export default function FormStep({
   action,
   state,
   children,
   namespace,
+  buttons = <Button type="submit">Continue</Button>,
 }: {
   action: ComponentPropsWithoutRef<"form">["action"];
-  state: {
-    formErrors?: Array<string>;
-    fieldErrors?: Record<string, Array<string>>;
-  };
+  state: FormState;
   children?: ReactNode;
   namespace: string;
+  buttons?: ReactNode;
 }) {
   const hasErrors = !!(
     state.formErrors?.length || Object.keys(state.fieldErrors ?? {}).length
@@ -39,10 +40,11 @@ export default function FormStep({
         </ErrorSummary>
       )}
       {children}
-      <Button type="submit">Continue</Button>
+      {buttons}
       {state.formErrors?.length ? (
         <ErrorMessage>{state.formErrors.join("\n")}</ErrorMessage>
       ) : null}
+      {state.messages?.length ? <Body>{state.messages.join("\n")}</Body> : null}
     </form>
   );
 }

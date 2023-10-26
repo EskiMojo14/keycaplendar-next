@@ -1,3 +1,6 @@
+import { produce } from "immer";
+import { safeAssign } from "./lib/utils";
+
 export type ServerActionReducer<
   State,
   Payload = never,
@@ -11,4 +14,20 @@ export type ServerActionReducer<
 export interface FormState {
   formErrors?: Array<string>;
   fieldErrors?: Record<string, Array<string>>;
+  messages?: Array<string>;
 }
+
+export const mergeFormStates = (...states: Array<FormState>) =>
+  produce({} as FormState, (draft) => {
+    for (const state of states) {
+      if (state.formErrors) {
+        (draft.formErrors ??= []).push(...state.formErrors);
+      }
+      if (state.fieldErrors) {
+        safeAssign((draft.fieldErrors ??= {}), state.fieldErrors);
+      }
+      if (state.messages) {
+        (draft.messages ??= []).push(...state.messages);
+      }
+    }
+  });
