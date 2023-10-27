@@ -5,7 +5,7 @@ module.exports = {
     "eslint:recommended",
     "plugin:@typescript-eslint/strict-type-checked",
     "plugin:@typescript-eslint/stylistic-type-checked",
-    "plugin:@next/next/core-web-vitals",
+    "next/core-web-vitals",
     "plugin:import/recommended",
     "plugin:import/typescript",
   ],

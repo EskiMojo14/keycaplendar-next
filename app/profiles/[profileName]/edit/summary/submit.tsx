@@ -1,5 +1,4 @@
 "use client";
-
 import { useMemo } from "react";
 import { useFormState } from "react-dom";
 import { updateProfile } from "./actions";
@@ -16,7 +15,7 @@ export default function SubmitForm({
 }) {
   const boundAction = useMemo(
     () => updateProfile.bind(null, data, originalName),
-    [data],
+    [data, originalName],
   );
   const [{ message }, formAction] = useFormState(boundAction, { message: "" });
   return (
