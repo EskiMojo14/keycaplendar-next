@@ -1,5 +1,4 @@
 "use client";
-import { useEffect, useState } from "react";
 import { useFormState } from "react-dom";
 import { signIn, signUp } from "../auth/actions";
 import FormStep from "@/components/form";
@@ -9,18 +8,12 @@ import Fieldset, {
   FieldsetLegend,
 } from "@/components/govuk/fieldset";
 import { InputFormGroup } from "@/components/govuk/input";
-import type { FormState } from "@/logic/form";
+import useLatestState from "@/logic/hooks/use-latest-state";
 
 export default function SignUpForm() {
-  const [currentState, setCurrentState] = useState<FormState>({});
   const [signInState, signInAction] = useFormState(signIn, {});
-  useEffect(() => {
-    setCurrentState(signInState);
-  }, [signInState, setCurrentState]);
   const [signUpState, signUpAction] = useFormState(signUp, {});
-  useEffect(() => {
-    setCurrentState(signUpState);
-  }, [signUpState, setCurrentState]);
+  const currentState = useLatestState(signInState, signUpState);
   return (
     <FormStep
       action={signInAction}
