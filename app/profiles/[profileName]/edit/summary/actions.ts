@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { db } from "@/logic/drizzle";
 import { profiles, type Profile } from "@/logic/drizzle/schema";
 import type { ServerActionReducer } from "@/logic/form";
+import { route } from "@/logic/lib/route";
 
 export const updateProfile: ServerActionReducer<
   { message: string },
@@ -19,5 +20,5 @@ export const updateProfile: ServerActionReducer<
     console.error("Failed to upload profile", e);
     return { message: "Failed to upload profile" };
   }
-  return redirect(`/profiles/${data.name}/edit/confirm`);
+  return redirect(route(`/profiles/${data.name}/edit/confirm`));
 };

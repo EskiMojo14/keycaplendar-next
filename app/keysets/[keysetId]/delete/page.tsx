@@ -9,6 +9,7 @@ import { Body, Caption } from "@/components/govuk/typography";
 import { db } from "@/logic/drizzle";
 import { keysets } from "@/logic/drizzle/schema";
 import { getKeysetName } from "@/logic/lib/format";
+import { route } from "@/logic/lib/route";
 
 export default async function DeleteKeyset({
   params: { keysetId },
@@ -18,13 +19,13 @@ export default async function DeleteKeyset({
   async function deleteKeyset() {
     "use server";
     await db.delete(keysets).where(eq(keysets.id, keysetId));
-    redirect("/calendar");
+    redirect(route("/calendar"));
   }
   const keyset = await db.query.keysets.findFirst({
     where: (keysets, { eq }) => eq(keysets.id, keysetId),
   });
   if (!keyset) {
-    return redirect("/calendar");
+    return redirect(route("/calendar"));
   }
   return (
     <Template>

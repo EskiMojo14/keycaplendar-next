@@ -8,6 +8,7 @@ import Template from "@/components/govuk/template";
 import { Body, Caption } from "@/components/govuk/typography";
 import { db } from "@/logic/drizzle";
 import { profiles } from "@/logic/drizzle/schema";
+import { route } from "@/logic/lib/route";
 
 export default async function DeleteProfile({
   params: { profileName: encodedProfileName },
@@ -18,13 +19,13 @@ export default async function DeleteProfile({
   async function deleteProfile() {
     "use server";
     await db.delete(profiles).where(eq(profiles.name, profileName));
-    redirect("/calendar");
+    redirect(route("/calendar"));
   }
   const profile = await db.query.profiles.findFirst({
     where: (profiles, { eq }) => eq(profiles.name, profileName),
   });
   if (!profile) {
-    return redirect("/calendar");
+    return redirect(route("/calendar"));
   }
   return (
     <Template>

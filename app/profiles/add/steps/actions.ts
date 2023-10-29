@@ -5,6 +5,7 @@ import { z } from "zod";
 import { zfd } from "zod-form-data";
 import { db } from "@/logic/drizzle";
 import type { ServerActionReducer } from "@/logic/form";
+import { route } from "@/logic/lib/route";
 
 export type NameState = Partial<z.typeToFlattenedError<{ name: string }>>;
 
@@ -33,7 +34,7 @@ export const nameStep: ServerActionReducer<NameState, FormData> = async (
         fieldErrors: {},
       };
     }
-    return redirect("/profiles/add/summary");
+    return redirect(route("/profiles/add/summary"));
   } else {
     return parsed.error.flatten() as NameState;
   }

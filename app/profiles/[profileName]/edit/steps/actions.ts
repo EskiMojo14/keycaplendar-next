@@ -5,6 +5,7 @@ import { z } from "zod";
 import { zfd } from "zod-form-data";
 import { db } from "@/logic/drizzle";
 import type { FormState, ServerActionReducer } from "@/logic/form";
+import { route } from "@/logic/lib/route";
 
 export const nameStep: ServerActionReducer<FormState, FormData> = async (
   prevState,
@@ -35,7 +36,7 @@ export const nameStep: ServerActionReducer<FormState, FormData> = async (
       }
     }
     return redirect(
-      `/profiles/${encodeURIComponent(data.originalName)}/edit/summary`,
+      route(`/profiles/${encodeURIComponent(data.originalName)}/edit/summary`),
     );
   } else {
     return parsed.error.flatten();

@@ -1,3 +1,4 @@
+import { route } from "@/logic/lib/route";
 import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
@@ -7,7 +8,5 @@ export default async function Logout() {
 
   await supabase.auth.signOut();
 
-  redirect("/login");
-
-  return null;
+  redirect(route("/login"));
 }
