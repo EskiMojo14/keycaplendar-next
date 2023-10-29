@@ -7,17 +7,17 @@ import { db } from "@/logic/drizzle";
 import type { FormState, ServerActionReducer } from "@/logic/form";
 import { route } from "@/logic/lib/route";
 
-export const nameStep: ServerActionReducer<FormState, FormData> = async (
-  prevState,
-  formData,
-) => {
+const nameStepSchema = zfd.formData({
+  originalName: zfd.text(),
+  name: zfd.text(z.string({ required_error: "Enter a name" })),
+});
+
+export const nameStep: ServerActionReducer<
+  FormState<z.infer<typeof nameStepSchema>>,
+  FormData
+> = async (prevState, formData) => {
   "use server";
-  const parsed = zfd
-    .formData({
-      originalName: zfd.text(),
-      name: zfd.text(z.string({ required_error: "Enter a name" })),
-    })
-    .safeParse(formData);
+  const parsed = nameStepSchema.safeParse(formData);
   if (parsed.success) {
     const { data } = parsed;
     cookies().set("edit.profile.name", data.name);
@@ -39,6 +39,6 @@ export const nameStep: ServerActionReducer<FormState, FormData> = async (
       route(`/profiles/${encodeURIComponent(data.originalName)}/edit/summary`),
     );
   } else {
-    return parsed.error.flatten();
+    return parsed.error.flatten() as any;
   }
 };

@@ -7,19 +7,21 @@ import ErrorSummary, {
 } from "@/components/govuk/error-summary";
 import type { FormState } from "@/logic/form";
 
+export interface FormStepProps {
+  action: ComponentPropsWithoutRef<"form">["action"];
+  state: FormState;
+  children?: ReactNode;
+  namespace: string;
+  buttons?: ReactNode;
+}
+
 export default function FormStep({
   action,
   state,
   children,
   namespace,
   buttons = <Button type="submit">Continue</Button>,
-}: {
-  action: ComponentPropsWithoutRef<"form">["action"];
-  state: FormState;
-  children?: ReactNode;
-  namespace: string;
-  buttons?: ReactNode;
-}) {
+}: FormStepProps) {
   const hasErrors = !!(
     state.formErrors?.length || Object.keys(state.fieldErrors ?? {}).length
   );
@@ -28,14 +30,15 @@ export default function FormStep({
       {hasErrors && (
         <ErrorSummary>
           {state.formErrors?.map((msg) => <li key={msg}>{msg}</li>)}
-          {Object.entries(state.fieldErrors ?? {}).flatMap(([field, msgs]) =>
-            msgs.map((msg) => (
-              <li key={msg}>
-                <ErrorSummaryLink href={`#${namespace}.${field}`} replace>
-                  {msg}
-                </ErrorSummaryLink>
-              </li>
-            )),
+          {Object.entries(state.fieldErrors ?? {}).flatMap(
+            ([field, msgs]) =>
+              msgs?.map((msg) => (
+                <li key={msg}>
+                  <ErrorSummaryLink href={`#${namespace}.${field}`} replace>
+                    {msg}
+                  </ErrorSummaryLink>
+                </li>
+              )),
           )}
         </ErrorSummary>
       )}

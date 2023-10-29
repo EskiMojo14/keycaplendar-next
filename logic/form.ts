@@ -11,9 +11,9 @@ export type ServerActionReducer<
     : [...BoundArguments, state: State, payload: Payload]
 ) => Promise<State>;
 
-export interface FormState {
+export interface FormState<T = Record<string, unknown>> {
   formErrors?: Array<string>;
-  fieldErrors?: Record<string, Array<string>>;
+  fieldErrors?: { [K in keyof T]?: Array<string> };
   messages?: Array<string>;
 }
 

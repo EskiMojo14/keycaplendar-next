@@ -9,16 +9,20 @@ import Fieldset, {
 } from "@/components/govuk/fieldset";
 import { InputFormGroup } from "@/components/govuk/input";
 import useLatestState from "@/logic/hooks/use-latest-state";
+import useFormStep from "@/logic/hooks/use-form-step";
 
 export default function SignUpForm() {
-  const [signInState, signInAction] = useFormState(signIn, {});
+  const { state, getFieldProps, getFormStepProps } = useFormStep(
+    signIn,
+    {},
+    "login",
+  );
   const [signUpState, signUpAction] = useFormState(signUp, {});
-  const currentState = useLatestState(signInState, signUpState);
+  const currentState = useLatestState(state, signUpState);
   return (
     <FormStep
-      action={signInAction}
+      {...getFormStepProps()}
       state={currentState}
-      namespace="login"
       buttons={
         <ButtonGroup>
           <Button type="submit">Sign in</Button>
@@ -32,21 +36,16 @@ export default function SignUpForm() {
         <FieldsetLegend size="l">
           <FieldsetHeading>Sign in</FieldsetHeading>
         </FieldsetLegend>
-        <input type="hidden" name="origin" value={location.origin} />
-        <InputFormGroup
-          name="email"
-          id="login.email"
-          label="Email"
-          error={!!currentState.fieldErrors?.email}
-          errorMessage={currentState.fieldErrors?.email?.join("\n")}
+        <input
+          type="hidden"
+          {...getFieldProps("origin")}
+          value={location.origin}
         />
+        <InputFormGroup {...getFieldProps("email")} label="Email" />
         <InputFormGroup
-          name="password"
-          id="login.password"
+          {...getFieldProps("password")}
           label="Password"
           type="password"
-          error={!!currentState.fieldErrors?.password}
-          errorMessage={currentState.fieldErrors?.password?.join("\n")}
         />
       </Fieldset>
     </FormStep>

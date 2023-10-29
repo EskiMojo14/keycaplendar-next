@@ -1,27 +1,33 @@
 "use client";
-import { useFormState } from "react-dom";
 import { nameStep } from "../actions";
 import FormStep from "@/components/form";
 import { InputFormGroup } from "@/components/govuk/input";
+import useFormStep from "@/logic/hooks/use-form-step";
 
 export default function ProfileName({
   defaultValue,
 }: {
   defaultValue?: string;
 }) {
-  const [state, action] = useFormState(nameStep, {});
+  const { getFieldProps, getFormStepProps } = useFormStep(
+    nameStep,
+    {},
+    "edit.profile",
+  );
   return (
-    <FormStep {...{ action, state }} namespace="edit.profile">
-      <input type="hidden" name="originalName" value={defaultValue} readOnly />
+    <FormStep {...getFormStepProps()}>
+      <input
+        type="hidden"
+        {...getFieldProps("originalName")}
+        value={defaultValue}
+        readOnly
+      />
       <InputFormGroup
         label="What is the name of the profile?"
         labelIsHeading
         labelSize="l"
-        name="name"
-        id="edit.profile.name"
         width={5}
-        error={!!state.fieldErrors?.name}
-        errorMessage={state.fieldErrors?.name?.join("\n")}
+        {...getFieldProps("name")}
         defaultValue={defaultValue}
       />
     </FormStep>

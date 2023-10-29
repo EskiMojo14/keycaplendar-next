@@ -20,13 +20,15 @@ const signInSchema = zfd.formData({
   origin: zfd.text(),
 });
 
-export const signIn: ServerActionReducer<FormState, FormData> = async (
-  _state,
-  formData,
-) => {
+export type SignInInput = z.infer<typeof signInSchema>;
+
+export const signIn: ServerActionReducer<
+  FormState<SignInInput>,
+  FormData
+> = async (_state, formData) => {
   const parsed = signInSchema.safeParse(formData);
   if (!parsed.success) {
-    return parsed.error.flatten();
+    return parsed.error.flatten() as FormState<SignInInput>;
   }
   const { email, password } = parsed.data;
   const supabase = createRouteHandlerClient({ cookies });
@@ -41,13 +43,13 @@ export const signIn: ServerActionReducer<FormState, FormData> = async (
   redirect(route("/"));
 };
 
-export const signUp: ServerActionReducer<FormState, FormData> = async (
-  _state,
-  formData,
-) => {
+export const signUp: ServerActionReducer<
+  FormState<SignInInput>,
+  FormData
+> = async (_state, formData) => {
   const parsed = signInSchema.safeParse(formData);
   if (!parsed.success) {
-    return parsed.error.flatten();
+    return parsed.error.flatten() as any;
   }
   const { email, password, origin } = parsed.data;
   const supabase = createRouteHandlerClient({ cookies });

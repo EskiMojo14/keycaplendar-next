@@ -86,7 +86,7 @@ export const InputSuffix = forwardRef<
   );
 });
 
-interface InputFormGroupProps extends InputProps {
+export interface InputFormGroupProps extends InputProps {
   label: ReactNode;
   labelIsHeading?: boolean;
   labelSize?: "xl" | "l" | "m" | "s";
