@@ -8,8 +8,8 @@ import Fieldset, {
   FieldsetLegend,
 } from "@/components/govuk/fieldset";
 import { InputFormGroup } from "@/components/govuk/input";
-import useLatestState from "@/logic/hooks/use-latest-state";
 import useFormStep from "@/logic/hooks/use-form-step";
+import useLatestState from "@/logic/hooks/use-latest-state";
 
 export default function SignUpForm() {
   const { state, getFieldProps, getFormStepProps } = useFormStep(

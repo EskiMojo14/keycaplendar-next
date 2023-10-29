@@ -13,18 +13,21 @@ import { govukBem } from ".";
 import { forwardGenericRef } from "@/logic/lib/react";
 
 const useErrorMessage = (disableAutoFocus?: boolean) => {
-  return useCallback<RefCallback<HTMLDivElement>>((ref) => {
-    if (!ref || disableAutoFocus) return;
-    ref.setAttribute("tabindex", "-1");
-    ref.addEventListener(
-      "blur",
-      () => {
-        ref.removeAttribute("tabindex");
-      },
-      { once: true },
-    );
-    ref.focus();
-  }, []);
+  return useCallback<RefCallback<HTMLDivElement>>(
+    (ref) => {
+      if (!ref || disableAutoFocus) return;
+      ref.setAttribute("tabindex", "-1");
+      ref.addEventListener(
+        "blur",
+        () => {
+          ref.removeAttribute("tabindex");
+        },
+        { once: true },
+      );
+      ref.focus();
+    },
+    [disableAutoFocus],
+  );
 };
 
 interface ErrorMessageProps extends ComponentPropsWithoutRef<"div"> {

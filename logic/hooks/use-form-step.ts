@@ -1,21 +1,21 @@
 import { useFormState } from "react-dom";
-import { FormState, ServerActionReducer } from "../form";
-import { FormStepProps } from "@/components/form";
-import { InputFormGroupProps } from "@/components/govuk/input";
+import type { FormState, ServerActionReducer } from "../form";
+import type { FormStepProps } from "@/components/form";
+import type { InputFormGroupProps } from "@/components/govuk/input";
 
 interface UseFormReturn<State, Payload = never> {
   state: FormState<State>;
   dispatch: (
     ...args: [Payload] extends [never] ? [] : [payload: Payload]
   ) => void;
-  getFormStepProps(): {
+  getFormStepProps: () => {
     state: FormState<State>;
     action: (
       ...args: [Payload] extends [never] ? [] : [payload: Payload]
     ) => void;
     namespace: string;
   };
-  getFieldProps(name: keyof State & string): {
+  getFieldProps: (name: keyof State & string) => {
     name: string;
     id: string;
     error: boolean;
