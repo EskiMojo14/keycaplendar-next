@@ -39,7 +39,7 @@ export default function SignUpForm() {
         <input
           type="hidden"
           {...getFieldProps("origin")}
-          value={location.origin}
+          value={location?.origin}
         />
         <InputFormGroup {...getFieldProps("email")} label="Email" />
         <InputFormGroup

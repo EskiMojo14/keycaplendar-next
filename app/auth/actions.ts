@@ -1,14 +1,14 @@
 "use server";
-import { createRouteHandlerClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { z } from "zod";
 import { zfd } from "zod-form-data";
 import type { FormState, ServerActionReducer } from "@/logic/form";
 import { route } from "@/logic/lib/route";
+import { createServerClient } from "@/logic/supabase/server";
 
 export async function signOut() {
-  const supabase = createRouteHandlerClient({ cookies });
+  const supabase = createServerClient(cookies());
 
   await supabase.auth.signOut();
   redirect(route("/login"));
@@ -31,7 +31,7 @@ export const signIn: ServerActionReducer<
     return parsed.error.flatten() as FormState<SignInInput>;
   }
   const { email, password } = parsed.data;
-  const supabase = createRouteHandlerClient({ cookies });
+  const supabase = createServerClient(cookies());
 
   const { error } = await supabase.auth.signInWithPassword({
     email,
@@ -52,7 +52,7 @@ export const signUp: ServerActionReducer<
     return parsed.error.flatten() as any;
   }
   const { email, password, origin } = parsed.data;
-  const supabase = createRouteHandlerClient({ cookies });
+  const supabase = createServerClient(cookies());
 
   const { error } = await supabase.auth.signUp({
     email,

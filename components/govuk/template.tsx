@@ -1,5 +1,4 @@
 "use server";
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
 import { cookies } from "next/headers";
 import type { ReactNode } from "react";
 import { MainWrapper, WidthContainer } from "@/components/govuk/grid";
@@ -12,6 +11,7 @@ import Header, {
 import Navigation, {
   NavigationItem,
 } from "@/components/govuk/header/navigation";
+import { createServerClient } from "@/logic/supabase/server";
 
 type Slottable<MainSlot extends string, InnerSlot extends string> =
   | (Partial<Record<MainSlot, ReactNode>> & Partial<Record<InnerSlot, never>>)
@@ -42,7 +42,7 @@ export default async function Template({
   bodyEnd,
   showLogin = true,
 }: TemplateProps) {
-  const supabase = createServerComponentClient({ cookies });
+  const supabase = createServerClient(cookies());
 
   const {
     data: { user },
