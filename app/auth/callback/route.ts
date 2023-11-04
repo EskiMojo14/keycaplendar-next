@@ -1,5 +1,6 @@
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
+import { route } from "@/logic/lib/route";
 import { createServerClient } from "@/logic/supabase/server";
 
 export const dynamic = "force-dynamic";
@@ -11,11 +12,27 @@ export async function GET(request: Request) {
   const requestUrl = new URL(request.url);
   const code = requestUrl.searchParams.get("code");
 
+  const errorCode = requestUrl.searchParams.get("error");
+  const errorDesc = requestUrl.searchParams.get("error_description");
+  if (errorCode || errorDesc) {
+    const errorUrl = new URL(
+      requestUrl.origin +
+        route(
+          `/auth/callback/error?error_description=${
+            errorDesc ?? "An unknown error occurred, please try again"
+          }`,
+        ),
+    );
+    return NextResponse.redirect(errorUrl);
+  }
+
   if (code) {
     const supabase = createServerClient(cookies());
     await supabase.auth.exchangeCodeForSession(code);
   }
 
   // URL to redirect to after sign in process completes
-  return NextResponse.redirect(requestUrl.origin);
+  return NextResponse.redirect(
+    requestUrl.searchParams.get("next") ?? requestUrl.origin,
+  );
 }

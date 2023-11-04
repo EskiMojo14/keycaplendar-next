@@ -1,5 +1,7 @@
 import { produce } from "immer";
+import type { z } from "zod";
 import { safeAssign } from "./lib/utils";
+import { zfd } from "zod-form-data";
 
 export type ServerActionReducer<
   State,
@@ -31,3 +33,17 @@ export const mergeFormStates = (...states: Array<FormState>) =>
       }
     }
   });
+
+export const withSchema =
+  <Shape extends object>(
+    schema: z.ZodType<Shape, any, z.input<ReturnType<typeof zfd.formData>>>,
+    reducer: ServerActionReducer<FormState<Shape>, Shape>,
+  ): ServerActionReducer<FormState<Shape>, FormData> =>
+  async (state, payload) => {
+    const parsed = schema.safeParse(payload);
+    if (!parsed.success) {
+      return parsed.error.flatten();
+    }
+    // @ts-expect-error fun
+    return reducer(state, parsed.data);
+  };

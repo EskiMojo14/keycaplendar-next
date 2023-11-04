@@ -12,6 +12,7 @@ export interface FormStepProps {
   state: FormState;
   children?: ReactNode;
   namespace: string;
+  buttonText?: string;
   buttons?: ReactNode;
 }
 
@@ -20,7 +21,8 @@ export default function FormStep({
   state,
   children,
   namespace,
-  buttons = <Button type="submit">Continue</Button>,
+  buttonText = "Continue",
+  buttons = <Button type="submit">{buttonText}</Button>,
 }: FormStepProps) {
   const hasErrors = !!(
     state.formErrors?.length || Object.keys(state.fieldErrors ?? {}).length

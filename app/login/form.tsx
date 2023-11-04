@@ -8,6 +8,7 @@ import Fieldset, {
   FieldsetLegend,
 } from "@/components/govuk/fieldset";
 import { InputFormGroup } from "@/components/govuk/input";
+import OriginField from "@/components/origin-field";
 import useFormStep from "@/logic/hooks/use-form-step";
 import useLatestState from "@/logic/hooks/use-latest-state";
 
@@ -36,11 +37,7 @@ export default function SignUpForm() {
         <FieldsetLegend size="l">
           <FieldsetHeading>Sign in</FieldsetHeading>
         </FieldsetLegend>
-        <input
-          type="hidden"
-          {...getFieldProps("origin")}
-          value={location?.origin}
-        />
+        <OriginField {...getFieldProps("origin")} />
         <InputFormGroup {...getFieldProps("email")} label="Email" />
         <InputFormGroup
           {...getFieldProps("password")}

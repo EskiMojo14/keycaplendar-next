@@ -1,15 +1,15 @@
-import SignUpForm from "./form";
+import Description from "./description";
 import { GridColumn, GridRow } from "@/components/govuk/grid";
-import Link from "@/components/govuk/link";
 import Template from "@/components/govuk/template";
+import { Heading } from "@/components/govuk/typography";
 
-export default function Login() {
+export default function AuthError() {
   return (
     <Template>
       <GridRow>
         <GridColumn size="two-thirds">
-          <SignUpForm />
-          <Link href="/reset-password">Forgot your password?</Link>
+          <Heading size="l">Something went wrong</Heading>
+          <Description />
         </GridColumn>
       </GridRow>
     </Template>

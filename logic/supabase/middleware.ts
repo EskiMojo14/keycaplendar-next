@@ -14,6 +14,9 @@ export const createMiddlewareClient = (request: NextRequest) => {
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {
+      auth: {
+        persistSession: false,
+      },
       cookies: {
         get(name) {
           return request.cookies.get(name || "")?.value;
