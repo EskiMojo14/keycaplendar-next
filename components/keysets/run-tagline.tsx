@@ -9,7 +9,7 @@ export default function RunTagline({
 }: {
   keyset: Pick<Keyset, "status" | "gbLaunch" | "gbEnd">;
 }) {
-  if (keyset.status === "ic") return null;
+  if (keyset.status === "ic" || !keyset.status) return null;
   return (
     <li>
       {statusVerbs[keyset.status]} from{" "}

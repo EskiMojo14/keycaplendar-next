@@ -69,7 +69,7 @@ export const keysets = pgTable("keysets", {
   notes: text("notes"),
   salesGraph: text("sales_graph"),
   shipped: boolean("shipped"),
-  status: statusEnum("status").notNull(),
+  status: statusEnum("status"),
   revision: smallint("revision"),
   _eta: date("_eta"), // non-truncated
   _etaPrecision: datePrecisionEnum("_eta_precision"),
@@ -149,7 +149,7 @@ export const designRelations = relations(designs, ({ one }) => ({
 export const vendors = pgTable("vendors", {
   name: text("name").primaryKey(),
   createdAt,
-  country: text("country"),
+  country: text("country").notNull(),
 });
 
 export type Vendor = typeof vendors.$inferSelect;

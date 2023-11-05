@@ -1,6 +1,6 @@
 import { format, lastDayOfQuarter, startOfQuarter } from "date-fns";
 import type { DatePrecision, Keyset, Status } from "../drizzle/schema";
-import type { Satisfies } from "./utils";
+import type { Satisfies } from "../../types/util";
 import { dateFormat, precisionFormats, statusOrder } from "@/constants/format";
 
 export function getKeysetName(
