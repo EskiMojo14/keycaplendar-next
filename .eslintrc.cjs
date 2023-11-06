@@ -57,7 +57,7 @@ module.exports = {
     ],
     "lodash/import-scope": "error",
     "@typescript-eslint/prefer-nullish-coalescing": [
-      "warning",
+      "warn",
       {
         ignoreConditionalTests: true,
         ignoreTernaryTests: true,
